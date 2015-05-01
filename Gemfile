@@ -8,7 +8,7 @@ gem 'rails', '~> 4.1.4'
 gem 'sqlite3'
 
 # Use MySQL as the database for Active Record
-#gem 'mysql2'
+gem 'mysql2', group: :production
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
