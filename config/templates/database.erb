@@ -1,0 +1,15 @@
+<%= fetch(:rails_env) %>:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  socket: /var/run/mysqld/mysqld.sock
+  database: <%= fetch(:application) %>_<%= fetch(:stage) %>
+  username: <%= fetch(:application) %>_<%= fetch(:stage) %>
+  password: <%= fetch(:mysql_password) %>
+  
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3
