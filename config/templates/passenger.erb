@@ -6,7 +6,7 @@ stop on runlevel [016]
 respawn
 
 pre-start script
-  cd <%= fetch(:deploy_to) %>/current/Website
+  cd <%= fetch(:deploy_to) %>/current
 end script
 
 exec /usr/bin/passenger --port <%= fetch(:passenger_port, 4000) %> --environment <%= fetch(:rails_env) %>

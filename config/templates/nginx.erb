@@ -8,7 +8,7 @@ html {
 	server {
 		listen             80;
 		server_name        <%= fetch(:domains) %>;
-		root               <%= fetch(:deploy_to) %>/current/Website/public;
+		root               <%= fetch(:deploy_to) %>/current/public;
 		
 		location / {
 			proxy_pass          http://localhost:<%= fetch(:passenger_port, 4000) %>;
