@@ -11,7 +11,7 @@ namespace :passenger do
 		
 			# add repo
 			upload! StringIO.new(repo), "/tmp/passenger.list"
-			execute "chmod 600 /tmp/passenger.list"
+			execute "chmod 644 /tmp/passenger.list"
 			execute :sudo, "chown root: /tmp/passenger.list"
 			execute :sudo, "mv /tmp/passenger.list /etc/apt/sources.list.d/passenger.list"
 		
@@ -36,7 +36,7 @@ namespace :passenger do
 		desc "#{cmd.capitalize} passenger phusion"
 		task cmd do
 			on roles(:app) do
-				execute :sudo, "service passenger-#{fetch(:stage)} #{cmd}"
+				execute :sudo, "service passenger_#{fetch(:stage)} #{cmd}"
 			end
 		end
 	end

@@ -24,11 +24,17 @@ namespace :deploy do
 			template 'database.erb', '/tmp/database.yml'
 			execute :sudo, "mv /tmp/database.yml '#{shared_path}/config/database.yml'"
 			
-			template 'secrets.erb', '/tmp/secrets.yml'
-			execute :sudo, "mv /tmp/secrets.yml '#{shared_path}/config/secrets.yml'"
+			upload! File.expand_path("config/secrets.yml"), "#{shared_path}/config/secrets.yml"
 			
 			template 'profile.erb', '/tmp/.bash_profile'
 			execute "mv /tmp/.bash_profile ~/.bash_profile"
+		end
+		
+		on roles(:app, :web) do
+			upload! "config/templates/www.example.com.key", '/tmp/server.key'
+			execute :sudo, "mv /tmp/server.key /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.key"
+			upload! "config/templates/www.example.com.cert", '/tmp/server.cert'
+			execute :sudo, "mv /tmp/server.cert /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.cert"
 		end
 	end
 	

@@ -9,4 +9,7 @@ pre-start script
   cd <%= fetch(:deploy_to) %>/current
 end script
 
-exec /usr/bin/passenger --port <%= fetch(:passenger_port, 4000) %> --environment <%= fetch(:rails_env) %>
+exec ~/.rvm/bin/rvm 2.1.2 do /usr/bin/passenger start --port <%= fetch(:passenger_port, 4000) %> \
+	--environment <%= fetch(:rails_env) %> --ssl \
+	--ssl-certificate /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.cert \
+	--ssl-certificate-key /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.key

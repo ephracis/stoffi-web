@@ -7,5 +7,5 @@ namespace :rvm do
 			execute "~/.rvm/bin/rvm install #{fetch(:rvm_ruby_version)}"
 		end
 	end
-	after 'deploy:server', 'rvm:install'
+	before 'deploy:server', 'rvm:install'
 end

@@ -5,7 +5,7 @@ namespace :mysql do
 		on roles(:db) do
 			execute "echo 'mysql-server-5.6 mysql-server/root_password password root' | sudo debconf-set-selections"
 			execute "echo 'mysql-server-5.6 mysql-server/root_password_again password root' | sudo debconf-set-selections"
-			execute :sudo, "apt-get -y install mysql-server"
+			execute :sudo, "apt-get -y install mysql-server libmysqlclient-dev"
 		end
 	end
 	after 'deploy:install', 'mysql:install'
@@ -14,7 +14,7 @@ namespace :mysql do
 	task :setup do
 		on roles(:db) do
 			pass = fetch(:mysql_password)
-			dbname = user = "#{fetch(:application)}_#{fetch(:rails_env)}"
+			dbname = user = "#{fetch(:application)}_#{fetch(:stage)}"
 			
 			# create db user if it doesn't exist
 			execute "mysql -u root -proot mysql -e \"GRANT USAGE ON *.* TO '#{user}'@'localhost';\""
@@ -22,6 +22,8 @@ namespace :mysql do
 			execute "mysql -u root -proot mysql -e \"DROP USER '#{user}'@'localhost';\""
 			# then create it properly
 			execute "mysql -u root -proot mysql -e \"CREATE USER '#{user}'@'localhost' IDENTIFIED BY '#{pass}';\""
+			execute "mysql -u root -proot mysql -e \"DROP DATABASE IF EXISTS #{dbname};\""
+			execute "mysql -u root -proot mysql -e \"CREATE DATABASE #{dbname};\""
 			execute "mysql -u root -proot mysql -e \"GRANT ALL PRIVILEGES ON #{dbname}.* TO '#{user}'@'localhost';\""
 		end
 	end
