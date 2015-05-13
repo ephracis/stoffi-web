@@ -1,15 +1,17 @@
 currentSlide = 0
 isChangingSlide = false
 tourSlides = [
-	'youtube', 'sources', 'playlists', 'interface',
+	<% ['youtube', 'sources', 'playlists', 'interface',
 	'shortcuts', 'bookmarks', 'jumplists', 'formats',
 	'focus', 'settings', 'history', 'backup', 'quickedit',
-	'equalizer', 'generator'
+	'equalizer', 'generator'].each do |slide| %>
+		[<%= slide %>, <%= asset_path("#{I18n.locale}/tour/#{slide}.png") %>]
+	<% end %>
 ]
 
 updateSlide = ->
-	slide = tourSlides[currentSlide]
-	img = "/assets/#{locale}/tour/#{slide}.png"
+	slide = tourSlides[currentSlide][0]
+	img = tourSlides[currentSlide][1]
 	title = trans[locale]['tour.'+slide+'.title']
 	text1 = trans[locale]['tour.'+slide+'.text1']
 	text2 = trans[locale]['tour.'+slide+'.text2']
