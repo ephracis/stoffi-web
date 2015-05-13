@@ -10,7 +10,7 @@ If you are reading this you are probably interested in getting the Stoffi websit
 
 Here we assume you have a freshly installed server running Ubuntu 14.04 without anything extra installed on it. To prepare your server you need to run this:
 
-    curl -sL http://git.io/vJZRe | bash | ssh user@hostname -T
+    curl -sL http://git.io/vUXTQ | bash | ssh user@hostname -T
 
 Now your server is ready for our deployment tasks. Before you start deploying you need to decide what stage your want to deploy: beta, staging or production. Then you have to configure some stuff. You need to specify the IP of your servers, what roles they should have (web, database, app), what ports to use, and so on. Edit the file for your stage:
 

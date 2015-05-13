@@ -15,6 +15,7 @@ namespace :nginx do
 		on roles(:web) do
 			template 'nginx.erb', '/tmp/nginx.conf'
 			execute :sudo, "mv /tmp/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
+			execute :sudo, "rm /etc/nginx/sites-enabled/default"
 		end
 	end
 	after 'deploy:setup', 'nginx:setup'

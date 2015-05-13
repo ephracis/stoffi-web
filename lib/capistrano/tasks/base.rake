@@ -28,6 +28,7 @@ namespace :deploy do
 			
 			template 'profile.erb', '/tmp/.bash_profile'
 			execute "mv /tmp/.bash_profile ~/.bash_profile"
+			execute "touch #{shared_path}/.noseed" # flag for indicating that we have to do db:seed
 		end
 		
 		on roles(:app, :web) do
@@ -44,4 +45,19 @@ namespace :deploy do
 			invoke 'deploy:setup'
 		end
 	end
+	
+	namespace :db do
+		task :seed do
+			on roles(:app) do
+				within release_path do
+					if test("[ -f #{shared_path}/.noseed ]")
+						execute :rake, "db:seed RAILS_ENV=#{fetch(:rails_env)}"
+						execute "rm #{shared_path}/.noseed"
+					end
+				end
+			end
+		end
+	end
+	
+	after "deploy:migrate", "deploy:db:seed"
 end
