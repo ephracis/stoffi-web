@@ -8,7 +8,7 @@ gem 'rails', '~> 4.1.4'
 gem 'sqlite3'
 
 # Use MySQL as the database for Active Record
-#gem 'mysql2'
+gem 'mysql2', group: :production
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -40,6 +40,8 @@ group :development do
 
 	# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 	gem 'spring'
+	
+	gem 'dogapi'
 end
 
 # Use ActiveModel has_secure_password

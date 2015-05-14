@@ -3,9 +3,8 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server 'beta.stoffiplayer.com', user: 'deployer', roles: %w{app db web}
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
-# server 'db.example.com', user: 'deploy', roles: %w{db}
+server 'beta.stoffiplayer.com', user: fetch(:user), roles: %w{app db web}
+# server 'db.beta.stoffiplayer.com', user: fetch(:user), roles: %w{db}
 
 
 
@@ -17,9 +16,9 @@ server 'beta.stoffiplayer.com', user: 'deployer', roles: %w{app db web}
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-#role :app, %w{deploy@beta.stoffiplayer.com}
-#role :web, %w{deploy@beta.stoffiplayer.com}
-#role :db,  %w{deploy@beta.stoffiplayer.com}
+#role :app, %w{fetch(:user)@beta.stoffiplayer.com}
+#role :web, %w{fetch(:user)@beta.stoffiplayer.com}
+#role :db,  %w{fetch(:user)@beta.stoffiplayer.com}
 
 
 
@@ -31,7 +30,7 @@ server 'beta.stoffiplayer.com', user: 'deployer', roles: %w{app db web}
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-set :branch, :beta
+set :branch, 'finish-capistrano'
 set :domains, 'beta.stoffiplayer.com'
 set :passenger_port, 4000
 

@@ -11,7 +11,7 @@ namespace :passenger do
 		
 			# add repo
 			upload! StringIO.new(repo), "/tmp/passenger.list"
-			execute "chmod 600 /tmp/passenger.list"
+			execute "chmod 644 /tmp/passenger.list"
 			execute :sudo, "chown root: /tmp/passenger.list"
 			execute :sudo, "mv /tmp/passenger.list /etc/apt/sources.list.d/passenger.list"
 		
@@ -25,18 +25,21 @@ namespace :passenger do
 	desc "Setup passenger configuration for this application"
 	task :setup do
 		on roles(:app) do
-			template 'passenger.erb', '/tmp/passenger.conf'
-			execute :sudo, "mkdir -p /etc/passenger"
-			execute :sudo, "mv /tmp/passenger.conf /etc/init/passenger_#{fetch(:stage)}.conf"
+			template 'passenger_init.erb', '/tmp/passenger_init'
+			template 'passenger_conf.erb', '/tmp/passenger_conf'
+			execute :sudo, "mkdir -p /etc/passenger.d"
+			execute :sudo, "mv /tmp/passenger_init /etc/init.d/passenger"
+			execute :sudo, 'chmod +x /etc/init.d/passenger'
+			execute :sudo, "mv /tmp/passenger_conf /etc/passenger.d/#{fetch(:stage)}.yml"
 		end
 	end
 	after 'deploy:setup', 'passenger:setup'
 	
 	%w[start stop restart].each do |cmd|
-		desc "#{cmd.capitalize} passenger phusion"
+		desc "#{cmd.capitalize} phusion passenger"
 		task cmd do
 			on roles(:app) do
-				execute :sudo, "service passenger-#{fetch(:stage)} #{cmd}"
+				execute :sudo, "service passenger #{cmd}"
 			end
 		end
 	end

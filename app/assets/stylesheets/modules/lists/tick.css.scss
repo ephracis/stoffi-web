@@ -1,7 +1,7 @@
 ul.tick
 {
 	padding: 0 0.5em;
-	list-style-image: url(/assets/gfx/tick.png);
+	list-style-image: asset-data-url('gfx/tick.png');
 	li
 	{
 		margin: 0.8em 0 0 15px;

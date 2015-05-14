@@ -24,11 +24,18 @@ namespace :deploy do
 			template 'database.erb', '/tmp/database.yml'
 			execute :sudo, "mv /tmp/database.yml '#{shared_path}/config/database.yml'"
 			
-			template 'secrets.erb', '/tmp/secrets.yml'
-			execute :sudo, "mv /tmp/secrets.yml '#{shared_path}/config/secrets.yml'"
+			upload! File.expand_path("config/secrets.yml"), "#{shared_path}/config/secrets.yml"
 			
 			template 'profile.erb', '/tmp/.bash_profile'
 			execute "mv /tmp/.bash_profile ~/.bash_profile"
+			execute "touch #{shared_path}/.noseed" # flag for indicating that we have to do db:seed
+		end
+		
+		on roles(:app, :web) do
+			upload! "config/templates/www.example.com.key", '/tmp/server.key'
+			execute :sudo, "mv /tmp/server.key /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.key"
+			upload! "config/templates/www.example.com.cert", '/tmp/server.cert'
+			execute :sudo, "mv /tmp/server.cert /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.cert"
 		end
 	end
 	
@@ -36,6 +43,22 @@ namespace :deploy do
 		on roles(:all) do
 			invoke 'deploy:install'
 			invoke 'deploy:setup'
+			invoke 'deploy'
 		end
 	end
+	
+	namespace :db do
+		task :seed do
+			on roles(:app) do
+				within release_path do
+					if test("[ -f #{shared_path}/.noseed ]")
+						execute :rake, "db:seed RAILS_ENV=#{fetch(:rails_env)}"
+						execute "rm #{shared_path}/.noseed"
+					end
+				end
+			end
+		end
+	end
+	
+	after "deploy:migrate", "deploy:db:seed"
 end

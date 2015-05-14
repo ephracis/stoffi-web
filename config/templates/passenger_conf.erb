@@ -1,0 +1,14 @@
+rvm: <%= fetch(:rvm_ruby_version) %>
+cwd: <%= fetch(:deploy_to) %>/current
+user: <%= fetch(:user) %>
+port: <%= fetch(:passenger_port, 4000) %>
+environment: <%= fetch(:rails_env) %>
+max-pool-size: 4
+min-instances: 1
+pid-file: <%= fetch(:deploy_to) %>/shared/tmp/pids/passenger.pid
+log-file: <%= fetch(:deploy_to) %>/shared/log/passenger.log
+ssl: true
+ssl-certificate-key: /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.key
+ssl-certificate: /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.cert
+
+

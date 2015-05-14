@@ -1,15 +1,13 @@
 currentSlide = 0
 isChangingSlide = false
-tourSlides = [
-	'youtube', 'sources', 'playlists', 'interface',
+tourSlides = ['youtube', 'sources', 'playlists', 'interface',
 	'shortcuts', 'bookmarks', 'jumplists', 'formats',
 	'focus', 'settings', 'history', 'backup', 'quickedit',
-	'equalizer', 'generator'
-]
+	'equalizer', 'generator']
 
 updateSlide = ->
 	slide = tourSlides[currentSlide]
-	img = "/assets/#{locale}/tour/#{slide}.png"
+	img = "/images/#{locale}/tour/#{slide}.png"
 	title = trans[locale]['tour.'+slide+'.title']
 	text1 = trans[locale]['tour.'+slide+'.text1']
 	text2 = trans[locale]['tour.'+slide+'.text2']
@@ -32,7 +30,7 @@ updateSlide = ->
 
 $(document).on 'contentReady', () ->
 	try
-		preloadImages tourSlides.map((i) -> "/assets/#{locale}/tour/#{i}.png")
+		preloadImages tourSlides.map((i) -> "/images/#{locale}/tour/#{i}.png")
 		updateSlide()
 	catch
 		# TODO: why does this fail in embedded browser?
