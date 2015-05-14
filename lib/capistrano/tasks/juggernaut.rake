@@ -12,23 +12,20 @@ namespace :juggernaut do
 				execute :sudo, "ln -s /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.key keys/privatekey.pem"
 				execute :sudo, "ln -s /etc/ssl/#{fetch(:application)}_#{fetch(:stage)}.cert keys/certificate.pem"
 			end
+			template 'juggernaut.erb', '/tmp/juggernaut.conf'
+			execute :sudo, "mv /tmp/juggernaut.conf /etc/init/juggernaut.conf"
 		end
 	end
 	after 'deploy:install', 'juggernaut:install'
 	
-	desc "Start the juggernaut server"
-	task :start do
-		on roles(:app) do
-			execute "screen -dm juggernaut --port #{fetch(:rails_env) == :development ? 8080 : 8443} &"
+	%w[start stop restart].each do |cmd|
+		desc "#{cmd.capitalize} juggernaut"
+		task cmd do
+			on roles(:web) do
+				execute :sudo, "service juggernaut #{cmd}"
+			end
 		end
 	end
 	after 'deploy:setup', 'juggernaut:start'
-	
-	desc "Stop the juggernaut server"
-	task :stop do
-		on roles(:app) do
-			execute :sudo, "killall node"
-		end
-	end
 	
 end
