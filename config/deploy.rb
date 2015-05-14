@@ -35,6 +35,12 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# rvm
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.2'
+
+# explicitly set environment
 set :rails_env, :production
+
+# datadog integration
+set :datadog_api_key, ENV['DATADOG_API_KEY']
