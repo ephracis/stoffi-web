@@ -8,5 +8,7 @@ min-instances: 1
 pid-file: <%= fetch(:deploy_to) %>/shared/tmp/pids/passenger.pid
 log-file: <%= fetch(:deploy_to) %>/shared/log/passenger.log
 ssl: true
-ssl-certificate: /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.cert
 ssl-certificate-key: /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.key
+ssl-certificate: /etc/ssl/<%= fetch(:application) %>_<%= fetch(:stage) %>.cert
+
+
