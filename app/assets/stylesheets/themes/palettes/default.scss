@@ -48,7 +48,7 @@ $shadow_text:       white;
 $shadow_hover:      white;
 
 $wallpaper-color:   #cccccc;
-$wallpaper-image:   image-data-url(gfx/backgrounds/solid.png);
+$wallpaper-image:   asset-data-url('gfx/backgrounds/solid.png');
 
 $alert:             #f00;
 $notice:            #0f0;
