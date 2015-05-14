@@ -43,6 +43,7 @@ namespace :deploy do
 		on roles(:all) do
 			invoke 'deploy:install'
 			invoke 'deploy:setup'
+			invoke 'deploy'
 		end
 	end
 	
