@@ -51,19 +51,37 @@
 		</div>
 	</section>
 	
-	<!-- we don't have any tabs, but need this to create the shadow effect -->
-	<section class='tabs'></section>
+	<% tabify = current_user.admin? %>
 	
-	<aside>
-		<%= render "songs/sections/info" %>
-	</aside>
+	<section class='tabs'>
+		<% if tabify %>
+			<span class='tab' data-tab='info'>
+				<%=t "pages.songs.show.info.link" %>
+			</span>
+			<span class='tab' data-tab='sources'>
+				<%=t "pages.sources.edit.link" %>
+			</span>
+		<% end %>
+	</section>
+
+	<% if tabify %><section data-content='info'><% end %>
 	
-	<% sections.each do |section| %>
-		<%= render "songs/sections/#{section}" rescue nil %>
+		<aside>
+			<%= render "songs/sections/info" %>
+		</aside>
+	
+		<%= render partial: 'sources/source', collection: @song.sources %>
+	
+		<%= render "songs/sections/albums" %>
+		<%= render "songs/sections/similar" %>
+		<%= render "songs/sections/duplicates" if current_user.admin? %>
+		
+	<% if tabify %></section><% end %>
+
+	<% if tabify %>
+		<section data-content='sources'>
+			<%= render partial: "sources/edit", object: @song, as: :resource %>
+		</section>
 	<% end %>
-	
-	<%= render "songs/sections/albums" %>
-	<%= render "songs/sections/similar" %>
-	<%= render "songs/sections/duplicates" if current_user.admin? %>
 	
 </article>

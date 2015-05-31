@@ -72,14 +72,14 @@ dl
 	dt
 	{
 		font-weight: bold;
-		margin-top: 1.5em;
-		margin-bottom: 0.2em;
-		&:not(:first-child) { margin-top: 2em; }
+		margin-top: 0em;
+		margin-bottom: 0em;
+		&:not(:first-child) { margin-top: 1em; }
 	}
 	
 	dd
 	{
-		margin: 1em 0;
+		margin: 0;
 	}
 }
 

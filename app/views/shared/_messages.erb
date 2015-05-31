@@ -1,11 +1,11 @@
 <% resource = nil unless defined? resource %>
 
-<% if any_errors? resource %>
-	<div class="alert">
-		<%= pretty_errors resource %>
-	</div>
-<% end %>
+<% hide = "style=display:none;" %>
 
-<% if flash[:notice].present? %>
-	<div class="notice"><%=h flash[:notice] %></div>
-<% end %>
+<div class="alert" <%= hide unless any_errors?(resource) %>>
+	<%= pretty_errors(resource) if any_errors?(resource) %>
+</div>
+
+<div class="notice" <%= hide unless flash[:notice].present? %>>
+	<%=h(flash[:notice]) if flash[:notice].present? %>
+</div>

@@ -331,3 +331,18 @@ us:
           
       show:
         description: "%{event} is an event on Stoffi"
+        
+    sources:
+      edit:
+        link: 'Manage sources'
+        title: 'Manage sources for %{resource}'
+        
+      create:
+        link: 'Create'
+      update:
+        link: 'Save'
+      destroy:
+        link: 'Delete'
+        confirm: "Do you really want to delete %{source}?"
+      new:
+        title: 'Create new source'

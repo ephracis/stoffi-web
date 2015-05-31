@@ -1,5 +1,10 @@
 class Source < ActiveRecord::Base
 	belongs_to :resource, polymorphic: true
+	
+	validates :name, presence: true
+	validates :foreign_url, presence: true, if: "foreign_id.blank?"
+	validates :foreign_id, presence: true, if: "foreign_url.blank?"
+	validates :foreign_url, uniqueness: true, if: "foreign_url.present?"
 
 	after_save :reindex_resources
 	before_destroy :reindex_resources

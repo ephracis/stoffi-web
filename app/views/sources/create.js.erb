@@ -1,0 +1,4 @@
+list = "[data-list='sources'][data-list-owner='<%=@source.resource.id%>']";
+$("<%= escape_javascript(render partial: 'sources/form', object: @source, as: :source) %>").prependTo(list);
+$("form#new_source").parent().replaceWith(
+	"<%= escape_javascript(render partial: 'sources/form', object: Source.new(resource: @source.resource), as: :source) %>");

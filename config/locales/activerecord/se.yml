@@ -52,26 +52,45 @@ se:
       user: "Användaren"
       
     attributes:
+      common: &common
+        name: 'Namn'
+        website: 'Hemsida'
+        picture: 'Bild'
+        image: 'Bild'
+        title: 'Titel'
+        
       user:
+        <<: *common
         email: "Mail"
         password: "Lösenord"
-        image: "Bild"
-        name: "Namn"
         name_source: "Namn"
         password_confirmation: "Lösenord igen"
         current_password: "Nuvarande lösenord"
         show_ads: "Reklam"
         
       playlist:
-        name: "Namn"
+        <<: *common
         
       artist:
-        picture: "Bild"
-        website: "Hemsida"
+        <<: *common
+        
+      genre:
+        <<: *common
+        
+      event:
+        <<: *common
+        
+      album:
+        <<: *common
+        
+      song:
+        <<: *common
+        
+      source:
+        <<: *common
         
       client_application:
-        website: 'Hemsida'
-        name: 'Namn'
+        <<: *common
 
   date:
     formats:

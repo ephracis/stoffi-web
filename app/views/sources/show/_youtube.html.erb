@@ -1,0 +1,10 @@
+<% raise "source #{source.id} is of type #{source.name} but rendered as youtube" unless source.name == 'youtube' %>
+<section>
+	<div class='video-border'>
+		<div class='video-box'>
+			<iframe class="video" type="text/html"
+				src="http://www.youtube.com/embed/<%=source.foreign_id%>?wmode=transparent">
+			</iframe>
+		</div>
+	</div>
+</section>

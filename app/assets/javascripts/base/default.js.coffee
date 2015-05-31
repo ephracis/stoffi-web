@@ -34,6 +34,7 @@ resizeImage = (image, size) ->
 		image.css 'margin-left', "-#{l}px"
 		
 deleteClicked = (element, event) ->
+	console.log 'deleteClicked called'
 	# TODO: move to list?
 	resource_url = element.closest('[data-resource-url]').data('resource-url')+'.json'
 	url = element.data('ajax-url') || resource_url
@@ -80,7 +81,9 @@ $(document).on 'contentReady', () ->
 		
 	# links which should remove a resource via ajax
 	$("a[data-ajax-call='delete']").when 'click.ajax', (event) ->
+		console.log 'detected click on delete'
 		if event.which == 1
+			console.log 'it was a left click'
 			event.stopPropagation()
 			deleteClicked $(@), event
 	

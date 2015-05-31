@@ -80,7 +80,7 @@ Stoffi::Application.routes.draw do
 		get '/donate',     to: 'pages#donate',     as: :donations
 		get '/barebone',   to: 'pages#barebone',   as: :barebone
 
-		resources :translations, :languages, :votes, :devices
+		resources :translations, :languages, :votes, :devices, :sources
 		resources :oauth_clients, path: 'apps', as: :client_application
 		resources :oauth_clients, path: 'apps', as: :oauth_clients
 		resources :oauth_clients, path: 'apps', as: :apps do
