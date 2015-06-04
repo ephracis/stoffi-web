@@ -19,37 +19,40 @@ html
 			position: relative;
 			min-height: 100%;
 			
-			// at the top
-			header { }
-			
-			// main content and sidebar
-			main, aside
-			{
-				margin: 4em 0 0;
-				padding-bottom: 15em;
-	
-				@media #{$small}
-				{
-					padding-bottom: 2em;
-				}
-			}
-			
-			// always at the bottom
-			footer
-			{
-				height: 12em;
-				width: 100%;
-				position: absolute;
-				bottom: 0;
-				left: 0;
-	
-				@media #{$small}
-				{
-					height: initial;
-					position: initial;
-				}
-			}
 		}
+	}
+}
 
+
+// at the top
+header { }
+
+// main content and sidebar
+main, aside
+{
+	margin: 4em 0 0;
+	padding-bottom: 15em;
+
+	@media #{$small}
+	{
+		padding-bottom: 2em;
+	}
+}
+
+article aside { margin: 0; padding: 0; }
+
+// always at the bottom
+footer
+{
+	height: 12em;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+
+	@media #{$small}
+	{
+		height: initial;
+		position: initial;
 	}
 }

@@ -334,3 +334,18 @@ se:
           
       show:
         description: "%{event} är ett evenemang på Stoffi"
+        
+    sources:
+      edit:
+        link: 'Hantera källor'
+        title: 'Hantera källor för %{resource}'
+        
+      create:
+        link: 'Skapa'
+      update:
+        link: 'Spara'
+      destroy:
+        link: 'Ta bort'
+        confirm: "Vill du verkligen ta bort %{source}?"
+      new:
+        title: 'Skapa ny källa'

@@ -1,3 +1,6 @@
 se:
   sources:
     header: 'Källor'
+    name: 'Namn'
+    foreign_id: 'Externt ID'
+    foreign_url: 'Extern URL'

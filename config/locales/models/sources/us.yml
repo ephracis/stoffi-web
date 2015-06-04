@@ -1,3 +1,6 @@
 us:
   sources:
     header: 'Sources'
+    name: 'Name'
+    foreign_id: 'Foreign ID'
+    foreign_url: 'Foreign URL'

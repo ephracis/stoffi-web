@@ -29,7 +29,7 @@
 		<% @song.sources.each do |source| %>
 			<li>
 				<%= link_to source.foreign_url do %>
-					<%= image_tag "gfx/icons/16/#{source.name}.png" %>
+					<%= image_tag "gfx/icons/16/#{source.name}.png", class: 'no-filter' %>
 					<%= source %>
 				<% end %>
 			</li>

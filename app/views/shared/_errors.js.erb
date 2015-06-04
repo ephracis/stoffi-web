@@ -1,0 +1,9 @@
+<% if local_assigns[:action] == :update %>
+	<% id = local_assigns[:resource].id %>
+	div = $('form#edit_source_<%=id%> div.alert');
+<% else %>
+	div = $('form#new_source div.alert');
+<% end %>
+
+div.html("<%=escape_javascript(pretty_errors(local_assigns[:resource]))%>");
+div.show();
