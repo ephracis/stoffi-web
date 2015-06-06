@@ -5,7 +5,7 @@ us:
     
     songs: 'Popular songs'
     albums: 'Albums'
-    albums: 'Upcoming events'
+    events: 'Upcoming events'
     
     meta:
       info: 'Information'

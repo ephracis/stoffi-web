@@ -161,6 +161,9 @@ us:
           title: 'More info'
           link: 'Info'
           description: 'See more info on %{song}'
+        
+      new:
+        link: 'Add song'
           
       index:
         link: 'Songs'
