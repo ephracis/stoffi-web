@@ -10,7 +10,6 @@ article.tabbed
 	
 	section[data-content]
 	{
-		width: 100%;
 		padding-left: 2em;
 		display: none;
 		
@@ -76,4 +75,12 @@ article.tabbed
 	}
 	
 	.tab:hover { cursor: pointer; }
+}
+
+article.tabbed.horizontally
+{	
+	section[data-content]
+	{
+		width: 100%;
+	}
 }
