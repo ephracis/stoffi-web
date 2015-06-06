@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/simplare/stoffi-web.svg)](https://travis-ci.org/simplare/stoffi-web)
+
 # The Stoffi Website
 
 As you may know, Stoffi is divided into two parts: the player (hopefully it will soon be 'players') and the website.
