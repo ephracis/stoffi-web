@@ -23,7 +23,7 @@ module UsersHelper
 	end
 	
 	def image_options_for_select
-		options = [[t('settings.default'), '', { data: { imagesrc: image_path('media/user.png') }}]]
+		options = [[t('settings.default'), '', { data: { imagesrc: image_path(User.default_pic) }}]]
 		
 		current_user.links.each do |l|
 			if l.picture? and l.picture
