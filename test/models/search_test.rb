@@ -47,7 +47,7 @@ class SearchTest < ActiveSupport::TestCase
 		s1.query = s0.query
 		s0.save!
 		s1.save!
-		assert_equal s1.updated_at, s0.previous_at, "Didn't get the correct date"
+		assert_in_delta s1.updated_at, s0.previous_at, 1.second, "Didn't get the correct date"
 	end
 	
 	test "should get previous search from first search" do
