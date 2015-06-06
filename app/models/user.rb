@@ -65,9 +65,9 @@ class User < ActiveRecord::Base
 	end
 	
 	# The default picture of a user.
-	def self.default_pic(size = nil)
-		size = "_#{size}" if size.present?
-		"gfx/user#{size}.png"
+	# TODO: fix default image for user
+	def self.default_pic(size = :huge)
+		"gfx/icons/128/user.png"
 	end
 	
 	# The default name of a user.
@@ -170,6 +170,7 @@ class User < ActiveRecord::Base
 	end
 	
 	# The URL to the user's profile.
+	# TODO: this should be in view instead
 	def url
 		"http://beta.stoffiplayer.com/profile/#{id}"
 	end
