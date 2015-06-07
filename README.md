@@ -1,8 +1,10 @@
 [![Build Status](https://travis-ci.org/simplare/stoffi-web.svg)](https://travis-ci.org/simplare/stoffi-web)
+[![Code Climate](https://codeclimate.com/github/simplare/stoffi-web/badges/gpa.svg)](https://codeclimate.com/github/simplare/stoffi-web)
+[![Test Coverage](https://codeclimate.com/github/simplare/stoffi-web/badges/coverage.svg)](https://codeclimate.com/github/simplare/stoffi-web/coverage)
 
 # The Stoffi Website
 
-As you may know, Stoffi is divided into two parts: the player (hopefully it will soon be 'players') and the website.
+As you may know, Stoffi is divided into two parts: the player and the website.
 
 The website, also know as the Cloud, is the central point which ties all your devices together and acts as a central repository for all configurations, playlists and statistics. The website is also the communicator between the player and the rest of the Internet such as Facebook and Google.
 
