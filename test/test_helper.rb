@@ -26,6 +26,7 @@ class ActiveSupport::TestCase
 
 	def teardown
 		Rails.cache.clear rescue nil
+		WebMock.allow_net_connect!
 	end
 end
 
