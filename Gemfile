@@ -68,6 +68,7 @@ group :test do
 	#gem 'selenium-webdriver'
 	gem 'rails-perftest'
 	gem 'ruby-prof'
+	gem "codeclimate-test-reporter", require: nil
 end
 
 # Use Devise for user authentication
