@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-tiny:
+micro:
   url: http://bar.com/tiny.jpg
   resource: not_afraid (Song)
   width: 16

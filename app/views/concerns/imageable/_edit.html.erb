@@ -1,0 +1,23 @@
+<h1><%= t 'imageable.edit.title' %></h1>
+<%= form_for resource do |f| %>
+
+	<%= hidden_field_tag :imageable, 1 %>
+	
+	<% [32,64,128,256,512].each do |size| %>
+		<div class='previewable'>
+			<div class='field'>
+				<%= label_tag "image_#{size}", t("imageable.label", size: size) %>
+				<%= url_field_tag "image[#{size}]", resource.image(size, default: '', exact: true), class: :wide,
+					data: { preview: "preview_#{size}" } %>
+			</div>
+			<% w = h = [64,size].min %>
+			<%= image_tag '', width: w, height: h, id: "preview_#{size}", class: 'preview', data: { preview_size: size } %>
+		</div>
+	<% end %>
+	
+	<%= link_to '#', class: 'button', data: { button: :submit } do %>
+		<%= image_tag 'gfx/buttons/save.png' %>
+		<span><%=t 'save' %></span>
+	<% end %>
+		
+<% end %>

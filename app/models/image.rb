@@ -4,6 +4,12 @@ class Image < ActiveRecord::Base
 	validates :url, uniqueness: true
 	
 	def self.create_by_hashes(hashes)
+		images = new_by_hashes(hashes)
+		images.map(&:save!)
+		return images
+	end
+	
+	def self.new_by_hashes(hashes)
 		images = []
 		return images unless hashes.is_a? Array
 		hashes.each do |hash|
@@ -14,7 +20,7 @@ class Image < ActiveRecord::Base
 					hash[:width] = size[0]
 					hash[:height] = size[1]
 				end
-				images << Image.create(
+				images << Image.new(
 					url: hash[:url],
 					width: hash[:width].to_i,
 					height: hash[:height].to_i

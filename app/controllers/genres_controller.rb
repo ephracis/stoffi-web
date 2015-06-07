@@ -8,8 +8,9 @@
 # License::		GNU General Public License (stoffiplayer.com/license)
 
 class GenresController < ApplicationController
+	include ImageableController
 	
-	before_action :set_genre, only: [:show, :edit, :update, :destroy]
+	before_action :set_resource, only: [:show, :edit, :update, :destroy]
 	before_action :ensure_admin, only: [ :update, :destroy ]
 	oauthenticate interactive: true, except: [ :index, :show ]
 
@@ -71,9 +72,14 @@ class GenresController < ApplicationController
 	private
 	
 	# Use callbacks to share common setup or constraints between actions.
-	def set_genre
+	def set_resource
 		not_found('genre') and return unless Genre.exists? params[:id]
 		@genre = Genre.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@genre
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.

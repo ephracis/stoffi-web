@@ -4,19 +4,47 @@ module Imageable
 	included do
 		has_many :images, as: :resource, dependent: :destroy
 		class_attribute :default_image
-		self.default_image = "gfx/icons/256/missing.png"
+		self.default_image = "gfx/icons/256/missing.png" # TODO: move to view
 	end
 	
-	def image(size = :medium)
-		img = images.get_size(size) unless images.empty?
+	def image(size = :medium, options = {})
+		options = {
+			default: default_image
+		}.merge(options)
+		
+		if size.is_a? Integer
+			img = images.where(height: size, width: size).first
+		elsif size.is_a? Symbol
+			img = images.get_size(size) unless images.empty?
+		else
+			raise "Asked size is of invalid type: #{size}"
+		end
+		
 		return img.url if img
-		return default_image
+		return options[:default]
 	end
 	
 	def images_hash=(hash)
 		return unless hash.key?(:images)
-		imgs = Image.create_by_hashes(hash[:images])
-		images << imgs
+		imgs = Image.new_by_hashes(hash[:images])
+		
+		imgs.each do |img|
+			
+			# no duplicates
+			next unless images.where(url: img.url).empty?
+			
+			same_size = images.where(height: img.height, width: img.width)
+			if same_size.empty?
+				# create new image
+				img.save
+				images << img
+			else
+				# update url of existing
+				same_size.each do |i|
+					i.update_attribute :url, img.url
+				end
+			end
+		end
 	end
 	
 	module ClassMethods

@@ -37,7 +37,7 @@
 		</div>
 		<div class='image'>
 			<div class='image-border'>
-				<%= image_tag @artist.image(:huge), data: { field: :picture } %>
+				<%= editable_image_tag @artist, :huge, data: { field: :picture } %>
 			</div>
 		</div>
 	</section>

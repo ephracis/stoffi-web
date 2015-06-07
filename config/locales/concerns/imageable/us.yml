@@ -1,0 +1,7 @@
+us:
+  imageable:
+    edit:
+      link: 'Change image'
+      title: 'Edit images'
+    label: "URL to image of %{size}x%{size}px"
+    

@@ -12,6 +12,9 @@ form
 			width: 12em;
 			max-width: 100%;
 			background: transparent;
+			text-overflow: ellipsis;
+			
+			&.wide { width: 25em; }
 		}
 		
 		input, textarea, select, 
@@ -41,11 +44,26 @@ form
 			&:after { content: ':'; }
 		}
 		
+		img.preview
+		{
+			display: block;
+			margin: 0 auto 3em;
+		}
+		
 		&:after
 		{
 			display: block;
 			content: '';
 			clear: both;
+		}
+	}
+	
+	div.previewable
+	{
+		text-align: left;
+		img.preview, div.field
+		{
+			display: inline-block;
 		}
 	}
 	

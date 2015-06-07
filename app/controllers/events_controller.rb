@@ -8,8 +8,9 @@
 # License::     GNU General Public License (stoffiplayer.com/license)
 
 class EventsController < ApplicationController
+	include ImageableController
 	
-	before_action :set_event, only: [:show, :edit, :update, :destroy]
+	before_action :set_resource, only: [:show, :edit, :update, :destroy]
 	before_action :ensure_admin, only: [ :update, :destroy ]
 	oauthenticate interactive: true, except: [ :index, :show ]
 
@@ -74,9 +75,14 @@ class EventsController < ApplicationController
 	private
 	
 	# Use callbacks to share common setup or constraints between actions.
-	def set_event
+	def set_resource
 		not_found('event') and return unless Event.exists? params[:id]
 		@event = Event.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@event
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
