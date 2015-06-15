@@ -164,24 +164,20 @@ class Artist < ActiveRecord::Base
 	private
 	
 	def self.get_by_hash(hash)
-		begin
+		# look for same source
+		logger.debug 'looking for source'
+		source = Source.find_by_hash(hash)
+		return source.resource if source
 		
-			# look for same source
-			logger.debug 'looking for source'
-			source = Source.find_by_hash(hash)
-			return source.resource if source
+		# look for same name
+		logger.debug 'no source found, getting by name'
+		artist = find_by_name(hash[:name])
+		artist = create(name: hash[:name]) unless artist
+		artist.images_hash = hash
+		artist.source = hash
+		return artist
 			
-			# look for same name
-			logger.debug 'no source found, getting by name'
-			artist = find_by_name(hash[:name])
-			artist = create(name: hash[:name]) unless artist
-			artist.images_hash = hash
-			artist.source = hash
-			return artist
-			
-		rescue StandardError => e
-			raise e # TODO: remove this after debugging
-		end
+	rescue
 		return nil
 	end
 	
