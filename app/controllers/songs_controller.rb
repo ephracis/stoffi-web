@@ -10,12 +10,13 @@
 
 class SongsController < ApplicationController
 	include DuplicatableController
+	include ImageableController
 	
-	before_action :set_song, only: [:show, :edit, :update, :destroy]
+	before_action :set_resource, only: [:show, :edit, :update, :destroy]
+	before_filter :ensure_admin, except: [ :index, :show, :create, :destroy ]
 
 	can_duplicate Song
 	oauthenticate interactive: true, except: [ :index, :show ]
-	before_filter :ensure_admin, except: [ :index, :show, :create, :destroy ]
 	respond_to :html, :xml, :json
 	
 	# GET /songs
@@ -86,9 +87,14 @@ class SongsController < ApplicationController
 	private
 
 	# Use callbacks to share common setup or constraints between actions.
-	def set_song
+	def set_resource
 		not_found('song') and return unless Song.unscoped.exists? params[:id]
 		@song = Song.unscoped.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@song
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.

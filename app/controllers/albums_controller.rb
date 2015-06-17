@@ -9,8 +9,9 @@
 # License::		GNU General Public License (stoffiplayer.com/license)
  
 class AlbumsController < ApplicationController
+	include ImageableController
 
-	before_action :set_album, only: [ :show, :edit, :update, :destroy ]
+	before_action :set_resource, only: [ :show, :edit, :update, :destroy ]
 	before_action :ensure_admin, only: [ :edit, :update, :destroy ]
 	oauthenticate interactive: true, except: [ :index, :show ]
 	respond_to :html, :embedded, :xml, :json
@@ -98,9 +99,14 @@ class AlbumsController < ApplicationController
 	private
 
 	# Use callbacks to share common setup or constraints between actions.
-	def set_album
+	def set_resource
 		not_found('album') and return unless Album.exists? params[:id]
 		@album = Album.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@album
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.

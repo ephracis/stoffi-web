@@ -1,0 +1,6 @@
+se:
+  imageable:
+    edit:
+      link: 'Byt bild'
+      title: 'Ändra bilder'
+    label: "URL till bild på %{size}x%{size}px"

@@ -9,7 +9,9 @@
 # License::		GNU General Public License (stoffiplayer.com/license)
 
 class ArtistsController < ApplicationController
-	before_action :set_artist, only: [:show, :edit, :update, :destroy]
+	include ImageableController
+
+	before_action :set_resource, only: [:show, :edit, :update, :destroy]
 	oauthenticate interactive: true, except: [ :index, :show ]
 	before_filter :ensure_admin, except: [ :index, :show ]
 	respond_to :html, :xml, :json
@@ -48,9 +50,14 @@ class ArtistsController < ApplicationController
 	private
 
 	# Use callbacks to share common setup or constraints between actions.
-	def set_artist
+	def set_resource
 		not_found('artist') and return unless Artist.exists? params[:id]
 		@artist = Artist.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@artist
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.

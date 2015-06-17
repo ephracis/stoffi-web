@@ -2,8 +2,9 @@ isOpening = false
 
 @closeDialog = () ->
 	$('#dialog-overlay').fadeOut()
+	$('header').removeClass 'under-dialog'
 
-@openDialog = (url, options) ->
+@openDialog = (url, options = {}) ->
 	$.extend true, { mode: 'float' }, options
 	if options['mode'] == 'inline' and not 'parent' in options
 		$.error 'You must specify parent if you use inline dialog mode.'
@@ -23,6 +24,7 @@ isOpening = false
 	$('#dialog #content').hide()
 	$('#dialog .alert').hide()
 	$('#dialog .loading').show()
+	$('header').addClass 'under-dialog'
 	
 	$('#dialog-overlay').fadeIn (event) ->
 		isOpening = false

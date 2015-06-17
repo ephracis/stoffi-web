@@ -205,6 +205,27 @@ checkboxClicked = (element) ->
 	crack_speed = speed
 	crack_time_text = tooltip_text
 	
+#
+# Update preview image of a given url input.
+#
+updateImagePreview = (input) ->
+	image = $('#'+input.data('preview'))
+	size = image.data('preview-size')
+	size ?= 128 # default size
+	size = 256 # TODO: remove when we have missing.png for every size
+	default_url = "/assets/gfx/icons/#{size}/missing.png"
+	
+	url = input.val()
+	url = default_url if !url # if null or empty
+	
+	$('<img/>', {
+		src: url
+		error: ->
+			image.attr 'src', default_url
+		load: ->
+			image.attr 'src', url
+	})
+	
 $(document).on 'contentReady', () ->
 	refreshLoginMode()
 	$("#login [data-button='toggle']").when 'click.form.toggle', (event) ->
@@ -216,12 +237,19 @@ $(document).on 'contentReady', () ->
 	$("form [data-submitOnEnter]").when 'keydown.form.submit', (event) ->
 		if pressedEnter event
 			submitLoginForm $(this)
+			
+	$('form [data-preview]').when 'change.form.preview keyup.form.preview paste.form.preview', ->
+		updateImagePreview $(@)
+	for x in $('form [data-preview]')
+		updateImagePreview $(x)
+		
 	$("#crack-time-img").qtip {
 		content: crack_time_text,
 		style: 'qtip-light qtip-shadow'
 	}
 	$('form[data-loading]').when 'submit.form', ->
 		$('#'+ $(@).data('loading') + ' .loading').show()
+		
 	$('textarea').autosize()
 	for dd in $('[data-imageselect]')
 		dd = $(dd)

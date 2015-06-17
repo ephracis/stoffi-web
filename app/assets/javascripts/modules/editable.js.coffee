@@ -53,6 +53,13 @@ submitEditable = (element) ->
 	}
 	
 	deactivateEditable element
+	
+#
+# Open a dialog to edit image URLs.
+#
+editableImageClicked = (element) ->
+	url = element.data('imageable-url')
+	openDialog url
 
 $(document).on 'contentReady', () ->
 	$('.editable').when 'click.editable', (event) ->
@@ -68,3 +75,6 @@ $(document).on 'contentReady', () ->
 		
 	$(".editable input[type='text']").when 'blur.editable', (event) ->
 		deactivateEditable $(@).parent('.editable')
+		
+	$('.editable-image .overlay').when 'click.editableimg', (event) ->
+		editableImageClicked $(@).parent('.editable-image')
