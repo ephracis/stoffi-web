@@ -5,7 +5,7 @@ class Image < ActiveRecord::Base
 	
 	def self.create_by_hashes(hashes)
 		images = new_by_hashes(hashes)
-		images.map(&:save!)
+		images.map(&:save)
 		return images
 	end
 	
