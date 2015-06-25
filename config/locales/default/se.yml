@@ -1,6 +1,11 @@
 se:
   title: "Stoffi Musikspelare"
   
+  theme:
+    switch: "Byt till %{theme} tema"
+    default-light: 'ljust'
+    default-dark: 'mörkt'
+  
   auth:
     link: "Länka med ditt %{service} konto"
     unlink: "Ta bort länk till ditt %{service} konto"

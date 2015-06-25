@@ -1,8 +1,12 @@
 <div class='clear'></div>
 <footer>
+	
+	<!-- copyright -->
 	<p class="copyright">
 		© <%= Time.now.year %> <a href="http://www.simplare.com">simplare</a>
 	</p>
+	
+	<!-- pages -->
 	<nav>
 		<%= link_to t("pages.pages.legal.link"),   legal_path %>
 		<%= link_to t("pages.pages.contact.link"), contact_path %>
@@ -14,7 +18,19 @@
 		<% end %>
 	</nav>
 	
-	<ul id="languages">
+	<!-- theme -->
+	<ul>
+		<% @available_themes.each do |theme| %>
+			<% next if theme == @theme %>
+			<li>
+				<% disp = t('theme.switch', theme: t("theme.#{theme}")) %>
+				<%= link_to disp, params.merge(t: theme) %>
+			</li>
+		<% end %>
+	</ul>
+	
+	<!-- languages -->
+	<ul>
 		<% I18n.available_locales.each do |l| %>
 			<% next if ["de", "uk", "cn", "en"].include? l.to_s %>
 			<li>
