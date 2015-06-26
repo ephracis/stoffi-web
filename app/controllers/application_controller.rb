@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
 	              :classify_device,
 	              :prepare_for_embedded,
 	              :set_locale,
+	              :set_theme,
 	              :check_tracking,
 	              :set_config,
 	              :check_old_browsers
@@ -275,6 +276,21 @@ class ApplicationController < ActionController::Base
 		@parsed_locale.to_s
 	end
 	
+	def set_theme
+		@available_themes = [
+			'default-dark',
+			'default-light'
+		]
+		default = 'default-light'
+		raise "invalid default theme" unless default.in? @available_themes
+		
+		@theme = params[:t] || params[:theme]
+		cookies[:theme] = @theme if @theme.in? @available_themes
+		@theme = cookies[:theme] unless @theme
+		@theme = default unless @theme.in? @available_themes
+		@theme
+	end
+	
 	def set_locale
 		@parsed_locale =
 			extract_locale_from_param ||
@@ -291,7 +307,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	# Get locale code from parameter.
-	# Sets a session cookie if parameter found.
+	# Sets a cookie if parameter found.
 	def extract_locale_from_param
 		parsed_locale = params[:l] || params[:locale] || params[:i18n_locale]
 		if parsed_locale && 

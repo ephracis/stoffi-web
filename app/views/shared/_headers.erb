@@ -42,6 +42,7 @@
 		
 	<% else %>
 		<%= stylesheet_link_tag "application" %>
+		<%= stylesheet_link_tag "themes/#{@theme}" %>
 	<% end %>
 	
 	<%= csrf_meta_tags %>

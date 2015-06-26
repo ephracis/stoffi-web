@@ -4,6 +4,11 @@
 us:
   title: "Stoffi Music Player"
   
+  theme:
+    switch: "Switch to %{theme} theme"
+    default-light: 'light'
+    default-dark: 'dark'
+  
   auth:
     link: "Link with your %{service} account"
     unlink: "Remove link to your %{service} account"
