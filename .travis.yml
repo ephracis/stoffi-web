@@ -12,7 +12,6 @@ script:
   - bundle exec rake
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - cp config/templates/secrets.yml config/secrets.yml
   - mkdir -p tmp/cache
   - mysql -e 'create database stoffi_test'
   - psql -c 'create database stoffi_test' -U postgres
