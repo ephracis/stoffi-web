@@ -14,6 +14,7 @@ require 'base'
 class User < ActiveRecord::Base
 	include Base
 	include Followingable
+	include Rankable
 	
 	# Include default devise modules. Others available are:
 	# :token_authenticatable, :encryptable, :confirmable, :omniauthable, :timeoutable and 

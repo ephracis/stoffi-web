@@ -16,6 +16,26 @@ se:
           link:            'Panel'
           title:           'Panel'
           description:     'Få en översikt av ditt konto, spana in dina spelvanor, hantera dina spellistor och enheter, eller fjärrstyr din musik.'
+          
+          statistics:
+            link: 'Statistik'
+            description: 'Se din personliga statistik.'
+            title: 'Statistik'
+
+          rankings:
+              link: 'Rankning'
+              description: 'Vem är den största musikälskaren? Här är svaret.'
+              title: 'Rankning'
+
+          devices:
+              link: 'Enheter'
+              description: 'Se dina kopplade enheter.'
+              title: 'Kopplade enheter'
+
+          playlists:
+              link: 'Spellistor'
+              description: 'Se dina spellistor.'
+              title: 'Spellistor'
   
         edit:
           link:            'Inställningar'

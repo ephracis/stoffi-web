@@ -17,6 +17,26 @@ us:
           link:            'Dashboard'
           title:           'Dashboard'
           description:     'Get an overview of your account, check out your listening habits, manage playlists and devices, or remotely control your music.'
+
+          statistics:
+            link: 'Statistics'
+            description: 'View your personal listening statistics.'
+            title: 'Statistics'
+
+          rankings:
+              link: 'Rankings'
+              description: 'Who is the biggest music fan? Find out here.'
+              title: 'Rankings'
+
+          devices:
+              link: 'Devices'
+              description: 'View your connected devices.'
+              title: 'Connected devices'
+
+          playlists:
+              link: 'Playlists'
+              description: 'View your playlists.'
+              title: 'Playlists'
   
         edit:
           link:            'Settings'

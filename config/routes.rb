@@ -56,7 +56,13 @@ Stoffi::Application.routes.draw do
 		
 		# charts
 		namespace :charts do
-			get 'recent_listens_for_user'
+			get 'listens_for_user'
+			get 'songs_for_user'
+			get 'artists_for_user'
+			get 'albums_for_user'
+			get 'playlists_for_user'
+			get 'genres_for_user'
+			get 'top_listeners'
 			get 'active_users'
 		end
 		

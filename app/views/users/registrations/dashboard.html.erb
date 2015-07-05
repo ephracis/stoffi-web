@@ -1,3 +1,26 @@
+<% tabs = ['statistics', 'rankings', 'playlists', 'devices'] %>
+
+<article class='tabbed'>
+	<% tabs.each do |tab| %>
+		<section data-content='<%= tab %>'>
+			<h1><%= t "pages.users.registrations.dashboard.#{tab}.title" %></h1>
+			<%= render "users/registrations/dashboard/#{tab}" %>
+		</section>
+		<% end %>
+	
+	<aside class='tabs'>
+		<section>
+			<% tabs.each do |tab| %>
+				<div class='tab' data-tab='<%= tab %>' title='<%=t "pages.users.registrations.dashboard.#{tab}.description" %>'>
+					<%=t "pages.users.registrations.dashboard.#{tab}.link" %>
+				</div>
+			<% end %>
+		</section>
+	</aside>
+</article>
+
+<% if false %>
+
 <article class='fullwidth'>
 	<section>
 		<h1>Dashboard</h1>
@@ -5,8 +28,6 @@
 		<%= bar_chart charts_active_users_path %>
 	</section>
 </article>
-
-<% if false %>
 
 <div class="white box" id="dashboard">
 

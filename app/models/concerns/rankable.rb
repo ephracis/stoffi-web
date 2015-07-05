@@ -2,6 +2,20 @@ module Rankable
 	extend ActiveSupport::Concern
 	
 	module ClassMethods
+		
+		def rank(association, options = {})
+			options = {
+				start: DateTime.strptime('0', '%s')
+			}.merge(options)
+		    tname = self.name.tableize
+			key = "#{self.name.parameterize}_id"
+			
+		    self.select("#{tname}.*,COUNT(#{association}.id) AS #{association}_count").
+				joins("LEFT JOIN #{association} AS #{association} ON #{association}.#{key} = #{tname}.id "+
+					"AND #{association}.created_at > #{ActiveRecord::Base.connection.quote(options[:start])}").
+				group("#{tname}.id").
+				order("#{association}_count DESC")
+		end
 	
 		# Returns the objects sorted by number of listens and popularity
 		#
@@ -9,6 +23,12 @@ module Rankable
 		#   for: If this is specified, listens only for this user are
 		#        counted
 		def top(options = {})
+			
+			# default options
+			options = {
+				empty: true
+			}.merge(options)
+			
 		    tname = self.name.tableize
 			songs_tname = self.name == 'Song' ? 'songs' : 'top_songs'
 
@@ -29,11 +49,15 @@ module Rankable
 					joins("LEFT JOIN songs AS top_songs ON top_songs.id = top_#{tname}_songs.song_id")
 			end
 			
+			join_type = 'LEFT'
+			join_type = 'INNER' unless options[:empty]
+			listen_scope = ''
+			listen_scope = " AND top_listens.user_id = %s" % ActiveRecord::Base.connection.quote(options[:for].id) if options[:for].is_a? User
 			inner_select = inner_select.
-				joins("LEFT JOIN listens AS top_listens ON top_listens.song_id = #{songs_tname}.id").
+				joins("#{join_type} JOIN listens AS top_listens ON top_listens.song_id = #{songs_tname}.id"+listen_scope).
 				group("#{tname}.id")
 			
-		    inner_select = inner_select.where("top_listens.user_id = ?", options[:for].id) if options[:for].is_a? User
+			#inner_select = inner_select.where("top_listens.user_id = ?", options[:for].id) if options[:for].is_a? User
 
 			select("#{tname}.*,#{tname}.listens_count,SUM(top_sources.popularity) AS popularity_count").
 				from(inner_select, tname).
