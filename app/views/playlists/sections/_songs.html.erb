@@ -10,10 +10,10 @@
 	%>
 	<%= render partial: 'shared/lists/list', locals:
 	{
-		collection: @playlist.songs,
+		collection: @playlist.ordered_songs,
 		resource: 'songs',
 		show_add_button: add_button_options,
-		data: { playlist: @playlist.id },
+		data: { playlist: @playlist.id, sortable: sort_playlist_path(@playlist, format: :json) },
 		delete:
 		{
 			url: playlist_path(@playlist, format: :json),

@@ -1,5 +1,5 @@
 <li class='item' data-href='<%= url_for song %>' data-resource-type='song' data-resource-id='<%= song.id %>'
-	data-resource-url='<%= url_for(song) %>'>
+	data-resource-url='<%= url_for(song) %>' id='song_<%= song.id %>'>
 	
 	<!-- image -->
 	<%= image_tag song.image(:huge), data: { field: 'picture' } %>

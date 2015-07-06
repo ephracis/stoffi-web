@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150410165947) do
+ActiveRecord::Schema.define(version: 20150708220317) do
 
   create_table "admin_configs", force: true do |t|
     t.string   "name"
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(version: 20150410165947) do
     t.datetime "updated_at"
   end
 
+  create_table "album_tracks", force: true do |t|
+    t.integer "song_id"
+    t.integer "album_id"
+    t.integer "position"
+  end
+
+  add_index "album_tracks", ["album_id", "song_id"], name: "by_album_and_song", unique: true
+
   create_table "albums", force: true do |t|
     t.string   "title"
     t.integer  "year"
@@ -59,13 +67,6 @@ ActiveRecord::Schema.define(version: 20150410165947) do
   end
 
   add_index "albums_artists", ["artist_id", "album_id"], name: "by_album_and_artist", unique: true
-
-  create_table "albums_songs", id: false, force: true do |t|
-    t.integer "song_id"
-    t.integer "album_id"
-  end
-
-  add_index "albums_songs", ["album_id", "song_id"], name: "by_album_and_song", unique: true
 
   create_table "artists", force: true do |t|
     t.string   "name"
@@ -418,9 +419,10 @@ ActiveRecord::Schema.define(version: 20150410165947) do
 
   add_index "playlists", ["user_id", "name"], name: "by_user_and_name", unique: true
 
-  create_table "playlists_songs", id: false, force: true do |t|
+  create_table "playlists_songs", force: true do |t|
     t.integer "playlist_id"
     t.integer "song_id"
+    t.integer "position"
   end
 
   add_index "playlists_songs", ["playlist_id", "song_id"], name: "by_playlist_and_song", unique: true

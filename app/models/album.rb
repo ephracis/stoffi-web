@@ -15,12 +15,12 @@ class Album < ActiveRecord::Base
 	include Sourceable
 	include Rankable
 	include Duplicatable
+	include Sortable
 	
 	# associations
-	with_options uniq: true do |assoc|
-		assoc.has_and_belongs_to_many :artists
-		assoc.has_and_belongs_to_many :songs
-	end
+	has_and_belongs_to_many :artists, uniq: true
+	has_many :album_tracks
+	has_many :songs, through: :album_tracks
 	has_many :genres, through: :songs
 	has_many :listens, through: :songs
 	validates :title, presence: true
@@ -34,6 +34,8 @@ class Album < ActiveRecord::Base
 			sources.map(&:name)
 		end
 	end
+	
+	can_sort :songs
 	
 	self.default_image = "gfx/icons/256/missing.png"
 	

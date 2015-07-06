@@ -21,7 +21,6 @@ class Song < ActiveRecord::Base
 
 	# associations
 	with_options uniq: true do |assoc|
-		assoc.has_and_belongs_to_many :albums
 		assoc.has_and_belongs_to_many :users
 		assoc.has_and_belongs_to_many :playlists
 		assoc.has_and_belongs_to_many :genres
@@ -38,6 +37,8 @@ class Song < ActiveRecord::Base
 		assoc.has_many :images
 		assoc.has_many :shares
 	end
+	has_many :album_tracks
+	has_many :albums, through: :album_tracks
 	has_many :listens
 	
 	# include duplicates' association into self's

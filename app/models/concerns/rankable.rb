@@ -44,8 +44,9 @@ module Rankable
 					
 			# here we assume that the resource has a habtm relation to songs via a join table using a default name
 			elsif self.name != 'Song'
+				join_table = get_sql_names_for_combining(:songs)[2]
 		    	inner_select = inner_select.
-					joins("LEFT JOIN #{tname}_songs AS top_#{tname}_songs ON top_#{tname}_songs.#{self.name}_id = #{tname}.id").
+					joins("LEFT JOIN #{join_table} AS top_#{tname}_songs ON top_#{tname}_songs.#{self.name}_id = #{tname}.id").
 					joins("LEFT JOIN songs AS top_songs ON top_songs.id = top_#{tname}_songs.song_id")
 			end
 			
@@ -69,6 +70,29 @@ module Rankable
 		# TODO: do we really need this? it's broken anyway
 		def top?
 			self.name == 'Song' ? any? : joins(:songs).any?
+		end
+		
+		# Get the table name, foreign key and foreign type used when joining associations.
+		#
+		# Album.get_sql_names_for_combining(:songs)
+		# => "album_tracks"
+		def get_sql_names_for_combining(name, options = {})
+			reflection = options[:reflection] || self.reflections[name]
+			if reflection.macro == :has_many and reflection.options.key? :through
+				r = self.reflections[reflection.options[:through]]
+				return get_sql_names_for_combining(name, reflection: r)
+			
+			elsif reflection.macro == :has_and_belongs_to_many
+				type = reflection.type
+				key = reflection.foreign_key
+				tbl = reflection.join_table
+			
+			else
+				type = reflection.type
+				key = reflection.foreign_key
+				tbl = reflection.quoted_table_name
+			end
+			return type, key, tbl
 		end
 		
 	end

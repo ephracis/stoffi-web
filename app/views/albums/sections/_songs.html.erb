@@ -2,6 +2,7 @@
 	<%
 	add_button_options = false
 	delete_options = false
+	data = { album: @album.id }
 	
 	if current_user.admin?
 		add_button_options = {
@@ -14,14 +15,18 @@
 			method: :put,
 			data: "{ songs: { removed: [song.id] } }"
 		}
+		
+		data[:sortable] = sort_album_path(@album, format: :json)
 	end
+	
+	
 	%>
 	<%= render partial: 'shared/lists/list', locals:
 	{
-		collection: @album.songs,
+		collection: @album.ordered_songs,
 		resource: 'songs',
 		show_add_button: add_button_options,
-		data: { album: @album.id },
+		data: data,
 		delete: delete_options
 	} %>
 </section>

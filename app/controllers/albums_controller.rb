@@ -10,10 +10,15 @@
  
 class AlbumsController < ApplicationController
 	include ImageableController
+	include SortableController
+	
+	can_sort :songs
+	
+	oauthenticate interactive: true, except: [ :index, :show ]
 
 	before_action :set_resource, only: [ :show, :edit, :update, :destroy ]
 	before_action :ensure_admin, only: [ :edit, :update, :destroy ]
-	oauthenticate interactive: true, except: [ :index, :show ]
+	
 	respond_to :html, :embedded, :xml, :json
 	
 	# GET /albums
