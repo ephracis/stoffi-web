@@ -50,6 +50,24 @@ se:
       
     models:
       user: "Användaren"
+      listen:
+        one: 'Spelning'
+        other: 'Spelningar'
+      song:
+        one: 'Låt'
+        other: 'Låtar'
+      artist:
+        one: 'Artist'
+        other: 'Artister'
+      album:
+        one: 'Album'
+        other: 'Album'
+      genre:
+        one: 'Genre'
+        other: 'Genrar'
+      playlist:
+        one: 'Spellista'
+        other: 'Spellistor'
       
     attributes:
       common: &common

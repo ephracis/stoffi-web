@@ -2,6 +2,25 @@ us:
   activerecord:
     models:
       user: "User"
+      listen:
+        one: 'Play'
+        other: 'Plays'
+      song:
+        one: 'Song'
+        other: 'Songs'
+      artist:
+        one: 'Artist'
+        other: 'Artists'
+      album:
+        one: 'Album'
+        other: 'Albums'
+      genre:
+        one: 'Genre'
+        other: 'Genres'
+      playlist:
+        one: 'Playlist'
+        other: 'Playlists'
+        
     attributes:
       user:
         email: "Email"

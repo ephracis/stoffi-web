@@ -7,31 +7,12 @@ se:
   
   dashboard:
     meta: "Visa panel"
-    songs:
-      title: "Bästa låtarna"
-      empty: "Du har inte lyssnat på någon musik än."
-      
-    artists:
-      title: "Bästa artisterna"
-      empty: "Du har inte lyssnat på någon musik än."
-      
-    listens:
-      title: "Senaste"
-      empty: "Du har inte lyssnat på någon musik än."
-      
-    devices:
-      title: "Enheter"
-      
-    support:
-      title: "Stöd"
-      empty: "Du har inte hjälpt några artister än."
-      
-    remote:
-      title: "Fjärr"
-      empty: "Du måste slå på synkronisering i en spelare för att kunna fjärrstyra den."
-      button: "Styr"
-      
-    logged_in: "Inloggad som %{name} (%{email})"
+    
+    rankings:
+      week: 'Denna vecka'
+      month: 'Denna månad'
+      year: 'Detta år'
+      alltime: 'Någonsin'
     
   user:
     name:

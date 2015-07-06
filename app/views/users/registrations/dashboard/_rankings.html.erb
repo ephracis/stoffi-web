@@ -1,0 +1,9 @@
+<% {
+	week: Date.today.beginning_of_week,
+	month: Date.today.beginning_of_month,
+	year: Date.today.beginning_of_year,
+	alltime: 0
+}.each do |span,start| %>
+	<h2><%= t "dashboard.rankings.#{span}" %></h2>
+	<%= bar_chart charts_top_listeners_path(start: start) %>
+<% end %>
