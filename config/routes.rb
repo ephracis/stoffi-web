@@ -97,7 +97,7 @@ Stoffi::Application.routes.draw do
 		
 		resources :links, only: [:index, :show, :create, :update, :destroy]
 		
-		resources :artists, :events, :songs, :genres, :albums
+		resources :artists, :events, :songs, :genres
 		
 		resources :listens do
 			member do
@@ -105,9 +105,16 @@ Stoffi::Application.routes.draw do
 			end
 		end
 		
+		resources :albums do
+			member do
+				patch 'sort'
+			end
+		end
+		
 		resources :playlists do
 			member do
 				put 'follow'
+				patch 'sort'
 			end
 			collection do
 				get '/by/:user_id', to: 'playlists#by'

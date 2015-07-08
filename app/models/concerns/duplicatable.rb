@@ -117,6 +117,8 @@ module Duplicatable
 		#
 		# When you access the association on an archetype, it will include the
 		# associations on all its duplicates as well.
+		# For example, if `assembly_dup` is a duplicate of `assembly`, then calling
+		# `assembly.parts` will include `Part`s from both `assembly` and `assembly_dup`.
 		#
 		# Put this into your class after your associations:
 		#   include_association_of_dups
@@ -143,7 +145,7 @@ module Duplicatable
 					return super(arguments) if duplicates.empty?
 		
 					w = [] # where clause
-					type, key, tbl = self.get_sql_names_for_combining name, self.class.reflections[name]
+					type, key, tbl = self.get_sql_names_for_combining name
 			
 					# do we need to specify the resource type? (if polymorphic, for example)
 					w << "#{tbl}.#{type}='#{self.class.name}'" if type.present?
@@ -197,12 +199,15 @@ module Duplicatable
 	
 	protected
 
-	# Get the table name, foreign key and foreign type used to construct
-	# a where clause when combining associations.
-	def get_sql_names_for_combining(name, reflection)
+	# Get the table name, foreign key and foreign type used when joining associations.
+	#
+	# Album.get_sql_names_for_combining(:songs)
+	# => "album_tracks"
+	def get_sql_names_for_combining(name, options = {})
+		reflection = options[:reflection] || self.class.reflections[name]
 		if reflection.macro == :has_many and reflection.options.key? :through
 			r = self.class.reflections[reflection.options[:through]]
-			return get_sql_names_for_combining(name, r)
+			return get_sql_names_for_combining(name, reflection: r)
 			
 		elsif reflection.macro == :has_and_belongs_to_many
 			type = reflection.type

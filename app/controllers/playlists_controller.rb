@@ -8,8 +8,11 @@
 # License::		GNU General Public License (stoffiplayer.com/license)
 
 class PlaylistsController < ApplicationController
+	include SortableController
 	
-	before_action :set_playlist, only: [:show, :edit, :update, :destroy, :follow]
+	can_sort :songs
+	
+	before_action :set_resource, only: [:show, :edit, :update, :destroy, :follow]
 	oauthenticate except: [ :index, :show ]
 	
 	respond_to :html, :embedded, :json, :xml
@@ -262,9 +265,14 @@ class PlaylistsController < ApplicationController
 	private
 
 	# Use callbacks to share common setup or constraints between actions.
-	def set_playlist
+	def set_resource
 		not_found('playlist') and return unless Playlist.exists? params[:id]
 		@playlist = Playlist.find(params[:id])
+	end
+	
+	# Access the resource for this controller.
+	def resource
+		@playlist
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.

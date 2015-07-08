@@ -1,4 +1,22 @@
+saveSorting = (element) ->
+	console.log 'saveSorting'
+	sortable = $(element).closest "[data-list-sortable]"
+	console.log 'url: ' + sortable.attr('data-list-sortable')
+	$.ajax {
+		url: sortable.attr('data-list-sortable')
+		data: $(element).sortable('serialize')
+		method: 'PATCH'
+		error: () ->
+			$(element).sortable('cancel')
+	}
+
 $(document).on 'contentReady', () ->
+			
+	$("[data-list-sortable]").sortable({
+		items: 'li:not([data-list-add])',
+		update: (event) ->
+			saveSorting $(@)
+	})
 	
 	# problem:
 	# we have an overlay which is shown on hover, but there is no hover on touch
