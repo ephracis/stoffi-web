@@ -37,6 +37,11 @@ us:
               link: 'Playlists'
               description: 'View your playlists.'
               title: 'Playlists'
+
+          duplicates:
+              link: 'Duplicates'
+              description: 'View potential duplicates.'
+              title: 'Duplicates'
   
         edit:
           link:            'Settings'

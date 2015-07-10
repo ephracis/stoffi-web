@@ -1,0 +1,18 @@
+<%
+klass = local_assigns[:duplicatable_model]
+url = url_for([local_assigns[:resource], l: params[:l], action: :mark_duplicates])
+%>
+<section id='find-duplicates' data-duplicatable-url='<%= url %>'>
+	<%= form_tag search_url(categories: klass, limit: 5), method: :get, remote: true, data: {
+		loading: 'search-loading'
+	} do %>
+		<div class='field'>
+			<%= text_field_tag :query, nil, autofocus: true, placeholder: t("search.placeholder.#{klass}") %>
+		</div>
+	<% end %>
+	
+	<div id='search-loading'>
+		<%= render 'shared/widgets/loading' %>
+	</div>
+	<ul id='search-results' class='mini list' data-href-stop></ul>
+</section>

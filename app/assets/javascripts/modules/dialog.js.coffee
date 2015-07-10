@@ -20,6 +20,7 @@ isOpening = false
 		$('#dialog-overlay').css 'left', p.offset().left
 	else
 		$('#dialog-overlay').removeAttr 'style'
+		repositionDialog(true)
 	
 	$('#dialog #content').hide()
 	$('#dialog .alert').hide()
@@ -42,6 +43,12 @@ isOpening = false
 			$('#dialog #content').show()
 	}
 	
+repositionDialog = (force = false) ->
+	margin = 50
+	top = $(document).scrollTop() + margin
+	if force or parseInt($('#dialog').css('margin-top')) > top
+		$('#dialog').css 'margin-top', top
+	
 $ ->
 	$('body').on 'click', (event) ->
 		if event.which == 1 and (
@@ -50,3 +57,8 @@ $ ->
 			return
 		if $('#dialog-overlay').is(':visible') and not isOpening
 			closeDialog()
+			
+	$(document).when 'scroll.dialog', (event) ->
+		repositionDialog()
+			
+		

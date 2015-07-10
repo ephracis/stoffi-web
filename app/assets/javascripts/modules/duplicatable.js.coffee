@@ -27,6 +27,26 @@ toggleDuplicate = (element, event) ->
 			refreshDuplicate element
 	}
 
+#
+# Open a dialog to find duplicates of a resource.
+#
+findDuplicatesClicked = (element) ->
+	url = element.data('duplicatable-url')
+	openDialog url
+	
+markAsDuplicateClicked = (element) ->
+	url = element.closest('#find-duplicates').data 'duplicatable-url'
+	id = element.data 'resource-id'
+	type = element.data 'resource-type'
+	$.ajax {
+		method: 'patch',
+		url: url+'.json',
+		dataType: 'html',
+		data: "#{type}[]=#{id}",
+		success: (data, status, jqXHR) ->
+			element.toggle()
+	}
+
 $(document).on 'contentReady', () ->
 	for element in $("a[data-ajax-call='duplicate']")
 		refreshDuplicate $(element)
@@ -35,3 +55,10 @@ $(document).on 'contentReady', () ->
 			event.stopPropagation()
 			event.preventDefault()
 			toggleDuplicate($(@), event)
+			
+	$('[data-duplicatable-url]').when 'click.find_duplicates', (event) ->
+		findDuplicatesClicked $(@)
+		
+	$('#find-duplicates #search-results .item').when 'click.mark_duplicates', (event) ->
+		markAsDuplicateClicked $(@)
+		event.stopPropagation()

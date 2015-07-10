@@ -1,0 +1,13 @@
+us:
+  duplicatable:
+    link: 'Find duplicates'
+    
+    duplicates: 'Duplicates'
+    candidates: 'Possible dups'
+      
+    mark:
+      description: 'Mark this as a duplicate of %{archetype}'
+      link: 'Mark as duplicate'
+    unmark:
+      description: 'Unmark this as a duplicate of %{archetype}'
+      link: 'Remove as duplicate'

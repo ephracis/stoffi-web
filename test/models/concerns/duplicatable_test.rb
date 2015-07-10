@@ -87,21 +87,21 @@ class DuplicatableTest < ActiveSupport::TestCase
 	test "should combine habtm relation" do
 		song_a = songs(:one_love)
 		song_b = songs(:not_afraid)
-		artist = artists(:damian_marley)
-		song_a.artists << artist
-		song_b.artists << artist
+		genre = genres(:rap)
+		song_a.genres << genre unless song_a.genres.include? genre
+		song_b.genres << genre unless song_b.genres.include? genre
 		song_a.duplicate_of song_b
 		
 		checked = []
-		(song_a.artists + song_b.artists).each do |a|
-			next if a.in? checked
-			assert_includes song_b.artists, a, "Artist #{a} not included in song #{song_b}"
-			checked << a
+		(song_a.genres + song_b.genres).each do |genre|
+			next if genre.in? checked
+			assert_includes song_b.genres, genre, "Genre #{genre} not included in song #{song_b}"
+			checked << genre
 		end
-		song_b.artists.each do |a|
-			assert_includes checked, a, "Artist #{a} should not be included in song #{song_b}"
+		song_b.genres.each do |genre|
+			assert_includes checked, genre, "Genre #{genre} should not be included in song #{song_b}"
 		end
-		assert_equal checked.size, song_b.artists.count, "There are duplicates"
+		assert_equal checked.size, song_b.genres.count, "There are duplicates"
 	end
 	
 	test "should fail to duplicate different models" do

@@ -153,14 +153,14 @@ se:
     songs:
       show:
         description: "Lyssna på %{song} i Stoffi Musikspelare eller direkt här på hemsidan."
-      lastfm:
-        title: '%{song} på Last.fm'
-        link: 'Last.fm'
-        description: 'Kolla in %{song} på Last.fm'
-      info:
-        title: 'Mer info'
-        link: 'Info'
-        description: 'Se mer info om %{song}'
+        lastfm:
+          title: '%{song} på Last.fm'
+          link: 'Last.fm'
+          description: 'Kolla in %{song} på Last.fm'
+        info:
+          title: 'Mer info'
+          link: 'Info'
+          description: 'Se mer info om %{song}'
         
       new:
         link: 'Lägg till låt'

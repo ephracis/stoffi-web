@@ -13,6 +13,9 @@ us:
       month: 'This month'
       year: 'This year'
       alltime: 'All time'
+      
+    categories:
+      admin: 'Admin'
     
   user:
     name:

@@ -36,6 +36,11 @@ se:
               link: 'Spellistor'
               description: 'Se dina spellistor.'
               title: 'Spellistor'
+
+          duplicates:
+              link: 'Dubbletter'
+              description: 'Se potentiella dubbletter.'
+              title: 'Dubbletter'
   
         edit:
           link:            'Inställningar'
