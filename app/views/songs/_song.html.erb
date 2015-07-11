@@ -32,8 +32,8 @@
 		<% if current_user.admin? and defined? archetype %>
 			<span class='duplicate action'>
 				<%
-				mark_title = t('duplicates.mark.description', archetype: archetype.title)
-				unmark_title = t('duplicates.unmark.description', archetype: archetype.title)
+				mark_title = t('duplicatable.mark.description', archetype: archetype.title)
+				unmark_title = t('duplicatable.unmark.description', archetype: archetype.title)
 				%>
 				<%= link_to '',
 				 	data: {
@@ -42,10 +42,10 @@
 						duplicate_status: :unmarked
 					} do %>
 					<span data-list-mode='list' data-duplicate-mark title='<%=mark_title%>'>
-						<%= t 'duplicates.mark.link' %>
+						<%= t 'duplicatable.mark.link' %>
 					</span>
 					<span data-list-mode='list' data-duplicate-unmark title='<%=unmark_title%>'>
-						<%= t 'duplicates.unmark.link' %>
+						<%= t 'duplicatable.unmark.link' %>
 					</span>
 				<% end %>
 			</span>

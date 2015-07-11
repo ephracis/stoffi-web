@@ -97,7 +97,14 @@ Stoffi::Application.routes.draw do
 		
 		resources :links, only: [:index, :show, :create, :update, :destroy]
 		
-		resources :artists, :events, :songs, :genres
+		resources :artists, :events, :genres
+		
+		resources :songs do
+			member do
+				get 'find_duplicates'
+				patch 'mark_duplicates'
+			end
+		end
 		
 		resources :listens do
 			member do

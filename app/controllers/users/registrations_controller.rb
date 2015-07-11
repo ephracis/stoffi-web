@@ -64,6 +64,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 		
 		@configuration = current_user.configurations.first
 		
+		if current_user.admin?
+			@duplicates = Song.top_duplicate_candidates
+		end
+		
 		render layout: (params[:format] == 'embedded' ? 'empty' : true)
 	end
 	

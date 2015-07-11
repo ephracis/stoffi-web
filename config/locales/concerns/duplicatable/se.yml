@@ -1,0 +1,13 @@
+se:
+  duplicatable:
+    link: 'Hitta dubbletter'
+    
+    duplicates: 'Dubbletter'
+    candidates: 'Möjliga dubbletter'
+    
+    mark:
+      description: 'Markera som en dubblett av %{archetype}'
+      link: 'Markera som dubblett'
+    unmark:
+      description: 'Avmarkera som en dubblett av %{archetype}'
+      link: 'Ta bort som dubblett'

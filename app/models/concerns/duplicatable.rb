@@ -106,6 +106,23 @@ module Duplicatable
 		self.class.unscoped.where(w)
 	end
 	
+	# Returns all resources which are likely to be duplicates of this resource
+	def duplicate_candidates
+		if self.class.duplicate_attribute.blank?
+			raise "Need to call find_duplicates_by before looking for candidates"
+		end
+		
+		# remove parenthesis
+		attribute = self.class.duplicate_attribute
+		string = send(attribute)
+		while string.gsub!(/(\([^()]*\)|\[[^\[\]]*\])/,''); end
+		
+		search = self.class.search do
+			fulltext string
+		end
+		search.results.reject { |x| x.id == self.id }
+	end
+	
 	module ClassMethods
 		
 		# Filter out duplicates by default
@@ -162,6 +179,34 @@ module Duplicatable
 					self.class.reflections[name].options[:uniq] ? r.uniq : r
 				end
 			end
+		end
+		
+		# Specify an attribute by which to find similar resources.
+		def find_duplicates_by(attribute)
+			@duplicate_attr = attribute
+		end
+		
+		# The attribute used to determine whether another resource is likely to be
+		# a duplicate of this resource.
+		def duplicate_attribute
+			@duplicate_attr
+		end
+		
+		# Get a list of the resources with the most potential duplicates.
+		def top_duplicate_candidates(limit = 10)
+			# list all resources and the number of potential dups
+			list = self.all.map { |x| [x, x.duplicate_candidates.length] }
+			
+			# remove resources without potential dups
+			list = list.reject { |x| x[1] == 0 }
+			
+			# sort
+			list = list.sort { |x| x[1] }.reverse
+			
+			# pick top
+			list = list[0..limit]
+			
+			list.map { |x| x[0] }
 		end
 		
 		private

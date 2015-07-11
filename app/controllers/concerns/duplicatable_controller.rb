@@ -20,6 +20,28 @@ module DuplicatableController
 		
 	end
 	
+	def find_duplicates
+		set_resource
+		render partial: '/concerns/duplicatable/find', locals: {
+			duplicatable_model: self.class.duplicatable_model.to_s.tableize,
+			resource: resource
+		}
+	end
+	
+	def mark_duplicates
+		set_resource
+		klass = self.class.duplicatable_model.to_s.tableize.singularize.to_sym
+		params[klass].each do |id|
+			begin
+				dup = self.class.duplicatable_model.find(id)
+				dup.duplicate_of resource
+			rescue
+				# no op
+			end
+		end
+		head :ok
+	end
+	
 	private
 	
 	# Automatically redirect to a resource's archetype if it has one
