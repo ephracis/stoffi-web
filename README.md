@@ -4,7 +4,7 @@
 
 # The Stoffi Website
 
-As you may know, Stoffi is divided into two parts: the player and the website.
+Stoffi is divided into two parts: the player and the website.
 
 The website, https://stoffiplayer.com, is the central point which ties all your devices together and acts as a central repository for all configurations, playlists and statistics. The website is also the communicator between the player and the rest of the Internet such as Facebook and Google.
 
