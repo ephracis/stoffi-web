@@ -140,7 +140,7 @@ class PagesControllerTest < ActionController::TestCase
 			@request.headers["HTTP_USER_AGENT"] = ua
 			get :index
 			assert_response :success
-			assert_select 'main#old', nil, "Didn't get old browser warning for #{ua}"
+			assert_select 'article#old', nil, "Didn't get old browser warning for #{ua}"
 		end
 	end
 	
