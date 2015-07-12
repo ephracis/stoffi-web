@@ -1,14 +1,36 @@
 us:
   pages:
+    singular: 'page'
+    
     pages:
       
-      not_found:
+      error_400:
+        header:          'Bad request'
+        text:            "The server cannot understand what you are requesting."
+      
+      error_403:
+        header:          'Forbidden'
+        text:            "Woops! You are not allowed to do that."
+      
+      error_404:
         header:          'No such %{resource} exists'
         text:            "The %{resource} that this adress points to doesn't seem to exist."
       
-      internal_error:
+      error_422:
+        header:          'Unprocessable entity'
+        text:            "There's something weird about the data you just sent."
+      
+      error_500:
         header:          'A server error occured'
-        text:            "Something weird happened. But don't worry, it's our fault and not yours. Try again later and hopefully it's been fixed."
+        text:            "Something weird happened. But don't worry, it's our fault and not yours. We'll try to fix it as soon as possible."
+      
+      error_502:
+        header:          'Bad gateway'
+        text:            "The server has some issues with one of its services. We'll try to fix it as soon as possible."
+      
+      error_503:
+        header:          'Overload'
+        text:            "The server is busy at the moment. Please try again in a few minutes."
       
       index:
         link:            'Home'

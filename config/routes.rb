@@ -158,7 +158,10 @@ Stoffi::Application.routes.draw do
 		get '/search/fetch'
 		get '/search/(:categories)',      to: 'search#index',            as: :search
 		
-	
+		%w( 400 403 404 422 500 502 503 ).each do |code|
+			get code, to: "errors#show", code: code
+		end
+
 		get '/', to: 'pages#index', as: :root
 	end
 end

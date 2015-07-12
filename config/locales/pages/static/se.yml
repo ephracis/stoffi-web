@@ -1,13 +1,36 @@
 se:
   pages:
+    singular: 'sida'
+    
     pages:
-      not_found:
+      
+      error_400:
+        header:          'Fel i fråga'
+        text:            "Servern kan inte förstå vad det är du efterfrågar."
+      
+      error_403:
+        header:          'Förbjudet'
+        text:            "Woops! Du får inte göra det där."
+      
+      error_404:
         header:          'Ingen sån %{resource} finns'
         text:            'Den %{resource} som den här addressen pekar på verkar inte finnas.'
       
-      internal_error:
+      error_422:
+        header:          'Obearbetbar enhet'
+        text:            "Det är något mysko med datan du precis skickade."
+      
+      error_500:
         header:          'Ett serverfel uppstod'
-        text:            'Något knas uppstod. Men ta det lugnt, det var vårt fel och inte ditt. Försök igen om en stund så har vi förhoppningsvis fixat det.'
+        text:            'Något knas uppstod. Men ta det lugnt, det var vårt fel och inte ditt. Vi fixar det så fort vi kan.'
+      
+      error_502:
+        header:          'Dålig gateway'
+        text:            "Servern har problem med en av sina tjänster. Vi fixar det så snabbt vi kan."
+      
+      error_503:
+        header:          'Överbelastning'
+        text:            "Servern är upptagen för tillfället. Vänligen försök igen om en liten stund."
       
       index:
         link:            'Hem'
