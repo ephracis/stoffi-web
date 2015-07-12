@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Completely redesigned search page
 - Language is changed at footer instead of header
 - About page is now merged into front page
+- Error pages are now prettier
 
 ### Removed
 - Donation service
