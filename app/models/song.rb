@@ -51,6 +51,7 @@ class Song < ActiveRecord::Base
 	searchable do
 		text :title, boost: 5
 		text :artist_names
+		integer :archetype_id
 		string :locations, multiple: true do
 			sources.map(&:name)
 		end

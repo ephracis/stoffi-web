@@ -229,6 +229,10 @@ class Search < ActiveRecord::Base
 			q.keywords(query, minimum_matches: 1)
 			q.with(:locations, sources_array)
 			q.paginate(page: page, per_page: limit)
+			
+			# skip duplicates
+			q.without(:archetype_id)
+			
 		end
 	end
 	

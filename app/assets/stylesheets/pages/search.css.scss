@@ -7,6 +7,7 @@
 	{
 		@media #{$small}
 		{
+			font-size: .8em;
 			display: block;
 			[data-tab='genres'] { display: none; }
 			[data-tab='events'] { display: none; }
@@ -32,11 +33,18 @@
 	#form
 	{
 		margin: 0;
+		form
+		{
+			@media #{$small} { width: 90%; }
+			@media #{$tiny} { width: 100%; }
+		}
 		#query
 		{
 			width: 30em;
 			padding: .3em .2em;
 			font-size: 1.5em;
+			
+			@media #{$small} { width: 100%; }
 			
 			&.small
 			{
@@ -45,7 +53,7 @@
 			
 				@media #{$small}
 				{
-					width: 20em;
+					width: 15em;
 					font-size: 1.2em;
 				}
 			}
@@ -80,6 +88,8 @@
 	{
 		margin: 0 3em 3em;
 		text-align: left;
+		
+		@media #{$small} { margin: 0 1em 3em; }
 		
 		.stats
 		{

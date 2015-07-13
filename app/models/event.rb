@@ -35,6 +35,7 @@ class Event < ActiveRecord::Base
 		string :locations, multiple: true do
 			sources.map(&:name)
 		end
+		integer :archetype_id do 0 end # not duplicatable, but still need to index this field
 	end
 	
 	def self.find_or_create_by_hash(hash)
