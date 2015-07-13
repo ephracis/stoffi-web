@@ -7,7 +7,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 	provider :facebook, c['facebook']['id'], c['facebook']['key'],
 	{
 		:client_options => {:ssl => {:ca_path => "/etc/ssl/certs"}},
-		:scope => 'publish_actions, offline_access'
+		:scope => 'publish_actions'
 	}
 		
 	provider :twitter, c['twitter']['id'], c['twitter']['key']

@@ -1,34 +1,3 @@
-<%
-services = [
-	{
-		name: 'Twitter',
-		width: 21
-	},
-	{
-		name: 'Facebook',
-		width: 10
-	},
-	{
-		name: 'Google',
-		path: 'google_oauth2',
-		width: 15
-	},
-	{
-		name: 'Vimeo',
-		width: 17
-	},
-	{
-		name: 'LinkedIn',
-		path: 'linked_in',
-		width: 19
-	},
-	{
-		name: 'SoundCloud',
-		width: 26
-	}
-]
-%>
-
 <header>
 	<nav>
 		<%= link_to image_tag("gfx/home.png"), root_path, class: "logo" + (@tab == 'index' ? ' active' : '') %>
@@ -67,11 +36,9 @@ services = [
 			</div>
 		
 		<% else %>
-			<%= link_to t("pages.users.sessions.new.link"), new_user_session_path, title: t("pages.users.sessions.new.description") %>
-			<% services.each do |s| %>
-				<%= link_to image_tag("auth_buttons/#{s[:name].downcase}_16_white.png", width: s[:width], height: 16),
-					s[:path] || s[:name].downcase, class: 'auth', title: t('auth.login', service: s[:name])%>
-			<% end %>
+			<%= link_to t("pages.users.sessions.new.link"), new_user_session_path,
+				title: t("pages.users.sessions.new.description") %>
+			<%= oauth_buttons %>
 		<% end %>
 			
 	</nav>
