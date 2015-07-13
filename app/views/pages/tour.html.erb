@@ -18,17 +18,3 @@
 <div class='center'>
 	<%= render 'shared/ads/banner', type: :image %>
 </div>
-
-<%= javascript_tag 'jQuery.fx.interval = 1;' %>
-
-<% if false %>
-<script>
-	var images = [];
-	for (s in tourSlides)
-		images.push('/assets/' + locale + '/tour/' + tourSlides[s] + '.png');
-	preloadImages(images);
-
-	jQuery.fx.interval = 1;
-	window.onload = function() { updateSlide(false); };
-</script>
-<% end %>

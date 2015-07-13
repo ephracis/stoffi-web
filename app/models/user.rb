@@ -28,11 +28,9 @@ class User < ActiveRecord::Base
 		assoc.has_many :playlists
 		assoc.has_many :shares
 		assoc.has_many :listens
-		assoc.has_many :votes
 		assoc.has_many :apps, class_name: "ClientApplication"
 		assoc.has_many :tokens, -> { order "authorized_at desc" }, class_name: "OauthToken"
 	end
-	has_many :translations
 	has_many :artists, through: :songs
 	has_and_belongs_to_many :songs, uniq: true
 
