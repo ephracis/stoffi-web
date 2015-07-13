@@ -1,14 +1,10 @@
 <article>
 	<section>
+		<% if params[:thanks] %>
+			<div class='notice'><%= t 'money.thanks' %></div>
+		<% end %>
 		<h1><%= t "pages.pages.money.title" %></h1>
-		<p><%=t "money.intro"%></p>
-		<p><%=t "money.labels.text1" %><p>
-		<p><%=t "money.labels.text2" %><p>
-		<h2><%=t "money.process.title" %></h2>
-		<p><%=t "money.process.text1" %><p>
-		<p><%=t "money.process.text2" %><p>
-		<h2><%=t "money.charity.title" %></h2>
-		<p><%=t "money.charity.text" %><p>
+		<p><%=t "money.text_html"%></p>
 	</section>
 	<aside>
 		<section data-type='bonus'>

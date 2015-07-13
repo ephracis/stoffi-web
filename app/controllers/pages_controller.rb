@@ -86,19 +86,8 @@ class PagesController < ApplicationController
 		end
 	end
 
-	def language
-		respond_to do |format|
-			format.html { redirect_to root_url }
-			format.mobile { render }
-		end
-	end
-
 	def donate
-		logger.info "redirecting donate shortcut"
-		respond_with do |format|
-			format.html { redirect_to donations_url, flash: flash }
-			format.mobile { redirect_to new_donation_url, flash: flash }
-		end
+		redirect_to 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=82AJWHA5KKCZL'
 	end
   
 	def mail				
@@ -131,14 +120,8 @@ class PagesController < ApplicationController
 			redirect_to action: 'contact', sent: 'success'
 		end
 	end
-
-	def facebook
-		render layout: "facebook"
-	end
-
-	def channel
-		render layout: false
-	end
+	
+	private
 	
 	def download_filename
 		filename = "InstallStoffi"

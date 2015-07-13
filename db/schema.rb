@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708220317) do
-
-  create_table "admin_configs", force: true do |t|
-    t.string   "name"
-    t.integer  "pending_donations_limit", default: 10
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20150713141811) do
 
   create_table "admin_translatees", force: true do |t|
     t.string   "name"

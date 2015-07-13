@@ -26,7 +26,6 @@ class Artist < ActiveRecord::Base
 	end
 	has_many :genres, through: :songs
 	has_many :listens, through: :songs
-	has_many :donations
 	
 	# validations
 	validates_uniqueness_of :name
@@ -101,36 +100,6 @@ class Artist < ActiveRecord::Base
 	# The string to display to users for representing the resource.
 	def display
 		name
-	end
-	
-	# All donations which are either pending of successful.
-	def donated
-		donations.where("status != 'returned' AND status != 'failed' AND status != 'revoked'")
-	end
-	
-	# The amount of charity that donations to the artist has generated.
-	def charity_sum
-		donated.sum("amount * (charity_percentage / 100)").to_f.round(2)
-	end
-	
-	# The amount that has been donated to the artist (including pending donations).
-	def donated_sum
-		donated.sum("amount * (artist_percentage / 100)").to_f.round(2)
-	end
-	
-	# All pending donations to the artist.
-	def pending
-		donations.where("donations.status = 'pending' AND created_at < ?", Donation.revoke_time)
-	end
-	
-	# The amount that has been donated to the artist but not yet processed.
-	def pending_sum
-		pending.sum("amount * (artist_percentage / 100)").to_f.round(2)
-	end
-	
-	# Whether or not it's not possible to send any donations to the artist.
-	def undonatable
-		unknown? || donatable_status.blank?
 	end
 	
 	# Paginates the songs of the artist. Should be called before <tt>paginated_songs</tt> is called.

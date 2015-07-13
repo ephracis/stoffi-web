@@ -38,8 +38,8 @@ us:
   
       donations:
         link:            'Donate'
-        title:           'Support artists'
-        description:     'Send money directly to artists in a safe and secure way, where the artist get 90% of the money.'
+        title:           'Show some love'
+        description_html: "<p>Stoffi is a hobby project which I, Christoffer, pay for from my own pocket.</p><p>If you like the project, please support it by donating a few bucks.</p>"
   
       donation:
         title:           'Donation of %{amount} to %{artist}'

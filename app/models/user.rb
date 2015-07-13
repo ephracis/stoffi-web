@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
 		assoc.has_many :tokens, -> { order "authorized_at desc" }, class_name: "OauthToken"
 	end
 	has_many :translations
-	has_many :donations
 	has_many :artists, through: :songs
 	has_and_belongs_to_many :songs, uniq: true
 
@@ -86,18 +85,13 @@ class User < ActiveRecord::Base
 		Digest::SHA2.hexdigest(self.unique_token + id.to_s)
 	end
 	
-	# The amount of fan points the user has gotten.
+	# The amount of fan points the user has.
 	def points(artist = nil)
-		w = artist ? " AND artist_id = #{artist.id}" : ""
-		w = "status != 'returned' AND status != 'failed' AND status != 'revoked'#{w}"
 		if artist
-			l = artist.listens.where("user_id = ?", id).count
+			artist.listens.where("user_id = ?", id).count
 		else
-			l = listens.count
+			listens.count
 		end
-		d = donations.where(w).sum(:amount)
-		
-		return (l + (d * 1000)).to_i
 	end
 	
 	# The picture of the user.
@@ -157,8 +151,8 @@ class User < ActiveRecord::Base
 	end
 	
 	# Whether or not the user is an administrator.
-	def is_admin?
-		self.admin
+	def admin?
+		self.admin == true
 	end
 	
 	# Check if the user owns a given resource.
@@ -264,40 +258,6 @@ class User < ActiveRecord::Base
 	# This happens when the account was created using an account at a third party.
 	def has_no_password?
 		!self.has_password
-	end
-	
-	# The amount of charity that the donations of the user has generated.
-	def charity_sum
-		donations.sum("amount * (charity_percentage / 100)").to_f.round(2)
-	end
-	
-	# The donations by the user which are either pending or completed.
-	def donated
-		donations.where("status != 'returned' AND status != 'failed' AND status != 'revoked'")
-	end
-	
-	# The total amount of pending or completed donations.
-	def donated_sum
-		donated.sum(:amount).to_f.round(2)
-	end
-	
-	# Returns a top list of users.
-	#
-	# The argument <tt>type</tt> can be:
-	#
-	# :supporters:: The users whom have donated the most amount.
-	def self.top(limit = 5, type = :supporters)
-		
-		case type
-		when :supporters
-			self.select("users.id, users.name_source, users.custom_name, users.image, users.email, sum(donations.amount) AS c").
-			joins(:donations).
-			where("donations.status != 'returned' AND donations.status != 'failed' AND donations.status != 'revoked'").
-			group("users.id").
-			order("c DESC")
-		else
-			raise "Unsupported type"
-		end
 	end
 	
 	# The string to display to users for representing the resource.
