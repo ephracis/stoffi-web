@@ -11,28 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713141811) do
-
-  create_table "admin_translatees", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "size"
-  end
-
-  create_table "admin_translatees_admin_translatee_params", id: false, force: true do |t|
-    t.integer "admin_translatee_id"
-    t.integer "admin_translatee_param_id"
-  end
-
-  create_table "admin_translation_parameters", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "example"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20150713144049) do
 
   create_table "album_tracks", force: true do |t|
     t.integer "song_id"
@@ -303,15 +282,6 @@ ActiveRecord::Schema.define(version: 20150713141811) do
     t.datetime "updated_at"
   end
 
-  create_table "languages", force: true do |t|
-    t.string   "native_name"
-    t.string   "english_name"
-    t.string   "iso_tag"
-    t.string   "ietf_tag"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "link_backlogs", force: true do |t|
     t.integer  "link_id"
     t.integer  "resource_id"
@@ -509,15 +479,6 @@ ActiveRecord::Schema.define(version: 20150713141811) do
 
   add_index "sources", ["resource_id", "resource_type"], name: "index_sources_on_resource_id_and_resource_type"
 
-  create_table "translations", force: true do |t|
-    t.integer  "language_id"
-    t.integer  "translatee_id"
-    t.integer  "user_id"
-    t.text     "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -547,14 +508,6 @@ ActiveRecord::Schema.define(version: 20150713141811) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-
-  create_table "votes", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "translation_id"
-    t.integer  "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "wikipedia_links", force: true do |t|
     t.integer "resource_id"
