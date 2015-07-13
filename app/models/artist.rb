@@ -38,6 +38,7 @@ class Artist < ActiveRecord::Base
 		string :locations, multiple: true do
 			sources.map(&:name)
 		end
+		integer :archetype_id do 0 end # not duplicatable, but still need to index this field
 	end
 	
 	self.default_image = "gfx/icons/256/artist.png"
