@@ -28,13 +28,7 @@ class ApplicationController < ActionController::Base
 	              :set_locale,
 	              :set_theme,
 	              :check_tracking,
-	              :set_config,
 	              :check_old_browsers
-
-	# sets the configuration for the website
-	def set_config
-		@site_config = Admin::Config.first
-	end
 	
 	def owns(resource, id)
 		o = resource.find(id)

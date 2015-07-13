@@ -46,7 +46,6 @@ class Link < ActiveRecord::Base
 			share(backlog.resource)           if backlog.resource.is_a? Share
 			update_listen(backlog.resource)   if backlog.resource.is_a? Listen
 			update_playlist(backlog.resource) if backlog.resource.is_a? Playlist
-			donate(backlog.resource)          if backlog.resource.is_a? Donation
 		end
 		
 		# clear pending submissions

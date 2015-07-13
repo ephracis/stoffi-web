@@ -1,11 +1,14 @@
 <header>
 	<nav>
 		<%= link_to image_tag("gfx/home.png"), root_path, class: "logo" + (@tab == 'index' ? ' active' : '') %>
+		
 		<% ['news', 'get', 'tour'].each do |link| %>
 			<% opts = { title: t("pages.pages.#{link}.description") } %>
 			<% opts[:class] = 'active' if @tab == link %>
 			<%= link_to t("pages.pages.#{link}.link"), send("#{link}_path"), opts %>
 		<% end %>
+		
+		<%= link_to icon('heart'), donate_path %>
 		
 		<div class="separator">&nbsp;</div>
 		

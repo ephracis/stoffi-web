@@ -38,12 +38,8 @@ se:
   
       donations:
         link:            'Donera'
-        title:           'Stöd artister'
-        description:     'Skicka pengar till artister på ett säkert och tryggt sätt, där artisten får hela 90% av pengarna.'
-  
-      donation:
-        title:           'Donation på %{amount} till %{artist}'
-        description:     'Skicka pengar till artister på ett säkert och tryggt sätt, där artisten får hela 90% av pengarna.'
+        title:           'Visa din kärlek'
+        description_html: '<p>Stoffi är ett hobbyprojekt som betalas av mig, Christoffer, helt ur egen ficka.</p><p>Gillar du projektet får du gärna visa din uppskattning genom att donera en slant.</p>'
   
       news:
         link:            'Nyheter'

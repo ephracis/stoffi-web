@@ -2,12 +2,6 @@
 Stoffi::Application.routes.draw do
 
 	scope '(:l)', l: /us|uk|se|cn|de/ do
-
-		namespace :admin do
-			resources :translatees
-			resources :translatee_params
-			resources :configs
-		end
 		
 		as :user do
 			get    'login',         to: 'users/sessions#new',            as: :new_user_session
@@ -72,7 +66,7 @@ Stoffi::Application.routes.draw do
 		get '/download',   to: 'pages#download',   as: :download
 		get '/checksum',   to: 'pages#checksum',   as: :checksum
 		get '/contact',    to: 'pages#contact',    as: :contact
-		get '/about',      to: 'pages#about',      as: :about
+		get '/about',      to: 'pages#index',      as: :about
 		get '/legal',      to: 'pages#legal',      as: :legal
 		get '/money',      to: 'pages#money',      as: :money
 		get '/remote',     to: 'pages#remote',     as: :remote
@@ -80,13 +74,10 @@ Stoffi::Application.routes.draw do
 		get '/language',   to: 'pages#language',   as: :lang
 		get '/donate',     to: 'pages#donate',     as: :donate
 		get '/mail',       to: 'pages#mail',       as: :mail
-		get '/facebook',   to: 'pages#facebook',   as: :facebook
-		get '/channel',    to: 'pages#channel',    as: :facebook_channel
 		get '/old',        to: 'pages#old',        as: :old
-		get '/donate',     to: 'pages#donate',     as: :donations
 		get '/barebone',   to: 'pages#barebone',   as: :barebone
 
-		resources :translations, :languages, :votes, :devices, :sources
+		resources :languages, :votes, :devices, :sources
 		resources :oauth_clients, path: 'apps', as: :client_application
 		resources :oauth_clients, path: 'apps', as: :oauth_clients
 		resources :oauth_clients, path: 'apps', as: :apps do

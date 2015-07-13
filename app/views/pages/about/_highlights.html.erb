@@ -6,16 +6,12 @@
 	<section class="large">
 		<div id='donate'>
 			<h1><%= t "pages.pages.donations.title" %></h1>
-			<% if too_many_donations? %>
-				<%= t "donations.full_text_html" %>
-			<% else %>
-				<%=t "donations.front_text_html" %>
-			<% end %>
+			<%=t "pages.pages.donations.description_html" %>
 		</div>
 		<div id="donate-button">
-			<%= link_to donations_path, class: 'button' do %>
+			<%= link_to donate_path, class: 'button' do %>
 				<%= image_tag('gfx/buttons/dollar.png') %>
-				<span><%=t 'donations.button' %></span>
+				<span><%=t 'pages.pages.donations.link' %></span>
 			<% end %>
 		</div>
 		<div id="latest">
