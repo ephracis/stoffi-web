@@ -151,6 +151,7 @@ ul.list
 	{
 		position: relative;
 		margin: 1em 0;
+		min-height: 5em;
 		
 		[data-list-mode='list'] { display: initial; }
 		

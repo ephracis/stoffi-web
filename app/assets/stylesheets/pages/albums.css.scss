@@ -6,6 +6,8 @@ ul.list .item
 	}
 	.album-back
 	{
+		position: relative;
+		top: .35em;
 		width: 64px;
 		height: 56px;
 		background-size: cover;
