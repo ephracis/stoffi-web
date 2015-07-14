@@ -7,25 +7,17 @@ us:
         title:      "Stoffi ♥ Streaming"
         text_html:  "Listen to YouTube and SoundCloud tracks directly from Stoffi. Create playlists, share music.</p><p>Instant streaming at your fingertips."
 
-      charity:
-        title:      "Save the world"
-        text_html:  "We love the world. That's why each donation will generate a small amount of charity.</p><p>Save the world and support your artists with Stoffi."
-
       playlists:
         title:      "Quickly create playlists"
         text_html:  "Creating playlists is easy in Stoffi.</p><p>Create them by search or by just dragging. You can even create a temporary list using the queue."
 
       remote:
         title:      "Remote control"
-        text_html:  "Turn your iPad, iPhone or iPod into a remote control.</p><p>See what's playing, change volume or change tracks."
+        text_html:  "Turn your phone or tablet into a remote control.</p><p>See what's playing, change volume or change tracks."
 
       formats:
         title:      "Plays all your music"
         text_html:  "Stoffi supports over 20 different file formats: mp3, wav, flac, ogg and many more right out of the box.</p><p>It even plays from YouTube and SoundCloud!"
-
-      mind_reader:
-        title:      "Mind reader"
-        text_html:  "Sit back and let Stoffi select the tracks for you.</p><p>Stoffi will learn your taste in order to give you the best suggestions possible."
 
       interface:
         title:      "Beautiful interface"
@@ -42,10 +34,6 @@ us:
       cloud:
         title:      "Cloud connected"
         text_html:  "Stoffi comes with several cloud services.</p><p>Synchronize your desktop and laptop with ease. Sign up in one click via Twitter, Facebook, Google and more."
-
-      bookmarks:
-        title:      "Bookmark your songs"
-        text_html:  "Mark the good spots. In just one click.</p><p>Jump to the highest peaks and or remove that annoying intro with the click of a button."
       
     latest:
       title: "Latest features"
@@ -64,7 +52,7 @@ us:
         text: "Share on Twitter and Facebook in a single click."
       remote:
         title: "Keep control"
-        text: "Remote control via website or iPhone app."
+        text: "Remote control via phone or tablet."
 
     quotes:
       winajuda: "...integrates nicely with Windows 7..."
