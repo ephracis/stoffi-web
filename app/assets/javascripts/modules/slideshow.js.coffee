@@ -1,7 +1,7 @@
 slideTimer = null
 slideDuration = 1000
 slideDelay = 10000
-numSlides = 10
+numSlides = 8
 currentSlide = 1
 
 stopSlideshow = ->
