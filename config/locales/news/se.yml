@@ -24,13 +24,11 @@ se:
     qin:
       title: "Mer musik, mer delning"
       subtitle: "Strömma från fler ställen och dela på fler nätverk"
-      content_html: "<p>Trots att jag har haft ont om tid sen min dotter föddes så har jag lyckats jobba lite mer på Stoffi.</p><p>Den största nyheten är mer strömmning från både SoundCloud och via Internetradio. Detta gör att du kan kombinera ännu mer musik till ett och samma ställe.</p><p>Att dela musik är också lättare. Du kan nu dela länkar till låtar eller spellistor och spela upp de direkt i Stoffi. Du kan också visa vad du lyssnar på både på Last.fm och på Facebook.</p><p>Hoppas att du gillar alla nyheter!</p>"
+      content_html: "<p>Trots att jag har haft ont om tid sen min dotter föddes så har jag lyckats jobba lite mer på Stoffi.</p><p>Den största nyheten är mer strömning från både SoundCloud och via Internetradio. Detta gör att du kan kombinera ännu mer musik till ett och samma ställe.</p><p>Att dela musik är också lättare. Du kan nu dela länkar till låtar eller spellistor och spela upp de direkt i Stoffi. Du kan också visa vad du lyssnar på både på Last.fm och på Facebook.</p><p>Hoppas att du gillar alla nyheter!</p>"
       list_html: "<li>SoundCloud</li><li>Last.fm</li><li>Filassociationer</li><li>Användarprofiler</li><li>Dela spellistor</li><li>Synka spellistor</li><li>Internetradio</li><li>En massa buggfixar</li>"
   
-    actions:
-      download: "Ladda ner"
-      tour: "Rundtur"
-      contribute: "Engagera"
-      future: "Framtiden"
-      bug: "Rapportera"
-      feature: "Föreslå"
+    han:
+      title: "För samman all musik"
+      subtitle: "Det första steget mot total konsolidering"
+      content_html: "<p>Efter ett och ett halvt år är den äntligen här: Stoffi 1.50!</p><p>Jag har lagt till en ikonvy när du listar låtar, YouTube kan nu spelas upp i strålande helskärm, och över 100 radiostationer, bland annat från Digitally Imported, skeppas nu med Stoffi.</p><p>Hemsidan har gjorts om och är nu responsiv, vilket gör att det fungerar lika bra på alla möjliga skärmar och enheter. Denna version av hemsidan har också en helt ny sökmotor, vilken kommer att spela en central roll i Stoffis framtid.</p><p>Åh, och du kan nu strömma musik från Jamendo.</p>"
+      list_html: "<li>Ikonvy</li><li>Ny sökmotor</li><li>Responsiv webbdesign</li><li>Video i helskärm</li><li>100+ radiostationer som standard</li><li>Strömning från Jamendo</li>"

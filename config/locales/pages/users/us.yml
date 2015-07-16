@@ -43,6 +43,10 @@ us:
               description: 'View potential duplicates.'
               title: 'Duplicates'
   
+        destroy:
+          link:            'Remove account'
+          confirm:         'Are you sure you want to delete your account?'
+  
         edit:
           link:            'Settings'
           title:           'Settings'

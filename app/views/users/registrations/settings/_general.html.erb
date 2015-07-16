@@ -62,4 +62,7 @@
 		<span><%=t 'save' %></span>
 	<% end %>
 	
+	<%= link_to t('pages.users.registrations.destroy.link'), leave_path,
+		data: { confirm: t('pages.users.registrations.destroy.confirm') }, method: :delete %>
+	
 <% end %>

@@ -36,6 +36,7 @@
 			margin: 0px auto;
 			padding: 0;
 			line-height: 300px;
+			@media #{$medium} { line-height: 100px; }
 			img
 			{
 				vertical-align: middle;
@@ -50,7 +51,11 @@
 		padding: 1em 0 0 0;
 		font-style: italic;
 		font-size: 1.5em;
-		@media #{$medium} { font-size: 1.3em; }
-		@media #{$small} { font-size: 1em; }
+		@media #{$medium}
+		{
+			font-size: 1.3em;
+			margin: 0;
+		}
+		@media #{$small} { font-size: .8em; }
 	}
 }
