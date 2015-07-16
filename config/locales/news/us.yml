@@ -27,10 +27,8 @@ us:
       content_html: "<p>Even though I've had little spare time since my daughter was born I have been able to add some new features to Stoffi.</p><p>The biggest addition is more music streaming from both SoundCloud and Internet radio. This brings even more music together into one single place for you to enjoy.</p><p>Sharing music is also easier. It is now possible to share links to songs or playlists and play them directly in Stoffi. You can also show what you listen to on both Last.fm and Facebook.</p><p>Hope you'll enjoy the new stuff!</p>"
       list_html: "<li>SoundCloud</li><li>Last.fm</li><li>File associations</li><li>User profiles</li><li>Playlist sharing</li><li>Playlist sync</li><li>Internet radio</li><li>Lots of bugfixes</li>"
   
-    actions:
-      download: "Download"
-      tour: "Take tour"
-      contribute: "Get involved"
-      future: "Future plans"
-      bug: "Report bug"
-      feature: "Suggest feature"
+    han:
+      title: "Bringing together all music"
+      subtitle: "The first step toward full consolidation"
+      content_html: "<p>After a year and a half in the working, it's finally here: Stoffi 1.50!</p><p>I've added a grid view for listing your tracks, YouTube can now be displayed in fullscreen glory, and more than 100 radio stations from, among others, Digitally Imported, are shipped with Stoffi.</p><p>The website has been rewritten and is now responsive, making it accessible on all kind of screens and devices. This version of the website also features the first version of a whole new search engnine which will be a central point in Stoffi's future.</p><p>Oh, and you can now stream music from Jamendo.</p>"
+      list_html: "<li>Icon grid view</li><li>New search engine</li><li>Responsive web design</li><li>Fullscreen video</li><li>100+ default radio stations</li><li>Jamendo streaming</li>"
