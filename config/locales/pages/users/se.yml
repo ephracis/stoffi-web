@@ -42,6 +42,10 @@ se:
               description: 'Se potentiella dubbletter.'
               title: 'Dubbletter'
   
+        destroy:
+          link:            'Ta bort konto'
+          confirm:         'Är du säker på att du vill ta bort ditt konto?'
+  
         edit:
           link:            'Inställningar'
           title:           'Inställningar'
