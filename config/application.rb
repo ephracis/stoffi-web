@@ -29,7 +29,7 @@ module Stoffi
     config.middleware.use OAuth::Rack::OAuthFilter
 
     # add backends to autoloaded paths
-    config.autoload_paths += %W(#{config.root}/app/controllers/backend/*)
+    config.autoload_paths += %W(#{config.root}/app/controllers/backend/**/*.rb)
 
     # Use custom exception handler
     config.exceptions_app = self.routes

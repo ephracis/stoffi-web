@@ -1,0 +1,36 @@
+<%
+tabs = ['weekly', 'all_time', 'recent']
+categories = [''] # global
+categories << 'user' if user_signed_in?
+%>
+
+<article class='tabbed'>
+	
+	<% categories.each do |category| %>
+		<% tabs.each do |tab| %>
+			<% tab = category.present? ? "#{category}_#{tab}" : tab %>
+			<section data-content='<%= tab %>'>
+				<h1><%= t "pages.songs.index.#{tab}.title" %></h1>
+				<%= render "media/songs/tabs/#{tab}" %>
+			</section>
+		<% end %>
+	<% end %>
+	
+	<aside class='tabs'>
+		<section>
+			<% categories.each do |category| %>
+				<% if category.present? %>
+					<h2><%= t "pages.songs.index.categories.#{category}" %></h2>
+				<% end %>
+				<% tabs.each do |tab| %>
+					<% tab = category.present? ? "#{category}_#{tab}" : tab %>
+					<div class='tab' data-tab='<%= tab %>'
+					  title='<%=t "pages.songs.index.#{tab}.description" %>'>
+						<%=t "pages.songs.index.#{tab}.link" %>
+					</div>
+				<% end %>
+			<% end %>
+		</section>
+	</aside>
+	
+</article>

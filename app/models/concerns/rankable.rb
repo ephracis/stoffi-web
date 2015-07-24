@@ -1,99 +1,49 @@
+# Copyright (c) 2015 Simplare
+
 module Rankable
-	extend ActiveSupport::Concern
-	
-	module ClassMethods
-		
-		def rank(association, options = {})
-			options = {
-				start: DateTime.strptime('0', '%s')
-			}.merge(options)
-		    tname = self.name.tableize
-			key = "#{self.name.parameterize}_id"
-			
-		    self.select("#{tname}.*,COUNT(#{association}.id) AS #{association}_count").
-				joins("LEFT JOIN #{association} AS #{association} ON #{association}.#{key} = #{tname}.id "+
-					"AND #{association}.created_at > #{ActiveRecord::Base.connection.quote(options[:start])}").
-				group("#{tname}.id").
-				order("#{association}_count DESC")
-		end
-	
-		# Returns the objects sorted by number of listens and popularity
-		#
-		# options:
-		#   for: If this is specified, listens only for this user are
-		#        counted
-		def top(options = {})
-			
-			# default options
-			options = {
-				empty: true
-			}.merge(options)
-			
-		    tname = self.name.tableize
-			songs_tname = self.name == 'Song' ? 'songs' : 'top_songs'
-
-		    inner_select = self.select("#{tname}.*,COUNT(DISTINCT(top_listens.id)) AS listens_count")
-		
-			# for events we join in songs via artists
-			if self.name == 'Event'
-		    	inner_select = inner_select.
-					joins("LEFT JOIN performances AS top_performances ON top_performances.event_id = events.id").
-					joins("LEFT JOIN artists AS top_artists ON top_artists.id = top_performances.artist_id").
-					joins("LEFT JOIN artists_songs AS top_artists_songs ON top_artists_songs.artist_id = top_artists.id").
-					joins("LEFT JOIN songs AS top_songs ON top_songs.id = top_artists_songs.song_id")
-					
-			# here we assume that the resource has a habtm relation to songs via a join table using a default name
-			elsif self.name != 'Song'
-				join_table = get_sql_names_for_combining(:songs)[2]
-		    	inner_select = inner_select.
-					joins("LEFT JOIN #{join_table} AS top_#{tname}_songs ON top_#{tname}_songs.#{self.name}_id = #{tname}.id").
-					joins("LEFT JOIN songs AS top_songs ON top_songs.id = top_#{tname}_songs.song_id")
-			end
-			
-			join_type = 'LEFT'
-			join_type = 'INNER' unless options[:empty]
-			listen_scope = ''
-			listen_scope = " AND top_listens.user_id = %s" % ActiveRecord::Base.connection.quote(options[:for].id) if options[:for].is_a? User
-			inner_select = inner_select.
-				joins("#{join_type} JOIN listens AS top_listens ON top_listens.song_id = #{songs_tname}.id"+listen_scope).
-				group("#{tname}.id")
-			
-			#inner_select = inner_select.where("top_listens.user_id = ?", options[:for].id) if options[:for].is_a? User
-
-			select("#{tname}.*,#{tname}.listens_count,SUM(top_sources.popularity) AS popularity_count").
-				from(inner_select, tname).
-				joins("LEFT JOIN sources AS top_sources ON top_sources.resource_id = #{tname}.id AND top_sources.resource_type = '#{self.name}'").
-				group("#{tname}.id").
-				order("listens_count DESC, popularity_count DESC")
-		end
-		
-		# TODO: do we really need this? it's broken anyway
-		def top?
-			self.name == 'Song' ? any? : joins(:songs).any?
-		end
-		
-		# Get the table name, foreign key and foreign type used when joining associations.
-		#
-		# Album.get_sql_names_for_combining(:songs)
-		# => "album_tracks"
-		def get_sql_names_for_combining(name, options = {})
-			reflection = options[:reflection] || self.reflections[name]
-			if reflection.macro == :has_many and reflection.options.key? :through
-				r = self.reflections[reflection.options[:through]]
-				return get_sql_names_for_combining(name, reflection: r)
-			
-			elsif reflection.macro == :has_and_belongs_to_many
-				type = reflection.type
-				key = reflection.foreign_key
-				tbl = reflection.join_table
-			
-			else
-				type = reflection.type
-				key = reflection.foreign_key
-				tbl = reflection.quoted_table_name
-			end
-			return type, key, tbl
-		end
-		
-	end
+  extend ActiveSupport::Concern
+  
+  module ClassMethods
+  
+    # Sort objects by association count.
+    #
+    # For example, `Song`s can be sorted by `Song.listens.count`.
+    #
+    # TODO: limit number of SQL queries and keep the whole thing as a relation.
+    def top(options = {})
+      options = {
+        associations: [:listens, :popularity], limit: 10, offset: 0
+      }.merge(options)
+      
+      # fetch all songs and the association count to sort on
+      l = create_association_values options[:associations]
+      
+      # sort the array
+      l = l.sort_by do |x|
+        x[1]
+      end.reverse
+      
+      # fetch the top objects
+      l.map { |x| x[0] }[options[:offset]..options[:offset]+options[:limit]-1]
+    end
+    
+    private
+    
+    # Create a hash where the each model is a key the value is a quantification
+    # of the given associations.
+    def create_association_values(associations)
+      all.map do |r|
+        [r, associations.map { |a| quantify_value(r.send(a)) }]
+      end.to_h
+    end
+    
+    # Return either the value (if it's already numerical) or it's count or
+    # length (if it's a Relation or Array).
+    def quantify_value(value)
+      return value if value.is_a?(Integer) or value.is_a?(Float)
+      return value.length if value.respond_to?(:length)
+      raise "Cannot quantify #{value}"
+    end
+    
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713144049) do
+ActiveRecord::Schema.define(version: 20150815211556) do
 
   create_table "album_tracks", force: true do |t|
     t.integer "song_id"
@@ -40,22 +40,32 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   add_index "albums_artists", ["artist_id", "album_id"], name: "by_album_and_artist", unique: true
 
+  create_table "apps", force: true do |t|
+    t.string   "name"
+    t.string   "website"
+    t.string   "support_url"
+    t.string   "callback_url"
+    t.string   "key",          limit: 40
+    t.string   "secret",       limit: 40
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "icon_16"
+    t.string   "icon_64"
+    t.string   "description"
+    t.string   "author"
+    t.string   "author_url"
+    t.string   "icon_512"
+  end
+
+  add_index "apps", ["key"], name: "index_apps_on_key", unique: true
+
   create_table "artists", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture"
-    t.string   "donatable_status", default: "ok"
-    t.string   "facebook"
-    t.string   "twitter"
-    t.string   "googleplus"
-    t.string   "myspace"
-    t.string   "spotify"
-    t.string   "youtube"
-    t.string   "soundcloud"
-    t.string   "website"
-    t.string   "lastfm"
     t.integer  "archetype_id"
     t.string   "archetype_type"
   end
@@ -77,77 +87,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   add_index "artists_songs", ["artist_id", "song_id"], name: "by_artist_and_song", unique: true
 
-  create_table "client_applications", force: true do |t|
-    t.string   "name"
-    t.string   "website"
-    t.string   "support_url"
-    t.string   "callback_url"
-    t.string   "key",          limit: 40
-    t.string   "secret",       limit: 40
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "icon_16"
-    t.string   "icon_64"
-    t.string   "description"
-    t.string   "author"
-    t.string   "author_url"
-    t.string   "icon_512"
-  end
-
-  add_index "client_applications", ["key"], name: "index_client_applications_on_key", unique: true
-
-  create_table "column_sorts", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "column_id"
-    t.string   "field"
-    t.boolean  "ascending"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "columns", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "list_config_id"
-    t.string   "name"
-    t.string   "text"
-    t.string   "binding"
-    t.string   "sort_field"
-    t.boolean  "is_always_visible"
-    t.boolean  "is_sortable"
-    t.float    "width"
-    t.boolean  "is_visible"
-    t.string   "alignment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "configurations", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "media_state"
-    t.integer  "current_track_id"
-    t.string   "currently_selected_navigation"
-    t.string   "currently_active_navigation"
-    t.string   "shuffle"
-    t.string   "repeat"
-    t.float    "volume"
-    t.float    "seek"
-    t.string   "search_policy"
-    t.string   "upgrade_policy"
-    t.string   "add_policy"
-    t.string   "play_policy"
-    t.integer  "history_list_config_id"
-    t.integer  "queue_list_config_id"
-    t.integer  "files_list_config_id"
-    t.integer  "youtube_list_config_id"
-    t.integer  "sources_list_config_id"
-    t.integer  "current_shortcut_profile"
-    t.integer  "current_equalizer_profile"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "devices", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -155,44 +94,9 @@ ActiveRecord::Schema.define(version: 20150713144049) do
     t.string   "version"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "client_application_id"
-    t.integer  "configuration_id"
-    t.string   "status",                default: "offline"
-    t.string   "channels",              default: ""
-  end
-
-  create_table "donations", force: true do |t|
-    t.integer  "artist_id"
-    t.decimal  "artist_percentage"
-    t.decimal  "stoffi_percentage"
-    t.decimal  "charity_percentage"
-    t.decimal  "amount"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "email"
-    t.integer  "return_policy",      default: 0
-    t.string   "message"
-    t.string   "status",             default: "pending"
-  end
-
-  create_table "downloads", force: true do |t|
-    t.string   "ip"
-    t.string   "channel"
-    t.string   "arch"
-    t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "equalizer_profiles", force: true do |t|
-    t.string   "name"
-    t.boolean  "is_protected"
-    t.string   "levels"
-    t.float    "echo_level"
-    t.integer  "configuration_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "app_id"
+    t.string   "status",     default: "offline"
+    t.string   "channels",   default: ""
   end
 
   create_table "events", force: true do |t|
@@ -239,17 +143,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   add_index "genres_songs", ["genre_id", "song_id"], name: "index_genres_songs_on_genre_id_and_song_id", unique: true
 
-  create_table "histories", force: true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "histories_songs", id: false, force: true do |t|
-    t.integer "history_id"
-    t.integer "song_id"
-  end
-
   create_table "images", force: true do |t|
     t.string   "url"
     t.integer  "resource_id"
@@ -262,25 +155,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   add_index "images", ["resource_id", "resource_type"], name: "index_images_on_resource_id_and_resource_type"
   add_index "images", ["url"], name: "index_images_on_url", unique: true
-
-  create_table "keyboard_shortcut_profiles", force: true do |t|
-    t.string   "name"
-    t.boolean  "is_protected"
-    t.integer  "configuration_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "keyboard_shortcuts", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "category"
-    t.string   "keys"
-    t.boolean  "is_global"
-    t.integer  "keyboard_shortcut_profile_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "link_backlogs", force: true do |t|
     t.integer  "link_id"
@@ -295,32 +169,17 @@ ActiveRecord::Schema.define(version: 20150713144049) do
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
-    t.boolean  "do_share",            default: true
-    t.boolean  "do_listen",           default: true
+    t.boolean  "send_shares",         default: true
+    t.boolean  "send_listens",        default: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "do_donate",           default: true
-    t.boolean  "do_create_playlist",  default: true
+    t.boolean  "send_playlists",      default: true
     t.boolean  "show_button",         default: true
     t.string   "refresh_token"
     t.datetime "token_expires_at"
     t.string   "encrypted_uid"
     t.string   "access_token"
     t.string   "access_token_secret"
-  end
-
-  create_table "list_configs", force: true do |t|
-    t.integer  "user_id"
-    t.string   "selected_indices"
-    t.string   "filter"
-    t.boolean  "use_icons"
-    t.boolean  "accept_file_drops"
-    t.boolean  "is_drag_sortable"
-    t.boolean  "is_click_sortable"
-    t.boolean  "lock_sort_on_number"
-    t.integer  "configuration_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "listens", force: true do |t|
@@ -332,7 +191,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
     t.integer  "device_id"
     t.datetime "ended_at"
     t.integer  "album_id"
-    t.integer  "album_position"
     t.datetime "started_at"
   end
 
@@ -347,18 +205,19 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   create_table "oauth_tokens", force: true do |t|
     t.integer  "user_id"
-    t.string   "type",                  limit: 20
-    t.integer  "client_application_id"
-    t.string   "token",                 limit: 40
-    t.string   "secret",                limit: 40
+    t.string   "type",           limit: 20
+    t.integer  "app_id"
+    t.string   "token",          limit: 40
+    t.string   "secret",         limit: 40
     t.string   "callback_url"
-    t.string   "verifier",              limit: 20
+    t.string   "verifier",       limit: 20
     t.string   "scope"
     t.datetime "authorized_at"
     t.datetime "invalidated_at"
     t.datetime "valid_to"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "expires_at"
   end
 
   add_index "oauth_tokens", ["token"], name: "index_oauth_tokens_on_token", unique: true
@@ -390,17 +249,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   add_index "playlists_songs", ["playlist_id", "song_id"], name: "by_playlist_and_song", unique: true
 
-  create_table "queues", force: true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "queues_songs", id: false, force: true do |t|
-    t.integer "queue_id"
-    t.integer "song_id"
-  end
-
   create_table "searches", force: true do |t|
     t.string   "query",                              null: false
     t.integer  "user_id"
@@ -416,7 +264,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
 
   create_table "shares", force: true do |t|
     t.integer  "user_id"
-    t.integer  "playlist_id"
     t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -425,28 +272,10 @@ ActiveRecord::Schema.define(version: 20150713144049) do
     t.string   "resource_type"
   end
 
-  create_table "song_relations", force: true do |t|
-    t.integer "song1_id"
-    t.integer "song2_id"
-    t.integer "user_id"
-    t.integer "weight"
-  end
-
-  add_index "song_relations", ["song1_id"], name: "index_song_relations_on_song1_id"
-  add_index "song_relations", ["song2_id"], name: "index_song_relations_on_song2_id"
-  add_index "song_relations", ["user_id"], name: "index_song_relations_on_user_id"
-
   create_table "songs", force: true do |t|
     t.string   "title"
-    t.string   "genre"
-    t.float    "length"
-    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "score"
-    t.string   "foreign_url"
-    t.string   "art_url"
-    t.datetime "analyzed_at"
     t.integer  "archetype_id"
     t.string   "archetype_type"
   end
@@ -457,13 +286,6 @@ ActiveRecord::Schema.define(version: 20150713144049) do
     t.integer "song_id"
     t.integer "artist_id"
   end
-
-  create_table "songs_users", id: false, force: true do |t|
-    t.integer "user_id"
-    t.integer "song_id"
-  end
-
-  add_index "songs_users", ["user_id", "song_id"], name: "by_song_and_user", unique: true
 
   create_table "sources", force: true do |t|
     t.string   "name"
@@ -508,14 +330,5 @@ ActiveRecord::Schema.define(version: 20150713144049) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-
-  create_table "wikipedia_links", force: true do |t|
-    t.integer "resource_id"
-    t.string  "resource_type"
-    t.string  "locale"
-    t.string  "page"
-  end
-
-  add_index "wikipedia_links", ["resource_id", "resource_type"], name: "index_wikipedia_links_on_resource_id_and_resource_type"
 
 end

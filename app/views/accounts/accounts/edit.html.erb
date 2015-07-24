@@ -1,0 +1,21 @@
+<% tabs = ['general', 'accounts'] %>
+
+<article class='tabbed'>
+	<% tabs.each do |tab| %>
+		<section data-content='<%= tab %>'>
+			<h1><%= t "pages.accounts.accounts.edit.#{tab}.title" %></h1>
+			<%= render "accounts/accounts/settings/#{tab}" %>
+		</section>
+		<% end %>
+	
+	<aside class='tabs'>
+		<section>
+			<% tabs.each do |tab| %>
+				<div class='tab' data-tab='<%= tab %>' title=
+				  '<%=t "pages.accounts.accounts.edit.#{tab}.description" %>'>
+					<%=t "pages.accounts.accounts.edit.#{tab}.link" %>
+				</div>
+			<% end %>
+		</section>
+	</aside>
+</article>
