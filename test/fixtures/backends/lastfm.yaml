@@ -1,0 +1,59 @@
+images: &images
+  image:
+    - '#text': "http://<%= SecureRandom.urlsafe_base64(5) %>.jpg"
+      size: small
+    - '#text': "http://<%= SecureRandom.urlsafe_base64(5) %>.jpg"
+      size: medium
+    - '#text': "http://<%= SecureRandom.urlsafe_base64(5) %>.jpg"
+      size: large
+
+artist:
+  name: <%= SecureRandom.urlsafe_base64(5) %>
+  listeners: <%= rand(0..1000) %>
+  url: http://<%= SecureRandom.urlsafe_base64(5) %>
+  <<: *images
+      
+album:
+  name: <%= SecureRandom.urlsafe_base64(5) %>
+  artist: <%= SecureRandom.urlsafe_base64(5) %>
+  id: <%= rand(1..1000) %>
+  url: http://<%= SecureRandom.urlsafe_base64(5) %>/<%= SecureRandom.urlsafe_base64(5) %>
+  <<: *images
+      
+track:
+  name: <%= SecureRandom.urlsafe_base64(5) %>
+  artist: <%= SecureRandom.urlsafe_base64(5) %>
+  listeners: <%= rand(1..1000) %>
+  url: http://<%= SecureRandom.urlsafe_base64(5) %>/<%= SecureRandom.urlsafe_base64(5) %>
+  <<: *images
+      
+event:
+  id: <%= rand(1..1000) %>
+  title: <%= SecureRandom.urlsafe_base64(5) %>    
+  startDate: <%= rand(1..10).days.from_now %>
+  description: <%= SecureRandom.urlsafe_base64(5) %>
+  <<: *images
+  attendence: <%= rand(1..1000) %>
+  url: http://<%= SecureRandom.urlsafe_base64(5) %>
+  
+  artists:
+    artist:
+      - <%= SecureRandom.urlsafe_base64(5) %>
+      - <%= SecureRandom.urlsafe_base64(5) %>
+      - <%= SecureRandom.urlsafe_base64(5) %>
+    headliner: <%= SecureRandom.urlsafe_base64(5) %>
+    
+  venue:
+    id: <%= rand(1..1000) %>
+    name: <%= SecureRandom.urlsafe_base64(5) %>
+    url: http://<%= SecureRandom.urlsafe_base64(5) %>
+    website: http://www.<%= SecureRandom.urlsafe_base64(5) %>.com
+    location:
+      'geo:point':
+        'geo:lat': <%= rand(-100.0..100.0) %>
+        'geo:long': <%= rand(-100.0..100.0) %>
+      city: <%= SecureRandom.urlsafe_base64(5) %>
+      country: <%= SecureRandom.urlsafe_base64(5) %>
+      street: <%= SecureRandom.urlsafe_base64(5) %>
+      postalcode: <%= rand(10000..99999) %>
+      <<: *images

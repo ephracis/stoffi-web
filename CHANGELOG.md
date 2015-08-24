@@ -6,11 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Sources behind artists, songs, albums, etc.
 - Responsive design
-- Ability to mark songs as duplicates of each other
-- Ability to edit images of songs, artists, etc.
-- Continious integration
-- Automatic deployment of beta website
+- Ability for admins to mark media resources as duplicates of each other
+- Ability for admins to edit images of songs, artists, etc.
+- Continuous integration
+- Continuous deployment
 - Dark theme
+- More extensive tests, ensuring higher stability
 
 ### Changed
 - Tabs on profile, dashboard and settings pages

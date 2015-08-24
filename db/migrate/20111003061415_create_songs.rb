@@ -17,7 +17,7 @@ class CreateSongs < ActiveRecord::Migration
       t.integer :sample_rate
       t.string :codecs
       t.string :source
-	  t.string :description
+    t.string :description
 
       t.timestamps
     end

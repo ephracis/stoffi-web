@@ -7,8 +7,8 @@
 
 <%= render 'shared/ads/sidebar' %>
 
-<% [Song, Artist, Album, Genre, Event].each do |resource| %>
-	<%= toplist_section resource %>
+<% %w[Song Artist Album Genre Event].each do |resource| %>
+	<%= toplist_section "Media::#{resource}".constantize %>
 <% end %>
 
 <section>

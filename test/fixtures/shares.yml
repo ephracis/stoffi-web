@@ -1,11 +1,19 @@
 alice_one_love:
   user: alice
-  resource: one_love (Song)
+  message: A random message goes here
+  resource: one_love (Media::Song)
   
 alice_not_afraid:
   user: alice
-  resource: not_afraid (Song)
+  message: A short message
+  resource: not_afraid (Media::Song)
     
 alice_foo:
   user: alice
-  resource: foo (Playlist)
+  message: This user is sharing a lot
+  resource: foo (Media::Playlist)
+  
+bob_one_love:
+  user: bob
+  message: Bob doesn't write messages
+  resource: one_love (Media::Song)

@@ -1,74 +1,52 @@
 require 'test_helper'
+require 'test_helpers/soundcloud_helper'
 
 class SoundcloudTest < ActiveSupport::TestCase
-	def setup
-		@songs = [
-			{
-				'kind' => 'track',
-				'id' => 123,
-				'duration' => 427611,
-				'genre' => '',
-				'title' => 'bob marley-one love',
-				'permalink_url' => 'https://example.com/123',
-				'artwork_url' => 'https://example.com/123.jpg',
-				'stream_url' => 'https://example.com/123/stream',
-				'playback_count' => 321,
-				'user' => {
-					'username' => 'User 1'
-				}
-			},
-			{
-				'kind' => 'track',
-				'id' => 321,
-				'duration' => 327611,
-				'genre' => 'reggae',
-				'title' => 'Bob Marley - Jamming',
-				'permalink_url' => 'https://example.com/321',
-				'artwork_url' => 'https://example.com/321.jpg',
-				'stream_url' => 'https://example.com/321/stream',
-				'playback_count' => 123,
-				'user' => {
-					'username' => 'User 2'
-				}
-			},
-			{
-				'kind' => 'track',
-				'id' => 456,
-				'duration' => 527611,
-				'genre' => 'Reggae, Reggaeton',
-				'title' => 'Bob Marley & The Wailers "Buffalo Solider"',
-				'permalink_url' => 'https://example.com/456',
-				'artwork_url' => 'https://example.com/456.jpg',
-				'stream_url' => 'https://example.com/456/stream',
-				'playback_count' => 654,
-				'user' => {
-					'username' => 'User 1'
-				}
-			},
-		]
-		stub_request(:any, /https:\/\/api.soundcloud.com\/tracks\.json.*q=.*/).
-			to_return(:body => @songs.to_json, :status => 200)
-		stub_request(:any, /https:\/\/api.soundcloud.com\/tracks\/123\.json.*/).
-			to_return(:body => @songs[0].to_json, :status => 200)
-		stub_request(:any, /https:\/\/api.soundcloud.com\/tracks\/321\.json.*/).
-			to_return(:body => @songs[1].to_json, :status => 200)
-		stub_request(:any, /https:\/\/api.soundcloud.com\/tracks\/456\.json.*/).
-			to_return(:body => @songs[2].to_json, :status => 200)
-		super
-	end
-	
-	test 'should get songs' do
-		songs = Backend::Soundcloud.get_songs(['123', '456'])
-		assert_equal 2, songs.count, "Didn't get the correct number of songs"
-		assert_equal @songs[2]['playback_count'], songs[1][:popularity], "Didn't get the correct popularity"
-		assert_equal @songs[2]['duration']/1000.0, songs[1][:length], "Didn't get the correct length"
-	end
-	
-	test 'search for songs' do
-		hits = Backend::Soundcloud.search('foo', 'songs')
-		assert_equal @songs.length, hits.length, "Didn't return all hits"
-		assert_equal @songs[0]['title'], hits[0][:name], "Didn't set name"
-		assert_equal @songs[0]['playback_count'].to_f, hits[0][:popularity], "Didn't set popularity"
-		assert_equal @songs[0]['artwork_url'], hits[0][:images][0][:url], "Didn't set image url"
-	end
+  
+  include Backends::SoundcloudTestHelpers
+  
+  test 'should get songs' do
+    stub_soundcloud_song id: '123', playback_count: 42, duration: 54321
+    songs = Backends::Soundcloud.get_songs(['123', '456'])
+    assert_equal 2, songs.count, "Didn't get the correct number of songs"
+    assert_equal 42, songs[0][:source][:popularity], "Didn't get the correct popularity"
+    assert_equal 54321/1000.0, songs[1][:source][:length], "Didn't get the correct length"
+  end
+  
+  test 'search for songs' do
+    stub_soundcloud_search 'song', [
+      { playback_count: 42, artwork_url: 'https://art.jpg', title: 'Test Artist - Test Song' },
+      {}, {}
+    ]
+    hits = Backends::Soundcloud.search('foo', 'songs')
+    assert_equal 3, hits.length, "Didn't return all hits"
+    assert_equal 'Test Song', hits[0][:title], "Didn't set name"
+    assert_equal [{name: 'Test Artist'}], hits[0][:artists], "Didn't set artists"
+    assert_equal 42, hits[0][:source][:popularity], "Didn't set popularity"
+    assert_equal 'https://art.jpg', hits[0][:images][0][:url], "Didn't set image url"
+  end
+  
+  test 'should generate song' do
+    stub_soundcloud_song title: 'Test Song'
+    backend = Backends::Soundcloud.new('Media::Song', '123')
+    song = backend.generate_resource
+    clean_resource_hash!(song)
+    assert_difference "Media::Song.count", 1, "Didn't create new song" do
+      song = Media::Song.find_or_create_by_hash(song)
+      assert_equal 'Test Song', song.title, "Didn't set correct title"
+    end
+  end
+  
+  test 'should create song from search' do
+    stub_soundcloud_search 'song', { title: 'Test Song 1' }
+    
+    songs = Backends::Soundcloud.search 'test query', 'songs'
+    song = clean_resource_hash(songs[0])
+    
+    assert_difference "Media::Song.count", 1, "Didn't create new song" do
+      song = Media::Song.find_or_create_by_hash(song)
+      assert_equal 'Test Song 1', song.title, "Didn't set correct title"
+    end
+  end
+  
 end

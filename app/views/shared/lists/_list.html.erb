@@ -1,23 +1,14 @@
 <%
-type = local_assigns[:type] || 'list'
-
-data = { list: resource }
-
-if local_assigns.has_key?(:data) and local_assigns[:data].is_a?(Hash)
-	for k,v in local_assigns[:data]
-		data["list_#{k}".to_sym] = v
-	end
-end
-
-# TODO: move to :data instead
-data[:list_owner] = local_assigns[:owner] if local_assigns.has_key? :owner
-data[:list_followings] = local_assigns[:follower] if local_assigns.has_key? :follower
+data = local_assigns[:data] || {}
+# add 'list_' prefix to all keys
+data = Hash[data.map { |k,v| ["list_#{k}".to_sym, v] }]
+data = { list: resource }.merge(data)
 %>
 
-<%= content_tag :ul, data: data, class: type do %>
+<%= content_tag :ul, data: data, class: (local_assigns[:class] || :list) do %>
 
 	<% if collection and collection.length > 0 %>
-		<%= render partial: "#{resource}/#{resource.singularize}", collection: collection, locals: local_assigns %>
+	  <%= render collection, local_assigns %>
 	<% end %>
 	<li data-list-empty='<%= resource %>'><%= t 'empty' %></li>
 	<% if local_assigns[:show_add_button] %>
@@ -28,11 +19,8 @@ data[:list_followings] = local_assigns[:follower] if local_assigns.has_key? :fol
 	<% end %>
 <% end %>
 
-<% r = resource == 'oauth_clients' ? 'client_application' : resource %>
-
-<% if r.classify.constantize.any? %>
-	<ul data-template='<%= resource.singularize %>'>
-		<%= render partial: "#{resource.pluralize}/#{resource.singularize}",
-			object: r.classify.constantize.first %>
+<% if collection.present? %>
+	<ul data-template='<%= collection[0].class.name.demodulize.parameterize %>'>
+		<%= render collection[0] %>
 	</ul>
 <% end %>

@@ -1,0 +1,15 @@
+listen:
+  id: <%= SecureRandom.urlsafe_base64(5) %>
+  application:
+    id: <%= SecureRandom.urlsafe_base64(5) %>
+  data:
+    song:
+      url: http://<%= SecureRandom.urlsafe_base64(5) %>
+      
+playlist:
+  id: <%= SecureRandom.urlsafe_base64(5) %>
+  application:
+    id: <%= SecureRandom.urlsafe_base64(5) %>
+  data:
+    playlist:
+      url: http://<%= SecureRandom.urlsafe_base64(5) %>

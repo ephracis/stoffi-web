@@ -1,158 +1,135 @@
-# -*- encoding : utf-8 -*-
 Stoffi::Application.routes.draw do
 
-	scope '(:l)', l: /us|uk|se|cn|de/ do
-		
-		as :user do
-			get    'login',         to: 'users/sessions#new',            as: :new_user_session
-			post   'login',         to: 'users/sessions#create',         as: :user_session
-			delete 'logout',        to: 'users/sessions#destroy',        as: :destroy_user_session
-			get    'logout',        to: 'users/sessions#destroy'
-			
-			post   'forgot',        to: 'users/passwords#create',        as: :user_password
-			get    'forgot',        to: 'users/passwords#new',           as: :new_user_password
-			get    'reset',         to: 'users/passwords#edit',          as: :edit_user_password
-			patch  'reset',         to: 'users/passwords#update'
-			put    'reset',         to: 'users/passwords#update'
-			
-			get    'cancel',        to: 'users/registrations#cancel',    as: :cancel_user_registration
-			post   'join',          to: 'users/registrations#create',    as: :user_registration
-			get    'join',          to: 'users/registrations#new',       as: :new_user_registration
-			get    'settings',      to: 'users/registrations#edit',      as: :edit_user_registration
-			patch  'settings(/:id)', to: 'users/registrations#update',   as: :update_user_registration
-			put    'settings(/:id)', to: 'users/registrations#update'
-			delete 'leave',         to: 'users/registrations#destroy',   as: :leave
-			
-			post   'unlock',        to: 'users/unlocks#create'
-			get    'unlock',        to: 'users/unlocks#new',             as: :new_user_unlock
-			get    'unlock(/:id)',     to: 'users/unlocks#show',         as: :user_unlock
-			
-			get    'profile(/:id)', to: 'users/registrations#show',      as: :user
-			get    'dashboard',     to: 'users/registrations#dashboard', as: :dashboard
-			
-			get    'me/playlists',  to: 'playlists#by'
-			get    'me',            to: 'users/registrations#show',      as: :me
-			get    'profile(/:user_id)/playlists', to: 'playlists#by'
-			
-			# handle failed omniauth
-			get    'auth/failure',  to: 'users/sessions#new'
-		end
-		
-		devise_for :user, skip: :all, controllers:
-		{
-			registrations: 'users/registrations',
-			sessions: 'users/sessions',
-			passwords: 'users/passwords',
-			unlocks: 'users/unlocks'
-		}
+  scope '(:l)', l: /us|se/ do
 
-		get 'youtube/:action' => 'youtube'
-		
-		# charts
-		namespace :charts do
-			get 'listens_for_user'
-			get 'songs_for_user'
-			get 'artists_for_user'
-			get 'albums_for_user'
-			get 'playlists_for_user'
-			get 'genres_for_user'
-			get 'top_listeners'
-			get 'active_users'
-		end
-		
-		get '/news',       to: 'pages#news',       as: :news
-		get '/tour',       to: 'pages#tour',       as: :tour
-		get '/get',        to: 'pages#get',        as: :get
-		get '/download',   to: 'pages#download',   as: :download
-		get '/checksum',   to: 'pages#checksum',   as: :checksum
-		get '/contact',    to: 'pages#contact',    as: :contact
-		get '/about',      to: 'pages#index',      as: :about
-		get '/legal',      to: 'pages#legal',      as: :legal
-		get '/money',      to: 'pages#money',      as: :money
-		get '/remote',     to: 'pages#remote',     as: :remote
-		get '/history',    to: 'pages#history',    as: :history
-		get '/language',   to: 'pages#language',   as: :lang
-		get '/donate',     to: 'pages#donate',     as: :donate
-		get '/mail',       to: 'pages#mail',       as: :mail
-		get '/old',        to: 'pages#old',        as: :old
-		get '/barebone',   to: 'pages#barebone',   as: :barebone
-
-		resources :languages, :votes, :devices, :sources
-		resources :oauth_clients, path: 'apps', as: :client_application
-		resources :oauth_clients, path: 'apps', as: :oauth_clients
-		resources :oauth_clients, path: 'apps', as: :apps do
-			member do
-				delete 'revoke'
-			end
-		end
-		
-		resources :links, only: [:index, :show, :create, :update, :destroy]
-		
-		resources :artists, :events, :genres
-		
-		resources :songs do
-			member do
-				get 'find_duplicates'
-				patch 'mark_duplicates'
-			end
-		end
-		
-		resources :listens do
-			member do
-				post 'end'
-			end
-		end
-		
-		resources :albums do
-			member do
-				patch 'sort'
-			end
-		end
-		
-		resources :playlists do
-			member do
-				put 'follow'
-				patch 'sort'
-			end
-			collection do
-				get '/by/:user_id', to: 'playlists#by'
-			end
-		end
-		
-		resources :shares do
-			collection do
-				get '/by/:user_id', to: 'shares#by'
-			end
-		end
-		
-		resources :configurations do
-			member do
-				post 'next'
-				post 'prev'
-				put 'play'
-				put 'pause'
-				post 'play_pause', path: 'play-pause'
-			end
-		end
-
-		get   '/oauth/test_request',      to: 'oauth#test_request',      as: :test_request
-		get   '/oauth/token',             to: 'oauth#token',             as: :token
-		post  '/oauth/access_token',      to: 'oauth#access_token',      as: :access_token
-		post  '/oauth/request_token',     to: 'oauth#request_token',     as: :request_token
-		match '/oauth/authorize',         to: 'oauth#authorize',         as: :authorize, via: [:get, :post]
-		get   '/oauth/revoke',            to: 'oauth#revoke',            as: :revoke
-		get   '/oauth',                   to: 'oauth#index',             as: :oauth
-		
-		get '/auth/:provider/callback',   to: 'links#create'
-
-		get '/search/suggest'
-		get '/search/fetch'
-		get '/search/(:categories)',      to: 'search#index',            as: :search
-		
-		%w( 400 403 404 422 500 502 503 ).each do |code|
-			get code, to: "errors#show", code: code
-		end
-
-		get '/', to: 'pages#index', as: :root
-	end
+    ##########################
+    # USER ACCOUNTS 
+    ##########################
+    scope module: :accounts do
+      
+      # set up devise
+      devise_for :user, path: '', skip: [ :registration, :passwords, :unlocks ],
+      sign_out_via: [ :get, :delete ],
+      path_names:
+      {
+        sign_in: :login,
+        sign_out: :logout
+      }
+    
+      # custom devise routes
+      as :user do
+        post   'forgot',         to: 'passwords#create',   as: :user_password
+        get    'forgot',         to: 'passwords#new',      as: :new_user_password
+        get    'reset',          to: 'passwords#edit',     as: :edit_user_password
+        patch  'reset',          to: 'passwords#update'
+        put    'reset',          to: 'passwords#update'
+      
+        get    'cancel',         to: 'accounts#cancel',    as: :cancel_user_registration
+        post   'join',           to: 'accounts#create',    as: :user_registration
+        get    'join',           to: 'accounts#new',       as: :new_user_registration
+        get    'settings',       to: 'accounts#edit',      as: :edit_user_registration
+        patch  'settings(/:id)', to: 'accounts#update',    as: :update_user_registration
+        put    'settings(/:id)', to: 'accounts#update'
+        delete 'leave',          to: 'accounts#destroy',   as: :leave
+      
+        post   'unlock',         to: 'unlocks#create'
+        get    'unlock',         to: 'unlocks#new',        as: :new_user_unlock
+        get    'unlock(/:id)',   to: 'unlocks#show',       as: :user_unlock
+      
+        get    'profile(/:id)',  to: 'accounts#show',      as: :user
+        get    'dashboard',      to: 'accounts#dashboard', as: :dashboard
+      
+        get    'me/playlists',   to: 'playlists#by'
+        get    'me',             to: 'accounts#show',      as: :me
+      end
+      
+      # oauth
+      match 'oauth/:action',   to: 'oauth', via: [:get, :post], as: :authorize
+      
+      # handle failed omniauth
+      get    'auth/failure',   to: 'sessions#new'
+    
+      resources :devices
+      resources :links, only: [:index, :show, :create, :update, :destroy]
+    end
+    
+    ##########################
+    # MEDIA RESOURCES 
+    ##########################
+    scope module: :media do
+      resources :sources, :artists, :events, :genres
+    
+      resources :songs do
+        member do
+          get 'find_duplicates'
+          patch 'mark_duplicates'
+        end
+      end
+    
+      resources :listens do
+        member do
+          post 'end'
+        end
+      end
+    
+      resources :albums do
+        member do
+          patch 'sort'
+        end
+      end
+    
+      resources :playlists do
+        member do
+          put 'follow'
+          patch 'sort'
+        end
+        collection do
+          get 'following'
+          get 'mine'
+        end
+      end
+    
+    end
+    
+    # apps
+    resources :apps do
+      member do
+        delete 'revoke'
+      end
+    end
+    
+    # shares
+    resources :shares, except: [:new, :edit]
+    
+    # charts
+    namespace :charts do
+      get 'listens_for_user'
+      get 'songs_for_user'
+      get 'artists_for_user'
+      get 'albums_for_user'
+      get 'playlists_for_user'
+      get 'genres_for_user'
+      get 'top_listeners'
+      get 'active_users'
+    end
+    
+    # static pages
+    %w[news tour get download checksum contact about legal money donate remote
+      mail old barebone].each do |page|
+      get "/#{page}", to: "pages##{page}", as: page.to_sym
+    end
+    
+    # search
+    get '/search/suggest'
+    get '/search/fetch'
+    get '/search/(:categories)', to: 'search#index', as: :search
+    
+    # # error pages
+    %w( 400 403 404 422 500 502 503 ).each do |code|
+      get code, to: "errors#show", code: code
+    end
+    
+    # root path
+    get '/', to: 'pages#index', as: :root
+  end
 end

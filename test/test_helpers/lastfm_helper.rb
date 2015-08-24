@@ -1,225 +1,96 @@
-module Backend::Lastfm::TestHelpers
-	
-	def lastfm_artists
-		[
-			{
-				'name' => 'Bob Marley',
-				'listeners' => '123',
-				'url' => 'http://foo.com/artist/bob_marley',
-				'image' => [
-					{ '#text' => 'http://bob/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://bob/m.jpg', 'size' => 'medium' },
-					{ '#text' => 'http://bob/l.jpg', 'size' => 'large' },
-				]
-			},
-			{
-				'name' => 'Damian Marley',
-				'listeners' => '12',
-				'url' => 'http://foo.com/artist/damian_marley',
-				'image' => [
-					{ '#text' => 'http://damian/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://damian/m.jpg', 'size' => 'medium' },
-					{ '#text' => 'http://damian/l.jpg', 'size' => 'large' },
-				]
-			},
-			{
-				'name' => 'Stephen Marley',
-				'listeners' => '23',
-				'url' => 'http://foo.com/artist/stephen_marley',
-				'image' => [
-					{ '#text' => 'http://stephen/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://stephen/m.jpg', 'size' => 'medium' },
-					{ '#text' => 'http://stephen/l.jpg', 'size' => 'large' },
-				]
-			}
-		]
-	end
-	
-	def lastfm_albums
-		[
-			{
-				'name' => 'Relapse',
-				'artist' => 'Eminem',
-				'id' => '123',
-				'url' => 'http://foo.com/album/relapse',
-				'image' => [
-					{ '#text' => 'http://relapse/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://relapse/m.jpg', 'size' => 'medium' },
-					{ '#text' => 'http://relapse/l.jpg', 'size' => 'large' },
-				]
-			},
-			{
-				'name' => 'Relapse',
-				'artist' => 'Chiasm',
-				'id' => '321',
-				'url' => 'http://foo.com/album/relapse2',
-				'image' => [
-					{ '#text' => 'http://relapse2/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://relapse2/l.jpg', 'size' => 'large' },
-				]
-			}
-		]
-	end
-	
-	def lastfm_tracks
-		[
-			{
-				'name' => 'The Last Relapse',
-				'artist' => 'All Shall Perish',
-				'url' => 'http://foo.com/track/last_relapse',
-				'listeners' => '41640',
-				'image' => [
-					{ '#text' => 'http://last_relapse/l.jpg', 'size' => 'large' }
-				]
-			},
-			{
-				'name' => "I'm Having a Relapse",
-				'artist' => 'Eminem',
-				'url' => 'http://foo.com/track/having_relapse',
-				'listeners' => '41640',
-				'image' => [
-					{ '#text' => 'http://having_relapse/l.jpg', 'size' => 'large' }
-				]
-			},
-			{
-				'name' => "Relapse",
-				'artist' => 'Antimatter',
-				'url' => 'http://foo.com/track/relapse',
-				'listeners' => '28445',
-				'image' => [
-					{ '#text' => 'http://anti_relapse/s.jpg', 'size' => 'small' }
-				]
-			}
-		]
-	end
-	
-	def lastfm_events
-		[
-			{
-				'id' => '123',
-				'title' => 'The Monster Tour',
-				'artists' =>
-				{
-					'artist' => ['Eminem', 'Rihanna'],
-					'headliner' => 'Eminem'
-				},
-				'venue' =>
-				{
-					'id' => '123',
-					'name' => 'MetLife Stadium',
-					'location' =>
-					{
-						'geo:point' =>
-						{
-							'geo:lat' => '40.814209',
-							'geo:long' => '-74.07369'
-						},
-						'city' => 'East Rutherford, NJ',
-						'country' => 'United States',
-						'street' => '1 MetLife Stadium Dr',
-						'postalcode' => '07073'
-					},
-					'url' => 'http://foo.com/venue/metlife',
-					'website' => 'http://metlifestadium.com',
-					'image' =>
-					[
-						{ '#text' => 'http://metlife/m.jpg', 'size' => 'medium' }
-					]
-				},
-				'startDate' => 2.days.from_now,
-				'description' => '',
-				'image' =>
-				[
-					{ '#text' => 'http://monster/l.jpg', 'size' => 'large' },
-					{ '#text' => 'http://monster/xl.jpg', 'size' => 'extralarge' },
-				],
-				'attendence' => '15',
-				'url' => 'http://foo.com/event/monster'
-			},
-			{
-				'id' => '321',
-				'title' => 'Music Midtown',
-				'artists' =>
-				{
-					'artist' => ['Eminem', 'John Mayer', 'B.o.B', 'Lorde'],
-					'headliner' => 'Eminem'
-				},
-				'venue' =>
-				{
-					'id' => '321',
-					'name' => 'Piedmont Park',
-					'location' =>
-					{
-						'geo:point' =>
-						{
-							'geo:lat' => '33.784241',
-							'geo:long' => '-84.363975'
-						},
-						'city' => 'Atlanta',
-						'country' => 'United States',
-						'street' => '400 Park Drive',
-						'postalcode' => '30306'
-					},
-					'url' => 'http://foo.com/venue/piedmont',
-					'website' => '',
-					'image' =>
-					[
-						{ '#text' => '', 'size' => 'small' },
-						{ '#text' => '', 'size' => 'medium' },
-					]
-				},
-				'startDate' => 3.days.from_now,
-				'endDate' => 4.days.from_now,
-				'description' => '',
-				'image' =>
-				[
-					{ '#text' => 'http://piedmont/s.jpg', 'size' => 'small' },
-					{ '#text' => 'http://piedmont/l.jpg', 'size' => 'large' },
-				],
-				'attendence' => '26',
-				'url' => 'http://foo.com/event/piedtown',
-				'website' => 'http://www.musicmidtown.com'
-			},
-		]
-	end
-	
-	def stub_lastfm
-		resources = ['artists', 'albums', 'tracks', 'events']
-		search = {}
-		info = {}
-		invalid = {}
-		
-		# create structures
-		resources.each do |r|
-			search[r] = 
-			{
-				'results' =>
-				{
-					'opensearch:totalResults' => send("lastfm_#{r}").length.to_s,
-					"#{r.singularize}matches" => { r.singularize => send("lastfm_#{r}") }
-				}
-			}
-			info[r] = { r.singularize => send("lastfm_#{r}")[0] }
-			invalid[r] = { 'error' => 6, 'message' => "#{r.singularize.capitalize} not found", 'links' => [] }
-		end
-		invalid['artists']['message'] = 'The artist you supplied could not be found'
-		invalid['events']['message'] = 'Invalid event id supplied'
-		
-		# create stubs
-		resources.each do |r|
-			stub_request(:any, /.*ws.audioscrobbler.com.*method=#{r.singularize}\.search.*/).
-				to_return(:body => search[r].to_json, :status => 200)
-			stub_request(:any, /.*ws.audioscrobbler.com.*#{r.singularize}=foo.*method=#{r.singularize}\.getInfo.*/).
-				to_return(:body => info[r].to_json, :status => 200)
-			stub_request(:any, /.*ws.audioscrobbler.com.*#{r.singularize}=bar.*method=#{r.singularize}\.getInfo.*/).
-				to_return(:body => invalid[r].to_json, :status => 200)
-		end
-		stub_request(:any, /.*ws.audioscrobbler.com.*artist=foo.*method=track\.getInfo.*track=foo.*/).
-			to_return(:body => info['tracks'].to_json, :status => 200)
-		stub_request(:any, /.*ws.audioscrobbler.com.*artist=foo.*method=track\.getInfo.*track=bar.*/).
-			to_return(:body => invalid['tracks'].to_json, :status => 200)
-		stub_request(:any, /.*ws.audioscrobbler.com.*artist=bar.*method=track\.getInfo.*track=bar.*/).
-			to_return(:body => invalid['artists'].to_json, :status => 200)
-	end
-	
+# Copyright (c) 2015 Simplare
+require 'test_helpers/backend_helper'
+
+# Helper methods for the tests of the Last.fm backend.
+module Backends::LastfmTestHelpers
+  
+  include Backends::TestHelpers
+  
+  # The path of the file containing the fixtures.
+  #
+  # The file must be a `YAML` file.
+  #
+  # FIXME: cannot end in `.yml` since that makes the test engine try to load it
+  # into the db.
+  FIXTURE_FILE = "test/fixtures/backends/lastfm.yaml"
+  
+  # The Last.fm fixtures.
+  #
+  # Keeps a cache to prevent extension IO. But any embedded ruby code is run at
+  # every access.
+  def lastfm(key)
+    unless @raw_lastfm_fixtures
+      @raw_lastfm_fixtures = File.read(FIXTURE_FILE)
+    end
+    YAML.load(ERB.new(@raw_lastfm_fixtures).result)[key]
+  end
+  
+  %w[artist album track event].each do |klass|
+    define_method "stub_lastfm_#{klass}_search" do |resources|
+      stub_lastfm_search klass, resources
+    end
+  end
+  
+  # Stub a request to search for a given class of resources.
+  #
+  # `klass` is the name of the resource type.
+  #
+  # `resources` is either:
+  #
+  #   - An integer, specifying the number of resources to return.
+  #   - A hash describing the single resource to return.
+  #   - An array of hashes, describing the resources to return.
+  #
+  # A random value is used unless the value is specified.
+  def stub_lastfm_search(klass, resources)
+    resources = (1..resources).map {{}} if resources.is_a? Integer
+    resources = [resources] unless resources.is_a? Array
+    
+    resources.map! do |resource|
+      lastfm(klass).deep_merge resource.stringify_keys
+    end
+    
+    response = { 'results' => {
+        'opensearch:totalResults' => resources.length.to_s,
+        "#{klass}matches" => { klass => resources }
+      }
+    }
+    
+    stub_request(:any, /.*ws.audioscrobbler.com.*method=#{klass}\.search.*/).
+      to_return(:body => response.to_json, :status => 200)
+  end
+  
+  # Stub a request for detailed info on a resource on Last.fm.
+  #
+  # `klass` is the name of the resource type.
+  #
+  # `resource` is a hash describing the resource to return. A random value is used unless
+  # the value is specified.
+  def stub_lastfm_info(klass, resource = {})
+    resource = lastfm(klass).deep_merge resource.stringify_keys
+    response = { klass => resource }
+    
+    url = case klass
+    when 'track' then
+      /.*ws.audioscrobbler.com.*artist=.*method=#{klass}\.getInfo.*#{klass}=.*/
+    else
+      /.*ws.audioscrobbler.com.*#{klass}=.*method=#{klass}\.getInfo.*/
+    end
+    
+    stub_request(:any, url).to_return(:body => response.to_json, :status => 200)
+  end
+  
+  # Stub a request for detailed info on a non-existing resource on Last.fm.
+  def stub_lastfm_invalid(klass, resource = {})
+    response = { 'error' => 6, 'message' => "#{klass.capitalize} not found", 'links' => [] }
+    url = case klass
+    when 'track' then
+      /.*ws.audioscrobbler.com.*artist=.*method=#{klass}\.getInfo.*#{klass}=.*/
+    else
+      /.*ws.audioscrobbler.com.*#{klass}=.*method=#{klass}\.getInfo.*/
+    end
+    stub_request(:any, url).
+      to_return(:body => response.to_json, :status => 200)
+  end
+  
 end

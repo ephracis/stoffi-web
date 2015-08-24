@@ -1,0 +1,12 @@
+song:
+  kind: track
+  id: <%= rand(1..1000) %>
+  duration: <%= rand(1..100000) %>
+  genre: <%=%>
+  title: <%=%>
+  permalink_url: https://<%= SecureRandom.urlsafe_base64(5) %>
+  artwork_url: https://<%= SecureRandom.urlsafe_base64(5) %>/<%= SecureRandom.urlsafe_base64(5) %>.jpg
+  stream_url: https://<%= SecureRandom.urlsafe_base64(5) %>/stream
+  playback_count: <%= rand(1..10000) %>
+  user:
+    username: <%= SecureRandom.urlsafe_base64(5) %>

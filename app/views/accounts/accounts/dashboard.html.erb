@@ -1,0 +1,31 @@
+<%
+tabs = {
+	user: ['statistics', 'rankings', 'playlists', 'devices']
+}
+tabs[:admin] = ['duplicates'] if current_user.admin?
+%>
+
+<article class='tabbed'>
+	<% tabs.values.flatten.each do |tab| %>
+		<section data-content='<%= tab %>'>
+			<h1><%= t "pages.accounts.accounts.dashboard.#{tab}.title" %></h1>
+			<%= render "accounts/accounts/dashboard/#{tab}" %>
+		</section>
+		<% end %>
+	
+	<aside class='tabs'>
+		<section>
+			<% tabs.keys.each do |category| %>
+				<% unless category == :user %>
+					<h2><%= t "dashboard.categories.#{category}" %></h2>
+				<% end %>
+				<% tabs[category].each do |tab| %>
+					<div class='tab' data-tab='<%= tab %>' title=
+					  '<%=t "pages.accounts.accounts.dashboard.#{tab}.description" %>'>
+						<%=t "pages.accounts.accounts.dashboard.#{tab}.link" %>
+					</div>
+				<% end %>
+			<% end %>
+		</section>
+	</aside>
+</article>
