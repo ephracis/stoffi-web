@@ -1,6 +1,6 @@
 class RemoveSubscriptions < ActiveRecord::Migration
   def up
-    Playlist.all.each do |playlist|
+    Media::Playlist.all.each do |playlist|
       playlist.subscribers.each do |user|
         begin
           user.follow playlist

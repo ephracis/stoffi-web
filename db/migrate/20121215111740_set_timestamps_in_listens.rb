@@ -1,7 +1,6 @@
-# -*- encoding : utf-8 -*-
 class SetTimestampsInListens < ActiveRecord::Migration
   def up
-    Listen.all.each do |listen|
+    Media::Listen.all.each do |listen|
       if listen.started_at == nil
         listen.started_at = listen.created_at
       end
