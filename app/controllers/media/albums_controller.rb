@@ -14,14 +14,14 @@ module Media
   
     # GET /albums
     def index
-      @recent = Listen.order(created_at: :desc).where(:album).limit(limit).
+      @recent = Listen.order(created_at: :desc).where.not(album: nil).limit(limit).
         offset(offset).map(&:album)
       @weekly = Album.top from: 7.days.ago, limit: limit, offset: offset
       @all_time = Album.top limit: limit, offset: offset
     
       if user_signed_in?
         @user_recent = current_user.listens.order(created_at: :desc).
-          where(:album).limit(limit).offset(offset).map(&:album)
+          where.not(album: nil).limit(limit).offset(offset).map(&:album)
         @user_weekly = Album.top for: current_user, from: 7.days.ago,
           limit: limit, offset: offset
         @user_all_time = Album.top for: current_user, limit: limit,

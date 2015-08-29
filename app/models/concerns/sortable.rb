@@ -7,6 +7,7 @@ module Sortable
     
     # Enable sorting on `collection` whenever it is accessed.
     def can_sort(collection, options = {})
+      collection = collection.to_s
       options[:join_model] ||= self.reflections[collection].options[:through]
       options[:attribute] ||= :position
     
@@ -22,6 +23,7 @@ module Sortable
   
   # sort the `collection` in the order given by `ids`.
   def sort(collection, ids, options = {})
+    collection = collection.to_s
     return if send(collection).empty?
     
     options[:join_model] ||= self.class.reflections[collection].options[:through]

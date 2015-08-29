@@ -109,7 +109,7 @@ class PagesController < ApplicationController
                      subject: params[:subject],
                      from: params[:email],
                      name: params[:name],
-                     message: params[:message]).deliver
+                     message: params[:message]).deliver_later
       redirect_to action: 'contact', sent: 'success'
     end
   end

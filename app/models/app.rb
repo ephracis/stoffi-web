@@ -8,10 +8,10 @@ class App < ActiveRecord::Base
   # associations
   belongs_to :user
   with_options dependent: :destroy do |assoc|
-    assoc.has_many :tokens, class: Accounts::OauthToken
-    assoc.has_many :access_tokens, class: Accounts::AccessToken
-    assoc.has_many :oauth2_verifiers, class: Accounts::Oauth2Token
-    assoc.has_many :oauth_tokens, class: Accounts::OauthToken
+    assoc.has_many :tokens, class_name: Accounts::OauthToken
+    assoc.has_many :access_tokens, class_name: Accounts::AccessToken
+    assoc.has_many :oauth2_verifiers, class_name: Accounts::Oauth2Token
+    assoc.has_many :oauth_tokens, class_name: Accounts::OauthToken
   end
   has_many :users, through: :access_tokens
   

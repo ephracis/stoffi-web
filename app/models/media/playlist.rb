@@ -24,7 +24,8 @@ module Media
     has_many :artists, through: :songs
     has_many :shares, as: :object # REFACTOR: rename `resource` to stay consistent.
     belongs_to :user
-    has_many :link_backlogs, as: :resource, dependent: :destroy, class: Accounts::LinkBacklog
+    has_many :link_backlogs, as: :resource, dependent: :destroy,
+      class_name: Accounts::LinkBacklog
   
     # validations
     validates :name, presence: true

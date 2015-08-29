@@ -44,7 +44,7 @@ Stoffi::Application.routes.draw do
       end
       
       # oauth
-      match 'oauth/:action',   to: 'oauth', via: [:get, :post], as: :authorize
+      match 'oauth/:action', controller: 'oauth', via: [:get, :post], as: :authorize
       
       # handle failed omniauth
       get    'auth/failure',   to: 'sessions#new'

@@ -87,7 +87,7 @@ module Sourceable
     def extract_associations!(hash)
       assoc = {}
       hash.reject! do |k,v|
-        if reflections.key?(k.to_sym) or k.to_sym == :source
+        if reflections.key?(k.to_s) or k.to_sym == :source
           assoc[k] = v
           true
         else
@@ -157,13 +157,13 @@ module Sourceable
   #
   # If the association model does not respond to `find_or_create_by_hash` the association
   # will be silently ignored.
-  def assign_association_from_hashes(name, hashes)    
+  def assign_association_from_hashes(name, hashes)
     hashes.each do |hash|
       # ensure hash is present and the association exists
-      next unless hash.present? and self.class.reflections.key? name.to_sym
+      next unless hash.present? and self.class.reflections.key? name.to_s
       
       # ensure the resource is sourceable
-      reflection = self.class.reflections[name.to_sym]
+      reflection = self.class.reflections[name.to_s]
       next unless reflection.klass.respond_to? :find_or_create_by_hash
       
       # create instance of resource
