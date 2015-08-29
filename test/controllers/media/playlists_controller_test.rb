@@ -76,7 +76,7 @@ class Media::PlaylistsControllerTest < ActionController::TestCase
   end
   
   test "should not show non-existent" do
-    get :show, id: randstr(special: false, upper: false, lower: false)
+    get :show, id: rand(1..10000)
     assert_response :not_found
   end
   

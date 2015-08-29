@@ -14,13 +14,14 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :lockable
    
   with_options dependent: :destroy do |assoc|
-    assoc.has_many :links, class: Accounts::Link
-    assoc.has_many :devices, class: Accounts::Device
-    assoc.has_many :playlists, class: Media::Playlist
+    assoc.has_many :links, class_name: Accounts::Link
+    assoc.has_many :devices, class_name: Accounts::Device
+    assoc.has_many :playlists, class_name: Media::Playlist
     assoc.has_many :shares
-    assoc.has_many :listens, class: Media::Listen
+    assoc.has_many :listens, class_name: Media::Listen
     assoc.has_many :apps
-    assoc.has_many :tokens, -> { order "authorized_at desc" }, class: Accounts::OauthToken
+    assoc.has_many :tokens, -> { order "authorized_at desc" },
+      class_name: Accounts::OauthToken
   end
   
   has_many :songs, through: :listens

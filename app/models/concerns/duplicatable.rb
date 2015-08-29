@@ -210,7 +210,8 @@ module Duplicatable
           raise ArgumentError.new("No such association: #{name}")
         end
         unless valid_association_for_combining?(name)
-          raise ArgumentError.new("Association type not allowed: #{reflection[name].macro}")
+          raise ArgumentError.new(
+            "Association type not allowed: #{reflection[name.to_s].macro}")
         end
       end
     end
@@ -223,10 +224,10 @@ module Duplicatable
     # Build a list of associations from an argument hash
     def build_associations_from_hash(association_hash)
       if association_hash.key? :only
-        associations = association_hash[:only]
+        associations = association_hash[:only].map(&:to_s)
         validate_associations_for_combining associations
       elsif association_hash.key? :except
-        assocations = reflections.keys - association_hash[:except]
+        reflections.keys - association_hash[:except].map(&:to_s)
       else
         raise ArgumentError.new("Argument hash contains neither :only nor :except key")
       end
@@ -243,7 +244,7 @@ module Duplicatable
   def get_sql_names_for_combining(name, options = {})
     reflection = options[:reflection] || self.class.reflections[name]
     if reflection.macro == :has_many and reflection.options.key? :through
-      r = self.class.reflections[reflection.options[:through]]
+      r = self.class.reflections[reflection.options[:through].to_s]
       return get_sql_names_for_combining(name, reflection: r)
       
     elsif reflection.macro == :has_and_belongs_to_many

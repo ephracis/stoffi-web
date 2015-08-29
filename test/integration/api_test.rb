@@ -11,7 +11,7 @@ class ApiTest < ActionDispatch::IntegrationTest
   
   test 'get user' do
     sign_in @user
-    get 'me.json'
+    get '/me.json'
     assert_response :success
     json = JSON::parse(response.body)
     assert_equal @user.id, json['id']
@@ -23,7 +23,7 @@ class ApiTest < ActionDispatch::IntegrationTest
   test "create device" do
     sign_in @user
     assert_difference "@user.devices.count", +1 do
-      post 'devices.json', device:
+      post '/devices.json', device:
         {
           name: randstr, version: 'test', app_id: App.first.id
         }

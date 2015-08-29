@@ -77,6 +77,8 @@ module Media
     def associate_resources(association, options = {})
       return unless resource.present?
       
+      association = association.to_s
+      
       # default options
       options = {
         params: true, body: true

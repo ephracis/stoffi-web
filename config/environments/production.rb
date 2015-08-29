@@ -20,7 +20,7 @@ Rails.application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = ENV.key?('SERVE_ASSETS')
+  config.serve_static_files = ENV.key?('SERVE_ASSETS')
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier

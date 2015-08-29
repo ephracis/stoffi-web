@@ -10,7 +10,8 @@ class Share < ActiveRecord::Base
   belongs_to :resource, polymorphic: true
   belongs_to :user
   belongs_to :device
-  has_many :link_backlogs, as: :resource, dependent: :destroy, class: Accounts::LinkBacklog
+  has_many :link_backlogs, as: :resource, dependent: :destroy,
+    class_name: Accounts::LinkBacklog
   
   # validations
   validates :resource, :user, presence: true

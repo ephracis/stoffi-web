@@ -11,12 +11,12 @@ module Media
     # associations
     belongs_to :user
     belongs_to :song
-    belongs_to :device, class: Accounts::Device
+    belongs_to :device, class_name: Accounts::Device
     belongs_to :playlist
     belongs_to :album
     belongs_to :source
     has_many :link_backlogs, as: :resource, dependent: :destroy,
-      class: Accounts::LinkBacklog
+      class_name: Accounts::LinkBacklog
     
     # validations
     validates :user, :song, :device, presence: true

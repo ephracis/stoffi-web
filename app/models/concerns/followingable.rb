@@ -7,7 +7,8 @@ module Followingable
   extend ActiveSupport::Concern
   
   included do
-    has_many :followings, as: :follower, dependent: :destroy, class: Accounts::Following
+    has_many :followings, as: :follower, dependent: :destroy,
+      class_name: Accounts::Following
   end
   
   # Returns an array of the resources that is being followed

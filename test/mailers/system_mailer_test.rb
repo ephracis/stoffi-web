@@ -8,7 +8,7 @@ class SystemMailerTest < ActionMailer::TestCase
       from: 'alice@example.com',
       subject: 'just a test',
       message: 'a short msg'
-      ).deliver
+      ).deliver_now
       
     assert_not ActionMailer::Base.deliveries.empty?
     assert_equal ['noreply@stoffiplayer.com'], email.from

@@ -38,7 +38,7 @@ class Media::SourceTest < ActiveSupport::TestCase
     assert_difference "Media::Source.count", 1, "Didn't create new source" do
       s = Media::Source.find_or_create_by_path("stoffi:song:youtube:qwe")
       assert s, "Didn't return source"
-      assert_equal :youtube, s.name, "Didn't set name"
+      assert_equal 'youtube', s.name, "Didn't set name"
       assert_equal 'qwe', s.foreign_id, "Didn't set id"
       assert s.resource, "Didn't create resource"
       assert_instance_of Media::Song, s.resource, "Didn't create Song resource"
