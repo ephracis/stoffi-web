@@ -1,0 +1,40 @@
+en:
+  static:
+    about:
+      headline: 'This is Stoffi 2'
+      tagline: "The world's next music app"
+      download: 'Get the app'
+    
+      highlights:
+        music:
+          title: 'All music, one place'
+          body: 'Access music from multiple sources such as Spotify, SoundCloud, and YouTube from a single app.'
+        
+        social:
+          title: 'Music is social'
+          body: 'Share your favorite songs and best playlists with family, friends, or the whole world.'
+        
+        fresh:
+          title: 'Hot and fresh'
+          body: 'Stoffi is young and hip. Built from scratch on modern technologies and with the kind of love and attention only a true hobbyist can give.'
+        
+      quotes:
+        winajuda: "...integrates nicely with Windows 7..."
+        softonic: "...the interface is very beautiful..."
+        3d2f: "...easy to use and a pleasure to look at"
+      
+      future:
+        title: 'Ideas for the future'
+        platforms: "Bring Stoffi to more platforms such as Android, iOS and OS X."
+        meta: "Include lyrics and information from Wikipedia."
+        shuffle: "A smart shuffle mode, selecting songs based on your taste."
+        sources: "Getting music from even more sources."
+      
+      story:
+        headline: 'The Story Behind Stoffi'
+        paragraph1: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        paragraph2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        paragraph3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+        creator:
+          headline: 'The Man Behind Stoffi'
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'

@@ -1,0 +1,16 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-shield
+    = t 'media.playlists.manage.heading'
+  .panel-body
+  
+    = link_to edit_playlist_path(@playlist.user, @playlist),
+        class: 'btn btn-default', target: '_self' do
+      %span.fa.fa-fw.fa-edit
+      = t 'media.playlists.manage.edit'
+      
+    = link_to playlist_path(@playlist.user, @playlist),
+        class: 'btn btn-danger', method: :delete, target: '_self',
+        data: { confirm: t('media.playlists.manage.confirm') } do
+      %span.fa.fa-fw.fa-remove
+      = t 'media.playlists.manage.remove'

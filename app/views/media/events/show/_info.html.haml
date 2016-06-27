@@ -1,0 +1,14 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-info
+    = t 'media.events.info.heading'
+  .panel-body
+    %dl
+      %dt= t 'media.events.info.country'
+      %dd
+        = flag_for_coords @event.longitude, @event.latitude
+        = country_for_coords @event.longitude, @event.latitude
+      %dt= t 'media.events.info.city'
+      %dd= city_for_coords @event.longitude, @event.latitude
+      %dt= t 'media.events.info.address'
+      %dd= @event.venue

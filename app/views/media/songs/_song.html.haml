@@ -1,0 +1,27 @@
+- link_options = {}
+- link_options[:dedup] = true if local_assigns[:archetype].present?
+- link_path = song_path song, link_options
+- options = { data: { 'resource-id' => song.id }, url: link_path }
+    
+= media_list_item song, options do |m|
+
+  - m.title song, badge: local_assigns[:badge].present?, url: link_path
+  
+  - m.buttons do
+  
+    - if local_assigns[:archetype].present? and current_user.admin?
+      - arch = local_assigns[:archetype]
+      %a.btn.btn-xs.btn-link{ data: { 'ng-click' => "toggleDup(#{song.id})" } }
+        %span.fa.fa-minus{ data: { 'ng-show' => "isDup(#{song.id})" } }
+        %span.fa.fa-plus{ data: { 'ng-hide' => "isDup(#{song.id})" } }
+        = t 'media.songs.toggle_duplicate'
+          
+    = render partial: 'media/playlists/menu', locals: { songs: [song.id] }
+      
+    = link_to '#', class: 'btn btn-xs btn-link' do
+      %span.fa.fa-fw.fa-play
+      = t 'media.songs.play'
+  
+  / content
+  %span.fa.fa-fw.fa-user
+  = link_to_association song.artists

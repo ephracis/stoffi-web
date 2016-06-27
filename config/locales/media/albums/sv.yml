@@ -1,0 +1,30 @@
+sv:
+  media:
+    albums:
+      badge: 'album'
+      play: 'Spela'
+      add_song: 'Lägg till låt'
+      
+      songs:
+        empty: "Det här albumet har inga låtar än"
+        error: "Kunde inte ladda låtar för det här albumet"
+        loading: "Laddar låtar, häng kvar..."
+      
+      stats:
+        heading: 'Statistik'
+        listens: 'Spelningar'
+        playlists: 'Spellistor'
+        
+      manage:
+        heading: 'Administration'
+        edit: 'Redigera'
+        remove: 'Ta bort'
+        confirm: 'Är du säker på att du vill ta bort albumet?'
+        sources:
+          heading: 'Källor'
+          new: 'Ny'
+          confirm: 'Är du säker på att du vill ta bort källan?'
+        
+      edit:
+        title: "Redigera '%{album}'"
+        heading: "Redigerar albumet: <strong>%{album}</strong>"

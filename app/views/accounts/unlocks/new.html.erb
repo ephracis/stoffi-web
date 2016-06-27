@@ -1,0 +1,32 @@
+<div class="panel panel-default panel-small center-block" id='unlock'>
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t 'accounts.unlock.title' %></h3>
+  </div>
+  <div class="panel-body">
+    
+		<%= form_for resource, as: resource_name, url: user_unlock_path do |f| %>
+	
+			<%= render 'shared/messages' %>
+			
+		  <div class="input-group">
+        <span class="input-group-addon" id="unlock-email">
+          <span class='fa fa-envelope'></span>
+        </span>
+        <%= f.email_field :email, autofocus: true, class: 'form-control',
+          placeholder: t("accounts.login.email"),
+          aria_describedby: :unlock_email %>
+      </div>
+      
+      <div class='text-right'>
+  		  <%= f.button class: 'btn btn-primary' do %>
+  				<span class='fa fa-unlock'></span>
+  				<%=t 'accounts.unlock.button' %>
+  			<% end %>
+  		</div>
+			
+		<% end %>
+			
+		<%= render 'shared/login/links' %>
+		
+	</div>
+</div>

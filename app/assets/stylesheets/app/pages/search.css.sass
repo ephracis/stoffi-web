@@ -1,0 +1,69 @@
+#search
+  margin-top: -1em
+  
+  .logo-large
+    margin: 4em 0 2em
+    @media #{$small}
+      margin: 2em 0 1em
+      
+  form
+    max-width: 700px
+    margin: 2em auto
+    
+    .input-wrapper
+      position: relative
+      
+      .small-logo-wrapper
+        position: absolute
+        left: 0
+        bottom: 0
+        top: 0
+        @media #{$small}
+          display: none
+        
+        .logo-small
+          vertical-align: middle
+        
+        .small-logo-stretcher
+          display: inline-block
+          height: 100%
+          vertical-align: middle
+      
+      .input-group
+        margin-left: 50px
+        @media #{$small}
+          margin-left: 0
+          input#query
+            border-top-left-radius: $border-radius-large
+            border-bottom-left-radius: $border-radius-large
+          #search-category-inside
+            display: none
+    
+    #search-category-outside .btn-link
+      @media #{$small}
+        margin: -1em 0 0
+        
+  #search-category-outside
+    display: inline-block
+  
+  .alert
+    display: inline-block
+    margin: 5em 0
+    @media #{$small}
+      margin: 2em 0
+  
+  #loading
+    .spinner
+      margin-top: 5em
+    .spinner-label
+      font-size: 1.5em
+      margin-top: 1em
+  
+  @media #{$above-small}
+    form #search-category-outside
+      display: none
+  
+  #results
+    margin: auto
+    max-width: 700px
+    text-align: left

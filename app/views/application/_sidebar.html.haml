@@ -1,0 +1,10 @@
+- if user_signed_in?
+
+  = media_list Media::Song.rank.for_user(current_user).limit(5),
+    t('sidebar.personal_songs'), heading: :inside, css: 'media-list-sm'
+    
+  = media_list Media::Artist.rank.for_user(current_user).limit(5),
+    t('sidebar.personal_artists'), heading: :inside
+    
+= media_list User.rank.limit(5),
+  t('sidebar.top_listeners'), heading: :inside

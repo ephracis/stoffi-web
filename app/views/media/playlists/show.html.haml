@@ -1,0 +1,37 @@
+- content_for :title do
+  = @playlist.name
+
+- playlist_url = playlist_url(@playlist.user, @playlist, format: :json)
+%div{ data: { 'ng-controller' => 'PlaylistController',
+              'ng-init' => "fetch('#{playlist_url}')" } }
+  .header
+    .pull-left
+      %h2= @playlist.name
+    .pull-right.header-buttons
+    
+      - if current_user.follows? @playlist
+        = link_to playlist_path(@playlist),
+            class: 'btn btn-primary', method: :delete, target: '_self' do
+          %span.fa.fa-close
+          = t 'media.playlists.unfollow'
+      - else
+        = link_to follow_playlist_path(@playlist.user, @playlist),
+            class: 'btn btn-primary', method: :put, target: '_self' do
+          %span.fa.fa-plus
+          = t 'media.playlists.follow'
+          
+      = link_to new_playlist_path, class: 'btn btn-default', target: '_self' do
+        %span.fa.fa-plus
+        = t 'media.playlists.new.button'
+
+    .clearfix
+
+  .row
+    .col-sm-8
+      = media_list @playlist.ordered_songs
+  
+    .col-sm-4
+      = render 'media/playlists/show/info'
+      = render 'media/playlists/show/stats'
+      - if current_user.admin? or current_user == @playlist.user
+        = render 'media/playlists/show/manage'

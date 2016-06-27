@@ -1,0 +1,43 @@
+en:
+  media:
+    artists:
+      badge: 'artist'
+      
+      albums: 'Albums'
+      genres: 'Genres'
+      songs: 'Songs'
+      events: 'Events'
+      playlists: 'Playlists'
+      play: 'Play'
+      
+      cover:
+        listens:
+          one: 'Played %{count} time'
+          other: 'Played %{count} times'
+        playlists:
+          one: 'Occurs in %{count} playlist'
+          other: 'Occurs in %{count} playlists'
+      
+      stats:
+        heading: 'Statistics'
+        listens: 'Plays'
+        playlists: 'Playlists'
+        albums: 'Albums'
+        songs: 'Songs'
+      
+      info:
+        heading: 'Information'
+        
+      manage:
+        heading: 'Management'
+        edit: 'Edit'
+        remove: 'Delete'
+        confirm: 'Are you sure you want to delete the artist?'
+        sources:
+          heading: 'Sources'
+          new: 'Add'
+          confirm: 'Are you sure you want to remove the source?'
+        
+      edit:
+        title: "Edit '%{artist}'"
+        heading: "Editing artist: <strong>%{artist}</strong>"

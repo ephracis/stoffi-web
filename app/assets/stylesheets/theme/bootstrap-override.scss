@@ -1,0 +1,12 @@
+$brand-primary: $primary;
+$navbar-default-bg: $primary;
+$navbar-default-color: $primary-text;
+$navbar-default-link-color: $navbar-default-color;
+$navbar-default-link-active-color: $secondary;
+$navbar-default-link-hover-color: $navbar-default-link-active-color;
+$navbar-default-brand-hover-color: $navbar-default-link-active-color;
+$navbar-default-toggle-hover-bg: transparentize($navbar-default-color, 0.8);
+$navbar-default-toggle-icon-bar-bg: $navbar-default-color;
+$navbar-default-toggle-border-color: $navbar-default-color;
+
+$font-family-sans-serif: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;

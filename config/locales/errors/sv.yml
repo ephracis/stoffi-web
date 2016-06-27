@@ -1,0 +1,38 @@
+sv:
+  errors:
+    code_400:
+      heading: 'Fel i fråga'
+      description: "Servern kan inte förstå vad det är du efterfrågar."
+    
+    code_403:
+      heading: 'Förbjudet'
+      description: "Woops! Du får inte göra det där."
+      
+    code_404:
+      heading: 'Kunde inte hitta %{resource}'
+      description: 'Hittade inte %{resource} som den här addressen pekar på.'
+      resources:
+        source: 'källan'
+        song: 'låten'
+        playlist: 'spellistan'
+        artist: 'artisten'
+        album: 'albumet'
+        'media-album': 'albumet'
+        event: 'evenemanget'
+        genre: 'genren'
+        
+    code_422:
+      heading: 'Obearbetbar entitet'
+      description: "Det är något mysko med datan du precis skickade."
+    
+    code_500:
+      heading: 'Ett serverfel uppstod'
+      description: 'Något knas uppstod. Men ta det lugnt, det var vårt fel och inte ditt. Vi fixar det så fort vi kan.'
+    
+    code_502:
+      heading: 'Dålig gateway'
+      description: "Servern har problem med en av sina tjänster. Vi fixar det så snabbt vi kan."
+    
+    code_503:
+      heading: 'Överbelastning'
+      description: "Servern är upptagen för tillfället. Vänligen försök igen om en liten stund."

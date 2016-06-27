@@ -1,0 +1,39 @@
+relapse_not_afraid:
+  album: relapse
+  song: not_afraid
+  position: 1
+  
+relapse_exodus:
+  album: relapse
+  song: exodus
+  position: 2
+  
+recovery_one_love:
+  album: recovery
+  song: one_love
+  position: 1
+  
+recovery_no_woman_no_cry:
+  album: recovery
+  song: no_woman_no_cry
+  position: 2
+  
+bobob_one_love:
+  album: best_of_bob_marley
+  song: one_love
+  position: 1
+  
+bobob_no_woman_no_cry:
+  album: best_of_bob_marley
+  song: no_woman_no_cry
+  position: 2
+  
+bobob_jamming:
+  album: best_of_bob_marley
+  song: jamming
+  position: 3
+  
+bobob_exodus:
+  album: best_of_bob_marley
+  song: exodus
+  position: 4

@@ -1,0 +1,12 @@
+.jumbotron
+  .jumbotron-content
+    %h1
+      .logo.logo-medium
+        = render 'logo'
+      = t 'static.about.headline'
+    %p= t 'static.about.tagline'
+    %p
+      = link_to '#', class: 'btn btn-primary btn-lg', role: :button do
+        %span.fa.fa-download
+        = t('about.download')
+  .jumbotron-bg

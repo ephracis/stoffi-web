@@ -1,0 +1,33 @@
+en:
+  media:
+    images:
+      
+      index:
+        title: 'Images for the %{type} %{name}'
+        heading: 'Images for the %{type} <strong>%{name}</strong>'
+        resources:
+          song: 'song'
+          artist: 'artist'
+          album: 'album'
+          genre: 'genre'
+          event: 'event'
+        
+      delete:
+        confirm: 'Sure you want to delete the image?'
+        success: 'Image was deleted'
+        
+      new:
+        link: 'New image'
+        title: 'Add image to %{resource}'
+        heading: 'Adding image to <strong>%{resource}</strong>'
+        
+      create:
+        success: 'Image was created'
+        
+      update:
+        success: 'Image was updated'
+        
+      edit:
+        link: 'Change'
+        title: "Edit image for '%{resource}'"
+        heading: "Editing image for <strong>%{resource}</strong>"

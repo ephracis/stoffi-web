@@ -1,0 +1,73 @@
+@app.controller 'SearchController', ['$scope', '$location', '$http', '$timeout', '$window', '$sce', ($scope, $location, $http, $timeout, $window, $sce) ->
+  
+  $scope.mode = if $scope.query then 'searchingDb' else 'front'
+  $scope.searchingForSongs = false
+  $scope.searchPath = '/search'
+  $scope.hits = ''
+  
+  # initialize categories
+  $scope.categories = {}
+  $scope.categories['all'] = {
+    name: 'all',
+    display: I18n.t('search.category.all'),
+    placeholder: I18n.t("search.placeholder.all")
+  }
+  <% Search.categories.each do |c| %>
+  $scope.categories['<%=c%>'] = {
+    name: '<%=c%>',
+    display: I18n.t("search.category.<%=c%>"),
+    placeholder: I18n.t("search.placeholder.<%=c%>")
+  }
+  <% end %>
+  
+  # set default category
+  $scope.currentCategory = $scope.categories['all']
+  
+  # update current category
+  $scope.setCategory = (category) ->
+    return unless $scope.categories[category]
+    $scope.currentCategory = $scope.categories[category]
+    if $scope.query and $location.path() == $scope.searchPath
+      $location.search 'c', category
+    $scope.currentCategory
+    
+  $scope.submit = ->
+    $window.document.title = "#{$scope.query} - Stoffi"
+    $location.path($scope.searchPath).search {
+      c: $scope.currentCategory.name,
+      q: $scope.query
+    }
+    
+  $scope.searchUrl = (doBackends) ->
+    p = $scope.searchPath
+    q = "c=#{$scope.currentCategory.name}&q=#{$scope.query}"
+    q += '&backends=true' if doBackends
+    "#{p}.js?#{q}"
+    
+  $scope.performSearch = (doBackends = false) ->
+    return unless $scope.query
+    $scope.mode = if doBackends then 'searchingBackends' else 'searchingDb'
+    $http( { method: 'GET', url: $scope.searchUrl(doBackends) }).then(
+      $scope.loadResults, $scope.displayError)
+    
+  $scope.loadResults = (response) ->
+    items = eval(response.data)
+    if items.length > 0
+      $scope.mode = 'results'
+      $scope.hits = $sce.trustAsHtml items.join('')
+    else if $scope.mode == 'searchingDb'
+      $scope.performSearch true
+    else
+      $scope.mode = 'empty'
+    
+  $scope.displayError = (response) ->
+    $scope.mode = 'error'
+    
+  $scope.$watch () ->
+    $location.absUrl()
+  , () ->
+    $scope.query = $location.search()['q'] || ''
+    category = $location.search()['c'] || 'all'
+    $scope.currentCategory = $scope.categories[category]
+    $scope.performSearch()
+]

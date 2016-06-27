@@ -1,0 +1,81 @@
+<li class='item' data-href='<%= url_for app %>'
+  data-resource-id='<%= app.id %>' data-resource-type='app'
+	data-resource-url='<%= url_for app %>'>
+	
+	<!-- image -->
+	<%= image_tag app.image(:huge), data: { field: :picture } %>
+	
+	<!-- meta data -->
+	<div class='overlay'>
+		<span class='title' data-field='display'><%= app %></span>
+		
+		<% if defined? type and type %>
+			<span class='type' data-list-mode='grid' data-type='app'>
+			  <%= t 'apps.singular' %>
+			</span>
+		<% end %>
+		
+		<span class='description'>
+			<%= t 'apps.description_html', author: link_to(username(app.user),
+			  url_for(app.user)) %>
+		</span>
+		
+	</div>
+	
+	<!-- controls -->
+	<div class='action-bar'>
+		
+		<% if defined? type and type %>
+			<span class='type' data-list-mode='list' data-type='app'>
+			  <%= t 'apps.singular' %>
+			</span>
+		<% end %>
+		
+		<% if current_user.owns?(app) or current_user.admin? %>
+			<span class='edit action'>
+				<%= link_to t('pages.apps.edit.link'), edit_app_path(app) %>
+			</span>
+		<% end %>
+		
+		<% if user_signed_in? %>
+			<% if current_user.owns?(app) or current_user.admin? %>
+				<span class='remove action'>
+					<%= link_to '', title: t('pages.apps.destroy.description'),
+					  data: {
+						  ajax_call: :delete,
+  						ajax_url: app_path(app, format: :json),
+  						ajax_method: :delete,
+  						confirm: t('pages.apps.destroy.confirm', app: app)
+  					} do %>
+						<span data-list-mode='list'>
+						  <%= t 'pages.apps.destroy.link' %>
+						</span>
+						<span data-list-mode='grid'>x</span>
+					<% end %>
+				</span>
+			<% end %>
+			
+			<span class='action'>
+				<% if app.installed_by? current_user %>
+					<%= link_to revoke_app_path(app, return_uri: request.url), method:
+					  :delete do %>
+						<span data-list-mode='list'>
+						  <%= t 'pages.apps.revoke.link' %>
+						</span>
+						<span data-list-mode='grid'>-</span>
+					<% end %>
+				<% else %>
+					<%= link_to authorize_path(client_id: app.key, redirect_uri:
+					  request.url, response_type: :token) do %>
+						<span data-list-mode='list'>
+						  <%= t 'pages.apps.authorize.link' %>
+						</span>
+						<span data-list-mode='grid'>+</span>
+					<% end %>
+				<% end %>
+			</span>
+				
+		<% end %>
+		
+	</div>
+</li>

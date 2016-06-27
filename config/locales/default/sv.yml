@@ -1,0 +1,6 @@
+sv:
+  by: "Av %{creator}"
+  ago: "För %{time} sen"
+  save: 'Spara'
+  cancel: 'Avbryt'
+  back: 'Tillbaka'

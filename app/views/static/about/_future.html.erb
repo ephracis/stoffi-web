@@ -1,0 +1,47 @@
+<div class="panel panel-default" id='future'>
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t 'static.about.future.title' %></h3>
+  </div>
+  <div class="panel-body">
+    <div class='row'>
+      <div class='col-md-3 col-sm-6 future-idea'>
+        <div>
+          <span class='fa fa-android fa-5x'></span>
+        </div>
+        <%= t 'static.about.future.platforms' %>
+      </div>
+      <div class='col-md-3 col-sm-5 future-idea'>
+        <div>
+          <span class='fa fa-wikipedia-w fa-5x'></span>
+        </div>
+        <%= t 'static.about.future.meta' %>
+      </div>
+      <div class='col-md-3 col-sm-6 future-idea'>
+        <div>
+          <span class='fa fa-graduation-cap fa-5x'></span>
+        </div>
+        <%= t 'static.about.future.shuffle' %>
+      </div>
+      <div class='col-md-3 col-sm-5 future-idea'>
+        <div>
+          <span class='fa fa-spotify fa-5x'></span>
+        </div>
+        <%= t 'static.about.future.sources' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% if false %>
+<article id='future'>
+	<section>
+		<h1><a name="future"><%=t 'static.about.future.title' %></a></h1>
+		<ul>
+			<% t('static.about.future.list').split('|').each do |item| %>
+				<li><p><%=item %></p></li>
+			<% end %>
+		</ul>
+	</section>
+</article>
+<% end %>

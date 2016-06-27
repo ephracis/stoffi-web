@@ -1,0 +1,55 @@
+se:
+  usermenu: 'Mitt Stoffi'
+  
+  login:
+    services: 'Använd en av dessa'
+    form: 'eller fyll i det här formuläret'
+  
+  dashboard:
+    meta: "Visa panel"
+    
+    rankings:
+      week: 'Denna vecka'
+      month: 'Denna månad'
+      year: 'Detta år'
+      alltime: 'Någonsin'
+      
+    categories:
+      admin: 'Admin'
+    
+  user:
+    name:
+      unknown: "Okänd"
+  
+  settings:
+    title: "Inställningar"
+    deregister: "Ta bort konto"
+    
+    profile: "Profil"
+    change_password: "Ändra lösenord"
+    create_password: "Skapa lösenord"
+    
+    custom: "Eget"
+    default: "Standard"
+    
+    ads:
+      all: "Text och bild"
+      text: "Bara text"
+      none: "Visa inte reklam"
+      
+  profile:
+    type:
+      user: 'Användare'
+      admin: 'Admin'
+    points: 'Poäng'
+    listens: 'Spelningar'
+    joined: 'Gick med i Stoffi'
+    plays: 'Låtar spelade'
+    logins: 'Inloggningar'
+    last_login:
+      title: 'Senaste inloggning'
+      text: '%{ago} sen från %{ip}'
+      nil: 'Aldrig loggat in'
+    failed_logins: 'Misslyckade inloggningar'
+    last_edit: 'Senaste ändringen'
+    locked: 'Låst'

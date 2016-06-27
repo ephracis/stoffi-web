@@ -1,0 +1,22 @@
+en:
+  accounts:
+    dashboard:
+      stats:
+        title: 'Statistics'
+        listens: 'Recent listens'
+        songs: 'Top songs'
+        playlists: 'Top playlists'
+        artists: 'Top artists'
+        albums: 'Top albums'
+        genres: 'Top genres'
+      rank:
+        title: 'Ranking'
+        header: 'Your ranking'
+        name: 'Name'
+        listens: 'Listens'
+      activity:
+        title: 'Activity'
+        header: 'Recent activity'
+      devices:
+        title: 'Devices'
+        header: 'Connected devices'

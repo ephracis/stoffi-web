@@ -7,6 +7,6 @@ class CreatePlaylistSubscriber < ActiveRecord::Migration
   end
 
   def down
-	drop_table :playlist_subscribers
+  drop_table :playlist_subscribers
   end
 end

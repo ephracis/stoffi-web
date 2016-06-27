@@ -1,0 +1,16 @@
+en:
+  music:
+    tabs:
+      artists: 'Artists'
+      albums: 'Albums'
+      songs: 'Songs'
+      playlists: 'Playlists'
+      events: 'Events'
+      genres: 'Genres'
+    titles:
+      artists: 'Popular artists'
+      albums: 'Popular albums'
+      songs: 'Popular songs'
+      playlists: 'Popular playlists'
+      events: 'Upcoming events'
+      genres: 'Popular genres'

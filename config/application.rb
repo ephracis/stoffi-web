@@ -18,18 +18,23 @@ module Stoffi
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.default_locale = :us
+    # The default locale is :us and all translations from config/locales/**/*.rb,yml are auto loaded.
+    config.i18n.default_locale = :en
 
-    #config.active_record.observers = :link_backlog_observer, :link_observer, :global_observer
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    config.i18n.available_locales = [:us, :uk, :cn, :de, :se, :en]
-    config.i18n.fallbacks = [:us]
+    config.i18n.available_locales = [:sv, :en]
+    config.i18n.fallbacks = [:en]
 
     # oauth-plugin requires Rack Filter
     config.middleware.use OAuth::Rack::OAuthFilter
 
-    config.autoload_paths += %W(#{config.root}/app/controllers/backend/*)
+    # add backends to autoloaded paths
+    config.autoload_paths += %W(#{config.root}/app/controllers/backend/**/*.rb)
+
+    # Use custom exception handler
+    config.exceptions_app = self.routes
+    
+    config.action_view.prefix_partial_path_with_controller_namespace = false
+    
   end
 end

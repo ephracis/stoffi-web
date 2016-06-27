@@ -1,0 +1,37 @@
+- l = 25
+- lists = { playlists: { objects: Media::Playlist.rank.limit(l),
+      icon: :bars },
+    songs: { objects: Media::Song.rank.limit(l),
+      icon: :music },
+    albums: { objects: Media::Album.rank.limit(l),
+      collapsable: true,
+      icon: 'square-o' },
+    artists: { objects: Media::Artist.rank.limit(l),
+      collapsable: true,
+      icon: :user },
+    genres: { objects: Media::Genre.rank.limit(l),
+      collapsable: true,
+      icon: :tags },
+    events: { collapsable: true,
+      icon: :calendar,
+      objects: Media::Event.upcoming.rank.limit(l).sort_by { |x| x.start } } }
+      
+#music{ data: { ng: { controller: 'MusicController' } } }
+  %ul.nav.nav-tabs
+    - lists.each do |k,v|
+      - css = "{{ list == '#{k}' ? 'active' : '' }}"
+      %li{ role: :presentation, class: css }
+        %a{ data: { ng: { click: "setList('#{k}')" } } }
+          %span{ class: "fa fa-#{v[:icon]}" }
+          %span.hidden-xs
+            &nbsp;
+            = t "music.tabs.#{k}"
+              
+  .row#content
+    
+    - lists.each do |k,v|
+      .col-md-8{ data: { ng: { show: "list == '#{k}'" } } }
+        = media_list v[:objects]
+      
+    .col-md-4#sidebar
+      = render 'sidebar'

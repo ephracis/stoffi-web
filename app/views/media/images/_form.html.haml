@@ -1,0 +1,41 @@
+- klass = @image.resource.class.name.demodulize.parameterize
+- back_url = send("#{klass}_images_path", @image.resource)
+- form_data = { 'ng-controller' => 'ImageController',
+    'ng-init' => "url = '#{@image.url}'" }
+- if @image.new_record?
+  - heading = t 'media.images.new.heading', resource: @image.resource
+  - form_url = send("#{klass}_images_path", @image.resource)
+- else
+  - heading = t 'media.images.edit.heading', image: @image,
+      resource: @image.resource
+  - form_url = send("#{klass}_image_path", @image.resource, @image)
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to back_url, target: '_self',
+        class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @image, url: form_url, data: form_data do |f|
+
+  = f.hidden_field :resource_id
+  = f.hidden_field :resource_type
+
+  = render partial: 'shared/messages', locals: { resource: @image }
+
+  .form-group
+    = f.label :url
+    = f.text_field :url, class: 'form-control', data: { 'ng-model' => 'url' }
+    
+  .form-group
+    %label= t 'activerecord.attributes.image.thumbnail'
+    %div
+      %image{ src: '{{url}}', height: '100px' }

@@ -1,0 +1,44 @@
+- content_for :title do
+  = @artist.name
+  
+- content_for :header do
+  %meta{ property: 'og:title', content: @artist.name }
+  %meta{ property: 'og:type', content: 'music.artist' }
+  %meta{ property: 'og:image', content: image_for(@artist) }
+  %meta{ property: 'og:url', content: artist_url(@artist) }
+  - @artist.songs.each do |song|
+    %meta{ property: 'music:song', content: song_url(song) }
+
+%div{ data: { 'ng-controller' => 'ArtistController',
+  'ng-init' => "fetch('#{artist_url(@artist, format: :json)}')" }}
+  
+  = cover_for @artist do |m|
+    - m.buttons do
+      %a.btn.btn-primary
+        %span.fa.fa-fw.fa-play
+        
+    .cover-meta
+      %span.fa.fa-fw.fa-tags
+      = link_to_association @artist.genres.limit(3)
+    .cover-meta
+      %span.fa.fa-fw.fa-music
+      = t 'media.artists.cover.listens',
+          count: number_to_human(@artist.listens.count)
+    .cover-meta
+      %span.fa.fa-fw.fa-bars
+      = t 'media.artists.cover.playlists',
+          count: number_to_human(@artist.playlists.count)
+
+  .row
+    .col-md-8
+      = media_list @artist.playlists.rank.limit(5), t('media.artists.playlists')
+      = render @artist.sources
+      = media_list @artist.albums.rank, t('media.artists.albums')
+      = media_list @artist.events.limit(10), t('media.artists.events')
+      = media_list @artist.songs.rank.limit(10), t('media.artists.songs')
+    
+    .col-md-4
+      - if current_user.admin? or @artist.sources.any?
+        = render partial: '/media/sources/index', locals: { resource: @artist }
+      - %w(stats manage).each do |panel|
+        = render "/media/artists/show/sidebar/#{panel}"

@@ -1,5 +1,5 @@
 class RenameTypeToCategoryInEvents < ActiveRecord::Migration
   def change
-	rename_column :events, :type, :category
+  rename_column :events, :type, :category
   end
 end

@@ -1,0 +1,25 @@
+/ - rewards = [,
+/   { img: "http://author.brothersoft.com/softimg/pick_109.gif",
+/     url: "http://www.brothersoft.com/stoffi-music-player-455731.html"
+/   },
+/   { img: "http://www.softpedia.com/base_img/softpedia_free_award_f.gif",
+/     url: "http://www.softpedia.com/get/Multimedia/Audio/Audio-Players/Stoffi-Music-Player.shtml"
+/   },
+/   { img: "http://www.findmysoft.com/review2_5_Stoffi%20Music%20Player_award.png",
+/     url: "http://stoffi-music-player.findmysoft.com/",
+/   },
+/   { img: "http://img.informer.com/awards/si_editor5.gif",
+/     url: "http://stoffi.software.informer.com/",
+/   },
+/   { img: "http://www.fileguru.com/resources/rate5_b2.gif",
+/     url: "http://fileguru.com/Stoffi-Music-Player/info",
+/   } ]
+
+.panel.panel-default#rewards
+  .panel-body
+    - (1..5).each do |i|
+      = link_to "#award#{i}", class: 'reward' do
+        %span.fa.fa-trophy.fa-4x
+    / <% rewards.each do |reward| %>
+    /   <% link_to image_tag(reward[:img]), reward[:url], class: 'reward' %>
+    / <% end %>

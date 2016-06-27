@@ -1,0 +1,51 @@
+en:
+  accounts:
+    profile:
+      
+      points:
+        one: 'One point'
+        other: "%{count} points"
+        
+      information:
+        heading: "Information"
+        country: "Country"
+        status:
+          heading: "Status"
+          online: "Online"
+          offline: "Offline"
+        last_login: "Last login"
+        failed_logins: "Failed logins"
+        last_edit: "Last edit"
+        locked: "Locked?"
+        admin: "Admin?"
+        
+      statistics:
+        heading: "Statistics"
+        listens: "Listens"
+        songs: "Songs played"
+        artists: "Artists played"
+        albums: "Albums played"
+        playlists: "Playlists played"
+        logins: "Logins"
+        
+      listens:
+        tab: 'Recent'
+        title: 'Recent'
+        
+      toplists:
+        tab: 'Toplist'
+        title: 'Toplist'
+        
+      activity:
+        tab: 'Activity'
+        title: 'Activity'
+        
+      playlists:
+        tab: 'Playlists'
+        title: 'Playlists'
+        created:
+          heading: "Playlists created by %{user}"
+          empty: "%{user} hasn't created any playlists yet"
+        followed:
+          heading: "Playlists followed by %{user}"
+          empty: "%{user} isn't following any playlists."

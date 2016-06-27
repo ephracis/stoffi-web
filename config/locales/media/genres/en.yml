@@ -1,0 +1,31 @@
+en:
+  media:
+    genres:
+      badge: 'genre'
+      play: 'Play'
+
+      playlists: 'Playlists'
+      songs: 'Songs'
+      artists: 'Artists'
+      
+      stats:
+        heading: 'Statistics'
+        listens: 'Plays'
+        playlists: 'Playlists'
+        artists: 'Artists'
+        albums: 'Albums'
+        songs: 'Songs'
+        
+      manage:
+        heading: 'Management'
+        edit: 'Edit'
+        remove: 'Delete'
+        confirm: 'Are you sure you want to delete the genre?'
+        sources:
+          heading: 'Sources'
+          new: 'Add'
+          confirm: 'Are you sure you want to remove the source?'
+        
+      edit:
+        title: "Edit '%{genre}'"
+        heading: "Editing genre: <strong>%{genre}</strong>"

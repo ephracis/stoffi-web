@@ -1,0 +1,40 @@
+- tabs = { playlists: { icon: 'fa-bars' },
+           toplists: { icon: 'fa-star' },
+           listens: { icon: 'fa-music' },
+           activity: { icon: 'fa-bolt' } }
+
+.row#profile{ data: { ng: { controller: 'ProfileController',
+  init: "setUser('#{@user.to_param}')" } } }
+  .col-md-3#sidebar
+    .user-avatar.text-center
+      = image_tag avatar(@user), class: 'img-thumbnail', width: 128
+    .text-center#username
+      %h5= username(@user)
+      %p.subtitle= t 'accounts.profile.points',
+        count: number_with_delimiter(@user.points, locale: I18n.locale)
+
+    %ul.nav.nav-pills.nav-stacked.hidden-sm.hidden-xs
+      - tabs.each do |t,v|
+        %li{ class: "{{tab == '#{t}' ? 'active' : ''}}" }
+          %a{ data: { ng: { click: "setTab('#{t}')" } } }
+            %span.fa.fa-fw{ class: v[:icon] }
+            = t "accounts.profile.#{t}.tab"
+    
+    .hidden-sm.hidden-xs
+      = render 'accounts/accounts/show/info'
+      = render 'accounts/accounts/show/stats'
+
+    %ul.nav.nav-tabs.visible-sm.visible-xs
+      - tabs.each do |t,v|
+        %li{ class: "{{tab == '#{t}' ? 'active' : ''}}" }
+          %a{ data: { ng: { click: "setTab('#{t}')" } } }
+            %span.fa.fa-fw{ class: v[:icon] }
+
+  
+  - tabs.each do |t,v|
+    .col-md-9{ data: { ng: { show: "tab == '#{t}'", cloak: '' } } }
+      = render "accounts/accounts/show/#{t}"
+      
+  .col-sm-6.visible-sm.visible-xs
+    = render 'accounts/accounts/show/info'
+    = render 'accounts/accounts/show/stats'

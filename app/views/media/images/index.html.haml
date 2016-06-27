@@ -1,0 +1,41 @@
+- klass = @resource.class.name.demodulize.parameterize
+- type = t "media.images.index.resources.#{klass}"
+- heading = t 'media.images.index.heading', type: type, name: @resource
+
+- content_for :title do
+  = t 'media.images.index.title', type: type, name: @resource
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    = link_to new_song_image_path(@resource), target: '_self',
+        class: 'btn btn-primary' do
+      %span.fa.fa-plus
+      = t 'media.images.new.link'
+    = link_to @resource, target: '_self',
+        class: 'btn btn-secondary' do
+      %span.fa.fa-arrow-left
+      = t 'back'
+
+%table.table
+  %thead
+    %tr
+      %th= t 'activerecord.attributes.media/image.thumbnail'
+      %th= t 'activerecord.attributes.media/image.url'
+      %th= t 'activerecord.attributes.media/image.size'
+      %th
+  %tbody
+    - @resource.images.each do |image|
+      %tr
+        %td= image_tag image.url, height: 20
+        %td= image.url
+        %td #{image.width}x#{image.height}
+        %td.text-right
+          = link_to edit_song_image_path(image.resource, image), target: '_self' do
+            %span.fa.fa-fw.fa-pencil
+          = link_to song_image_path(image.resource, image), target: '_self',
+              method: :delete, data: { confirm: t('media.images.delete.confirm') } do
+            %span.fa.fa-fw.fa-close

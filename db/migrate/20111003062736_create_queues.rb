@@ -5,9 +5,9 @@ class CreateQueues < ActiveRecord::Migration
       t.integer :user_id
       t.timestamps
     end
-	create_table :queues_songs, :id => false do |t|
-	  t.references :queue, :song
-	end
+  create_table :queues_songs, :id => false do |t|
+    t.references :queue, :song
+  end
   end
 
   def self.down

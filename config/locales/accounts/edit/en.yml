@@ -1,0 +1,36 @@
+en:
+  accounts:
+    edit:
+      general:
+        title: 'General settings'
+        tab: 'General'
+        delete: 'Delete account'
+        save: 'Save'
+        name:
+          custom: 'Custom'
+          placeholder: 'Choose a name'
+
+        ads:
+          all: 'Show all ads'
+          text: 'Show only text ads'
+          none: "Don't show me ads"
+          tooltip: "Yes, seriously! You can choose to hide the ads for free."
+
+        password:
+          change: "Change password"
+          create: "Create a password"
+          current: "Your current password"
+          new: "Choose a password"
+          confirm: "Confirm your new password"
+          
+      accounts:
+        title: 'Connected accounts'
+        tab: 'Accounts'
+        connect: 'Connect to %{provider}'
+        unconnect: 'Remove'
+        confirm: 'Are you sure you want to disconnect from %{provider}?'
+        shares: 'Send stuff I share'
+        listens: 'Send music I listen to'
+        button: 'Show link on my profile'
+        playlists: 'Send playlists I create'
+        empty: "You haven't connected any accounts yet."

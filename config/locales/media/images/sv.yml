@@ -1,0 +1,33 @@
+sv:
+  media:
+    images:
+      
+      index:
+        title: 'Bilder för %{type} %{name}'
+        heading: 'Bilder för %{type} <strong>%{name}</strong>'
+        resources:
+          song: 'låten'
+          artist: 'artisten'
+          album: 'albumet'
+          genre: 'genren'
+          event: 'evenemanget'
+        
+      delete:
+        confirm: 'Säker på att du vill ta bort bilden?'
+        success: 'Bilden togs bort'
+        
+      new:
+        link: 'Ny bild'
+        title: 'Lägg till bild till %{resource}'
+        heading: 'Lägger till bild till <strong>%{resource}</strong>'
+        
+      create:
+        success: 'Bilden har skapats'
+        
+      update:
+        success: 'Bilden har ändrats'
+      
+      edit:
+        link: 'Ändra'
+        title: "Redigerar bild för '%{resource}'"
+        heading: "Redigerar bild för <strong>%{resource}</strong>"

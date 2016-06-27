@@ -1,0 +1,23 @@
+search_result:
+  id:
+    video_id: <%= SecureRandom.urlsafe_base64(5) %>
+    
+video:
+  id: <%= SecureRandom.urlsafe_base64(5) %>
+  snippet:
+    title: <%= SecureRandom.urlsafe_base64(5) %>
+    thumbnails:
+      default:
+        url: https://<%= SecureRandom.urlsafe_base64(5) %>.jpg
+        width: 120
+        height: 90
+      medium:
+        url: https://<%= SecureRandom.urlsafe_base64(5) %>.jpg
+        width: 320
+        height: 180
+      
+  contentDetails:
+    duration: PT<%=rand(1..30)%>M<%=rand(0..59)%>S
+    
+  statistics:
+    viewCount: <%=rand(1..10000000)%>

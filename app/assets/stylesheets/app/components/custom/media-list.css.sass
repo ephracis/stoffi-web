@@ -1,0 +1,111 @@
+ul.media-list li.media-list-item
+  padding: .5em
+  transition: background 0.1s
+  
+  .media
+    padding: 0
+    
+    // thumbnail
+    .media-left a
+      display: block
+      width: 80px
+      height: 45px
+      overflow: hidden
+      text-align: center
+      position: relative
+      
+      span.fa
+        background: $primary
+        color: $primary-text
+        font-size: 25px
+        line-height: 45px
+        display: block
+        width: 100%
+        transition: color 0.1s
+    
+      img.media-object
+        width: 100%
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        
+      &.media-object-square
+        width: 45px
+    
+    // body
+    .media-body
+      font-size: 12px
+      
+      h5.media-heading
+        font-size: 14px
+        font-weight: bold
+        margin-top: 4px
+      
+        a.media-title
+          color: $headings-color
+          
+      .media-attributes .media-attribute
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        
+        a
+          white-space: initial
+        
+        &.media-attribute-sm
+          @extend .hidden-xs
+        
+        &.media-attribute-md
+          @extend .hidden-xs
+          @extend .hidden-sm
+        
+        &.media-attribute-lg
+          @extend .hidden-xs
+          @extend .hidden-sm
+          @extend .hidden-md
+  
+    // buttons
+    .media-right
+      vertical-align: middle
+      
+      .buttons
+        height: 0
+        text-align: right
+        background: $primary
+        color: $primary-text
+        position: absolute
+        top: 0
+        right: 0
+        overflow: hidden
+        border-bottom-left-radius: 3px
+        
+        > a, > .dropdown > a
+          display: inline-block
+          padding: 3px 12px
+          transition: color 0.3s
+          
+          &:hover, &:focus
+            text-decoration: none
+            color: $secondary
+        
+        > .dropdown
+          display: inline-block
+          .dropdown-menu
+            color: $dropdown-link-color
+  
+  &:hover
+    box-shadow: 0px 0px 3px $primary
+    z-index: 2
+    
+    .media .media-right .buttons
+      height: 25px
+      overflow: inherit
+      
+    .media .media-left a span.fa
+      transition: color 0.5s ease
+      color: $secondary
+      
+.media-list.media-list-sm
+  .media-attribute-sm, .media-attribute-lg
+    display: none

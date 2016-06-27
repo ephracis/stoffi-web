@@ -1,0 +1,34 @@
+sv:
+  static:
+    contact:
+      issue:
+        header: 'Hjälp Stoffi förbättras'
+        body: "Rapportera en bugg du hittat eller be om en förbättring du skulle vilja se i Stoffi."
+        button:
+          header: 'Vad vill du förbättra?'
+          web: 'Hemsida'
+          win: 'Spelare'
+
+      form:
+        header: "Skicka meddelande"
+        name: "Ditt namn"
+        email: "Din email"
+        subject: "En kort sammanfattning"
+        message: "Ditt meddelande"
+        submit: "Skicka"
+        success: "Ditt meddelande har skickats. Du borde få svar inom kort."
+        errors:
+          subject: "Titeln måste vara minst fyra tecken."
+          name: "Ditt namn är väl mer än ett tecken."
+          message: "Meddelande måste vara minst tjugo tecken."
+          email: "Du glömde din email."
+          captcha: "Jag är säker på att du är människa. Försök igen."
+
+      address:
+        header: "Adress"
+        phone:
+          label: "Telefonnummer"
+          abbr: "Tel"
+          
+      map:
+        header: "Stoffi HQ"

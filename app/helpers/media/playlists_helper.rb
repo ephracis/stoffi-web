@@ -1,0 +1,3 @@
+module Media::PlaylistsHelper
+  
+end

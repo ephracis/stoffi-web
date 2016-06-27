@@ -1,0 +1,6 @@
+sv:
+  old:
+    title: "Du är i fara!"
+    subtitle: "Du använder en gammal webbläsare för att surfa på nätet. Detta ökar risken för att få dina uppgifter stulna och dator infekterad. Det innebär också att den här sidan kanske inte ser bra ut eller ens fungerar som den ska."
+    call: "Snälla, uppgradera till en modern webbläsare. Här är vad som är populärt hos kidsen idag:"
+    link: "Jag kan inte uppgradera."

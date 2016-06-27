@@ -1,0 +1,22 @@
+sv:
+  accounts:
+    dashboard:
+      stats:
+        title: 'Statistik'
+        listens: 'Senaste spelningarna'
+        songs: 'Populära låtar'
+        playlists: 'Populära spellistor'
+        artists: 'Populära artister'
+        albums: 'Populära album'
+        genres: 'Populära genrar'
+      rank:
+        title: 'Placering'
+        header: 'Din placering'
+        name: 'Namn'
+        listens: 'Spelningar'
+      activity:
+        title: 'Aktivitet'
+        header: 'Senaste aktivitet'
+      devices:
+        title: 'Enheter'
+        header: 'Kopplade enheter'

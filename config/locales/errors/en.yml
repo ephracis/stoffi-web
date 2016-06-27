@@ -1,0 +1,37 @@
+en:
+  errors:
+    code_400:
+      heading: 'Bad request'
+      description: "The server cannot understand what you are requesting."
+    
+    code_403:
+      heading: 'Forbidden'
+      description: "Woops! You are not allowed to do that."
+      
+    code_404:
+      heading: 'No such %{resource} exists'
+      description: "The %{resource} that this adress points to doesn't seem to exist."
+      resources:
+        source: 'source'
+        song: 'song'
+        playlist: 'playlist'
+        artist: 'artist'
+        album: 'album'
+        event: 'event'
+        genre: 'genre'
+        
+    code_422:
+      heading: 'Unprocessable entity'
+      description: "There's something weird about the data you just sent."
+    
+    code_500:
+      heading: 'A server error occured'
+      description: "Something weird happened. But don't worry, it's our fault and not yours. We'll try to fix it as soon as possible."
+    
+    code_502:
+      heading: 'Bad gateway'
+      description: "The server has some issues with one of its services. We'll try to fix it as soon as possible."
+    
+    code_503:
+      heading: 'Overload'
+      description: "The server is busy at the moment. Please try again in a few minutes."

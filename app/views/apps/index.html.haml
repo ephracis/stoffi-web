@@ -1,0 +1,21 @@
+.pull-right
+  = link_to new_app_path, class: 'btn btn-primary', target: '_self' do
+    %span.fa.fa-plus
+    Create app
+%h2 Apps
+= @apps.each_slice(4) do |app_row|
+  .row
+    - app_row.each do |app|
+      .col-sm-3
+        .thumbnail
+          = image_tag 'http://placehold.it/250x200'
+          .caption
+            .app-button.pull-right
+              = link_to '#', class: 'btn btn-primary btn-xs', target: '_self' do
+                %span.fa.fa-plus
+                Install
+            .app-title
+              %strong
+                = app.name
+            .app-author.clearfix
+              = link_to app.author, app.author_url

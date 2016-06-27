@@ -1,0 +1,55 @@
+sv:
+  activerecord:
+    
+    models:
+      user: 'Användare'
+      'media/playlist': 'Spellista'
+      'media/source': 'Källa'
+    
+    attributes:
+      user:
+        email: "Email"
+        current_password: "Nuvarande lösenord"
+        password: "Nytt lösenord"
+        confirm_password: "Bekräfta lösenord"
+        name: "Namn"
+        show_ads: "Reklam"
+        avatar: 'Profilbild'
+        slug: 'Adress'
+        
+      'media/playlist':
+        name: 'Namn'
+        slug: 'Adress'
+        songs: 'Låtar'
+        new_song: 'Ny låt'
+        
+      'media/source':
+        name: 'Typ'
+        foreign_id: 'Externt ID'
+        foreign_url: 'Extern URL'
+        length: 'Längd'
+        
+      'media/image':
+        url: 'URL'
+        thumbnail: 'Miniatyr'
+        size: 'Storlek'
+        
+      'media/song':
+        title: 'Titel'
+        slug: 'Adress'
+        artists: 'Artister'
+        genres: 'Genrar'
+
+      app:
+        name: 'Namn'
+        description: 'Beskrivning'
+        website: 'Hemsida'
+        author: 'Skapare'
+        author_url: 'Adress till skapare'
+        callback_url: 'Adress till callback'
+        support_url: 'Adress för support'
+
+    errors:
+      messages:
+        blank: 'saknas'
+        invalid: 'är ogitlig'

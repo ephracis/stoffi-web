@@ -1,0 +1,4 @@
+- coords = "#{@event.longitude},#{@event.latitude}"
+%h4=t 'media.events.map'
+%map{ center: coords, zoom: 3 }
+  %marker{ position: "[#{coords}]", title: @event.name }

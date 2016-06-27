@@ -1,0 +1,17 @@
+- if current_user.admin?
+  .panel.panel-default
+    .panel-heading
+      %span.fa.fa-fw.fa-shield
+      = t 'media.artists.manage.heading'
+    .panel-body
+  
+      = link_to edit_artist_path(@artist),
+          class: 'btn btn-default', target: '_self' do
+        %span.fa.fa-fw.fa-edit
+        = t 'media.artists.manage.edit'
+      
+      = link_to artist_path(@artist),
+          class: 'btn btn-danger', method: :delete, target: '_self',
+          data: { confirm: t('media.artists.manage.confirm') } do
+        %span.fa.fa-fw.fa-remove
+        = t 'media.artists.manage.remove'

@@ -1,0 +1,14 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-bar-chart
+    = t 'media.songs.stats.heading'
+  %ul.list-group
+    %li.list-group-item
+      = t 'media.songs.stats.listens'
+      %span.badge= number_to_human @song.listens.count
+    %li.list-group-item
+      = t 'media.songs.stats.playlists'
+      %span.badge= number_to_human @song.playlists.count
+    %li.list-group-item
+      = t 'media.songs.stats.albums'
+      %span.badge= number_to_human @song.albums.count

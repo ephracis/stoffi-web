@@ -1,0 +1,109 @@
+.row
+  .col-md-6
+    = form_for current_user, url: update_user_registration_path, method: :patch,
+        data: { 'ng-submit' => 'hashPasswords()', 'ng-init' => "email = '#{resource.email}'" } do |f|
+      = render 'shared/messages'
+
+      .form-group
+        = f.label :email
+        .input-group
+          %span.input-group-addon
+            %span.fa.fa-fw.fa-envelope
+          = f.email_field :email, class: 'form-control', data: { 'ng-model' => 'email' }
+
+
+      .form-group
+        = f.label :name
+        = f.hidden_field :name_source_id, value: '{{nameSource.id}}' #data: { 'ng-model' => 'nameSource.id' }
+        .input-group
+          .input-group-btn
+            %button.btn.btn-default.btn-dropdown{type: :button,
+                                                 data: { toggle: :dropdown } }
+              {{nameSource.display}}&nbsp;
+              %span.caret
+            %ul.dropdown-menu
+              %li{ data: { 'ng-repeat' => "link in links" } }
+                %a{ href: '#', data: { 'ng-click' => "setNameSource(link.provider)" } }
+                  {{link.display}}
+              %li.divider{ data: { 'ng-show' => "links" } }
+              %li=link_to t('accounts.edit.general.name.custom'), '#',
+                data: { 'ng-click' => "setNameSource('')" }
+  
+          = f.text_field :name, class: 'form-control',
+            placeholder: t('accounts.edit.general.name.placeholder'),
+            data: { 'ng-readonly' => "nameSource != customName", 'ng-model' => 'nameSource.name' }
+
+      .form-group#avatar-selector
+        = f.label :avatar
+        = f.select :avatar, avatar_options_for_select, {}, data: { 'image-picker' => true }
+
+      .form-group
+        = f.label :slug
+        .input-group
+          %span.input-group-addon
+            = request.protocol + request.host_with_port + '/'
+          = f.text_field :slug, class: 'form-control'
+
+
+      .row
+        .col-md-6
+          .form-group
+            = f.label :show_ads, { data: { tooltip: t('accounts.edit.general.ads.tooltip') } }
+            = f.select :show_ads,
+                       options_for_select([[t("accounts.settings.general.ads.all"), "all"],
+			                                     [t("accounts.settings.general.ads.text"), "text"],
+                                           [t("accounts.settings.general.ads.none"), "none"] ],
+                                          current_user.show_ads),
+                       {}, { class: 'form-control' }
+
+      .checkbox
+        %label
+          = check_box_tag "edit_password", "yes", false,
+              { data: { 'ng-model' => 'editPassword' } }
+          = t "accounts.edit.general.password.#{current_user.has_password ? 'change' : 'create'}"
+
+      %div{ data: { 'ng-show' => 'editPassword' } }
+        .form-group
+          = f.label :current_password
+          .input-group
+            .input-group-addon
+              %span.fa.fa-fw.fa-key
+            = f.password_field :current_password, 
+                class: 'form-control',
+                placeholder: t("accounts.settings.general.password.current"),
+                data: { 'ng-model' => 'currentPassword' }
+            
+        .form-group
+          = f.label :password
+          .input-group
+            .input-group-addon
+              %span.fa.fa-fw.fa-key
+            = f.password_field :password,
+                class: 'form-control',
+                placeholder: t("accounts.edit.general.password.new"),
+                data: { submit_on_enter: true,
+                        strength_indicator: 'password-strength',
+                        'ng-model' => 'password' }
+
+          %span.help-block{ data: { 'ng-show' => "password.length > 0" } }
+            {{passwordStrength()}}
+            %span.fa.fa-info-circle{ tooltip: '{{strengthTooltip}}' }
+            
+        .form-group
+          = f.label :confirm_password
+          .input-group
+            .input-group-addon
+              %span.fa.fa-fw.fa-key
+            = f.password_field :password_confirmation, 
+                class: 'form-control',
+                placeholder: t("accounts.edit.general.password.confirm"),
+                data: { 'ng-model' => 'passwordConfirmation',
+                       submit_on_enter: true }
+
+      .text-right
+        %button.btn.btn-danger
+          %span.fa.fa-fw.fa-remove
+          = t 'accounts.edit.general.delete'
+        %button.btn.btn-primary
+          %span.fa.fa-fw.fa-check
+          = t 'accounts.edit.general.save'

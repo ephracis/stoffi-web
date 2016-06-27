@@ -1,23 +1,25 @@
-<%= render 'layouts/doctype' %>
-<%= render 'layouts/html_tag' %>
-	
-	<%= render 'shared/headers' %>
-	
-	<body>
+<!DOCTYPE html>
+
+<html xmlns:og="http://ogp.me/ns#" xml:lang="<%=I18n.locale%>"
+      lang="<%=I18n.locale%>">
+  
+  <head>
+    <%= render 'head' %>
+  </head>
+  
+  <body>
+    <%= render 'navbar' %>
+    
+    <div data-ng-app='Stoffi'>
+      <%= render 'toolbar' %>
+      <div class='root container'>
+        <%= render 'breadcrumb' %>
+  		  <%= yield %>
+  		</div>
+  	<div>
 		
-		<div id='root'>
-			<%= render 'shared/navigation' %>
-	
-			<main>
-				<%= yield %>
-			</main>
-			
-			<aside class='sidebar'>
-				<%= content_for?(:sidebar) ? yield(:sidebar) : render('shared/sidebars/default') %>
-			</aside>
-	
-			<%= render 'shared/footer' %>
-		</div>
-		
-	</body>
+    <%= render 'footer' %>
+    <%= render 'notifications' %>
+  </body>
+  
 </html>

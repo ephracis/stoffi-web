@@ -1,0 +1,43 @@
+sv:
+  media:
+    playlists:
+      badge: 'spellista'
+      add: 'Spellistor'
+      create: 'Skapa ny'
+      follow: 'Följ'
+      unfollow: 'Sluta följa'
+      add_song: 'Lägg till låt'
+      play: 'Spela'
+      
+      songs:
+        empty: "Den här spellistan har inga låtar än"
+        error: "Kunde inte ladda låtar för den här spellistan"
+        loading: "Laddar låtar, häng kvar..."
+      
+      info:
+        heading: 'Information'
+        author: 'Skapad av'
+        created: 'Skapades'
+        updated: 'Senaste ändringen'
+        
+      stats:
+        heading: 'Statistik'
+        songs: 'Antal låtar'
+        listens: 'Spelningar'
+        followers: 'Följare'
+        
+      manage:
+        heading: 'Administration'
+        edit: 'Redigera'
+        remove: 'Ta bort'
+        confirm: 'Är du säker på att du vill ta bort spellistan?'
+        
+      new:
+        button: 'Skapa spellista'
+        title: 'Skapa spellista'
+        heading: 'Skapar ny spellista'
+        
+      edit:
+        title: "Redigera '%{playlist}'"
+        heading: "Redigerar spellista: <strong>%{playlist}</strong>"
+        

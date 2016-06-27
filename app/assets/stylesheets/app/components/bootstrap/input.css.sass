@@ -1,0 +1,19 @@
+.recaptcha
+  margin: 1em 0 .5em
+  .g-recaptcha
+    display: inline-block
+    
+.input-warning
+  font-size: .8em
+  margin: -.8em .3em 0
+  color: rgba(150, 0, 0, 0.8)
+
+// Fix issues:
+// - Misaligned height with 1px, cause unknown.
+// - Misaligned right margin, caused by change of font.
+.input-group .input-group-btn button.btn
+  min-height: 34px
+  margin-right: -2px
+
+.form-group-without-margin
+  margin-bottom: 0

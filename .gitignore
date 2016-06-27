@@ -10,11 +10,13 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+*~
 
 # Secret files
 config/initializers/secret_token.rb
-config/secrets.yml
 config/database.yml
+config/application.yml
+.env
 
 ## Environment normalisation:
 /.bundle
@@ -30,4 +32,12 @@ config/database.yml
 .powenv
 
 public/assets
-solr
+solr/*
+!solr/configsets
+
+# bower components should be installed from bower.json
+vendor/assets/components/
+
+# yard documentation generatior
+doc/
+.yardoc/

@@ -1,0 +1,50 @@
+- if activity.trackable
+  .panel.panel-default
+    .panel-body
+      .media
+        .media-left
+          = link_to activity.owner do
+            = image_tag avatar(activity.owner), class: 'media-object',
+                width: 40
+        .media-body
+          %div
+            - user = link_to username(activity.owner),
+               activity.owner
+            - user = "<strong>#{user}</strong>"
+            - song = link_to t("activities.listen.links.song"),
+               activity.trackable.song
+            - if activity.trackable.album.present?
+              - album = link_to(t("activities.listen.links.album"),
+                 activity.trackable.album)
+            - if activity.trackable.playlist.present?
+              - playlist = link_to(t("activities.listen.links.playlist"),
+                 activity.trackable.playlist)
+            
+            - if activity.trackable.album.present?
+              = t("activities.listen.lines.album",
+                user: user, song: song, album: album).html_safe
+                
+            - elsif activity.trackable.playlist.present?
+              = t("activities.listen.lines.playlist",
+                user: user, song: song, playlist: playlist).html_safe
+                
+            - else
+              = t("activities.listen.lines.song",
+                user: user, song: song).html_safe
+              
+          %div
+            %small
+              - time = t('ago', time: time_ago_in_words(activity.created_at))
+              - time[0] = time[0].capitalize
+              = time
+
+      = media_list activity.trackable.song
+
+    -# .panel-footer
+    -#   %small.actions
+    -#     = link_to '#' do
+    -#       %span.fa.fa-share-alt
+    -#       share
+    -#     = link_to '#' do
+    -#       %span.fa.fa-thumbs-o-up
+    -#       follow

@@ -2,28 +2,84 @@
 	<%= @search.query %>
 <% end %>
 
-<article class='tabbed fullwidth' id='search'>
-	<%= render 'categories' %>
-	
-	<section id='form'>
-		<%= image_tag 'gfx/logos/blue_on_transparent_128.png', class: 'large-logo' %>
-		
-		<%= form_for search_path, method: :get do %>
-			<%= hidden_field :search, :id, value: @search.id %>
-			<%= hidden_field_tag :c, @search.categories %>
-			<%= image_tag 'gfx/logos/blue_on_transparent_32.png', class: 'small-logo' %>
-			<%= text_field_tag 'q', '', id: 'query', value: @search.query %>
-		<% end %>
-	</section>
-	
-	<section id='loading-results'>
-		<%= render 'shared/widgets/loading' %>
-	</section>
-	
-	<%= render 'shared/alert', { title: t('search.error') } %>
-	
-	<div id='results'></div>
-	
-	<%= render "shared/ads/#{@search.query.blank? ? 'banner' : 'skyscraper'}" %>
-	
-</article>
+<div class='text-center' id='search' data-ng-controller='SearchController'>
+  <div class='logo logo-large' data-ng-show="mode == 'front'">
+    <%= render 'logo' %>
+  </div>
+  
+  <form data-ng-submit='submit()'>
+	  <input type='hidden' name='c' data-ng-value='currentCategory.name'/>
+	  
+	  <div class='input-wrapper'>
+	    <div class='small-logo-wrapper' data-ng-show="mode != 'front'">
+	      <span class='small-logo-stretcher'></span>
+	      <div class='logo logo-small'>
+          <%= render 'logo' %>
+        </div>
+  	  </div>
+	  
+      <div class="input-group input-group-lg">
+        
+        <!-- category selector -->
+        <div class="input-group-btn" id='search-category-inside'>
+          <%= render partial: 'categories', locals:
+            { btn_class: 'btn-default' } %>
+        </div>
+      
+        <!-- search field -->
+        <%= text_field_tag 'q', '', id: :query, autofocus: true,
+          value: @search.query,
+          placeholder: '{{currentCategory.placeholder}}',
+          class: 'form-control',
+          autocomplete: 'off',
+          'stf-autocomplete' => '/search/suggestions.json',
+          data: {
+            'ng-model' => 'query'
+          } %>
+      
+        <!-- cool looking glass -->
+        <span class="input-group-btn">
+          <%= button_tag class: 'btn btn-primary' do %>
+            <span class='fa fa-search'></span>
+          <% end %>
+        </span>
+        
+      </div>
+      
+    </div>
+    
+    <div class='dropdown' id='search-category-outside'>
+      <%= render partial: 'categories', locals:
+        { btn_class: 'btn-link' } %>
+    </div>
+      
+  </form>
+  
+  <div id='loading'
+    data-ng-show="mode == 'searchingDb' || mode == 'searchingBackends'">
+    <%= render 'spinner' %>
+    <div class='spinner-label' id='loading-label'>
+      <span data-ng-show="mode == 'searchingBackends'">
+        <%= simple_format t('search.spinner.internet') %>
+      </span>
+      <span data-ng-show="mode == 'searchingDb'">
+        <%= t('search.spinner.db') %>
+      </span>
+    </div>
+  </div>
+  
+  <div class='alert alert-warning' data-ng-show="mode == 'empty'">
+    <span class='fa fa-warning'></span>
+    <%= t 'search.empty' %>
+  </div>
+  
+  <div class='alert alert-danger' data-ng-show="mode == 'error'">
+    <span class='fa fa-warning'></span>
+    <%= t 'search.error' %>
+  </div>
+  
+  <div id='results' data-ng-show="mode == 'results'"
+    data-ng-bind-html='hits' class='list-resources'>
+  </div>
+  
+</div>

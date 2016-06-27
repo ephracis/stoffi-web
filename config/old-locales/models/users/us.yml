@@ -1,0 +1,55 @@
+us:
+  usermenu: 'My Stoffi'
+  
+  login:
+    services: 'Use one of these'
+    form: 'or fill out this form'
+  
+  dashboard:
+    meta: "Show dashboard"
+    
+    rankings:
+      week: 'This week'
+      month: 'This month'
+      year: 'This year'
+      alltime: 'All time'
+      
+    categories:
+      admin: 'Admin'
+    
+  user:
+    name:
+      unknown: "Unknown"
+  
+  settings:
+    title: "Settings"
+    deregister: "Remove account"
+    
+    profile: "Profile"
+    change_password: "Change password"
+    create_password: "Create password"
+    
+    custom: "Custom"
+    default: "Default"
+    
+    ads:
+      all: "Text and image"
+      text: "Text only"
+      none: "Don't show ads"
+      
+  profile:
+    type:
+      user: 'User'
+      admin: 'Admin'
+    points: 'Points'
+    listens: 'Plays'
+    joined: 'Joined Stoffi'
+    plays: 'Songs played'
+    logins: 'Logins'
+    last_login:
+      title: 'Last login'
+      text: '%{ago} ago from %{ip}'
+      nil: 'Never logged in'
+    failed_logins: 'Failed logins'
+    last_edit: 'Last edit'
+    locked: 'Locked'

@@ -1,0 +1,21 @@
+foo:
+  name: Foo
+  user: alice
+  is_public: 1
+
+bar:
+  name: Bar
+  user: alice
+  is_public: 0
+  filter: Eminem
+
+baz:
+  name: Baz
+  user: bob
+  is_public: 1
+  filter: Bob Marley
+
+car:
+  name: Car
+  user: bob
+  is_public: 1

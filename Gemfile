@@ -1,84 +1,36 @@
 source 'http://rubygems.org'
+ruby '2.3.0'
 
+gem 'bundler', '>= 1.8.4'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.1.4'
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-
-# Use MySQL as the database for Active Record
-gem 'mysql2', group: :production
+gem 'rails', '~> 4.2.0'
+#gem 'rails', github: 'rails/rails'
 
 # Use SCSS for stylesheets
+gem 'sass', '~> 3.2.19'
 gem 'sass-rails', '~> 4.0.3'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# Turbolinks makes following links in your web application faster.
+# Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
 
-group :development do
-	gem 'better_errors'
-	gem 'binding_of_caller'
-	gem 'meta_request'
-	gem 'capistrano-rails'
-	gem 'capistrano-rvm'
-	gem 'capistrano-passenger'
-
-	# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-	gem 'spring'
-	
-	gem 'dogapi'
-end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
-#gem 'json'
-#gem 'system_timer'
-
-gem 'haml', '4.0.5'
-
-# Gems used for mocking and stubbing while running tests
-group :test do
-	gem 'webmock'
-	gem 'mocha'
-	gem 'capybara'
-	#gem 'capybara-webkit'
-	#gem 'headless'
-	#gem 'selenium-webdriver'
-	gem 'rails-perftest'
-	gem 'ruby-prof'
-	gem "codeclimate-test-reporter", require: nil
-end
+# Use pretty markup syntax
+gem 'haml', '~> 4.0.5'
 
 # Use Devise for user authentication
 gem 'devise'
 
-# Use Hanna as documentation template
-gem 'hanna-nouveau'#, '0.3.0'
-
 # Use OmniAuth for authentication with other services
-# (we don't use Devise's built-in since it didn't work when we tried)
+# (I don't use Devise's built-in since it didn't work when I last tried)
 gem "omniauth-facebook"
 gem "omniauth-google-oauth2"
 gem "omniauth-lastfm"
@@ -93,53 +45,114 @@ gem "omniauth-windowslive"
 gem "omniauth-yahoo"
 gem "omniauth-yandex"
 gem "omniauth-youtube"
-
 gem "omniauth"
 
-# We use GeoIP so we can adjust locale depending on origin
+# Use GeoIP so to adjust locale depending on origin
 gem 'geoip'
 
 # Keep spam away
-gem 'recaptcha', :require => 'recaptcha/rails'
+gem 'recaptcha', require: 'recaptcha/rails'
 
 # Let third parties access our services via OAuth
 gem "oauth-plugin"
 
-# Push changes to connected clients
-gem "juggernaut"
-
-# Translate the URLs
-#gem "i18n_routing"
-
 # Paginate
-#gem "will_paginate"
 gem 'kaminari'
 
-# Audio processing
-#gem "ruby-audio"
-#gem "fftw3"
-#gem "ruby-echonest"
-
-# Access wikipedia API
-gem "wikipedia-client"
-gem "mediacloth"
-gem "wikicloth"
-
-# Truncate HTML
-#gem "truncate_html"
-
-gem "deep_merge"
-gem "htmlentities"
-gem 'haversine'
-gem 'ruby-duration'
-gem 'fastimage'
+# use solr as search engine
 gem 'sunspot_rails'
 gem 'sunspot_solr'
-gem 'numbers_and_words'
-gem 'compass-rails'
-gem 'rails-gallery'
-gem 'sass', '3.2.19'
+
+# Used to serve search suggestions based on geographical location
+gem 'haversine'
+
+# manage environment variables on heroku
+gem 'figaro'
+
+# parse durations from YouTube results
+gem 'ruby-duration'
+
+# I18n support in javacsript
+gem "i18n-js", ">= 3.0.0.rc11"
+
+# Draw pretty charts
 gem 'chartkick'
+
+# Allow charts with data grouped by day
 gem 'dateslices'
+
+# Allow events to act_as_mappable
 gem 'geokit-rails'
-gem 'font-awesome-sass'
+
+# Fetch image header to determine its size
+gem 'fastimage'
+
+# Perform A/B testing
+gem 'split', require: 'split/dashboard'
+
+# Activity feed
+gem 'public_activity'
+
+# Friendly URLs like `/:username/:playlist`.
+gem 'friendly_id'
+
+# Breadcrumbs
+gem 'breadcrumbs_on_rails'
+
+group :development, :test do
+  gem 'sqlite3'
+	gem 'teaspoon-mocha'
+end
+
+group :doc do
+  gem 'sdoc'
+  gem 'hanna-nouveau'
+end
+gem 'yard' # TODO: put this in the :doc group
+
+group :production do
+  gem 'mysql2'
+end
+
+group :test do
+	gem 'webmock'
+	gem 'mocha'
+	gem 'capybara'
+	gem 'rails-perftest'
+	gem 'ruby-prof'
+	gem "codeclimate-test-reporter", require: nil
+end
+
+group :development do
+	gem 'better_errors'
+	gem 'binding_of_caller'
+	gem 'meta_request'
+	gem 'capistrano-rails'
+	gem 'capistrano-rvm'
+	gem 'capistrano-passenger'
+	gem 'spring'
+	gem 'dogapi'
+	gem 'faker'
+	gem 'progress_bar'
+	gem 'colorize'
+end
+
+# bower packages via rails-assets
+source 'https://rails-assets.org' do
+  gem 'rails-assets-jquery'
+  gem 'rails-assets-jquery-ui'
+  gem 'rails-assets-jquery-ujs'
+  gem 'rails-assets-bootstrap-sass'
+  gem 'rails-assets-fontawesome'
+  gem 'rails-assets-qtip2'
+  gem 'rails-assets-angular'
+  gem 'rails-assets-angular-ui'
+  gem 'rails-assets-angular-mocks'
+  gem 'rails-assets-angulartics-google-analytics'
+  gem 'rails-assets-ngmap'
+  gem 'rails-assets-cryptojslib'
+  gem 'rails-assets-image-picker'
+  gem 'rails-assets-angular-ui-sortable'
+  gem 'rails-assets-bootstrap-growl'
+  gem 'rails-assets-fuelux'
+end

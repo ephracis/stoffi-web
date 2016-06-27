@@ -1,0 +1,13 @@
+sv:
+  navbar:
+    about: 'Info'
+    music: 'Musik'
+    search: 'Sök'
+    app: 'App'
+    donate: 'Donera'
+    login: 'Logga in'
+    logout: 'Logga ut'
+    dashboard: 'Panel'
+    playlists: 'Spellistor'
+    profile: 'Profil'
+    settings: 'Inställningar'

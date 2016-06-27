@@ -1,0 +1,31 @@
+<%= csrf_meta_tags %>
+
+<% # REFACTOR: move to helper %>
+<%
+controller = params[:controller].gsub "/", "."
+action = params[:action]
+title = "Stoffi"
+%>
+<title>
+
+	<% if content_for? :title %>
+		<%= yield :title %> - <%= title %>
+		
+	<% elsif t? "#{controller}.#{action}.title" %>
+		<%= t "#{controller}.#{action}.title" %> - <%= title %>
+		
+	<% elsif t? "#{controller}.title" %>
+		<%= t "#{controller}.title" %> - <%= title %>
+		
+	<% else %>
+		<%= title %>
+		
+	<% end %>
+	
+</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<%= stylesheet_link_tag "application" %>
+
+<%= render 'javascript' %>

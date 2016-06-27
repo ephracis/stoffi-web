@@ -1,0 +1,61 @@
+$footer-color: transparentize($text, .5)
+$footer-link-color: $primary
+$footer-link-hover-color: darken($primary, 20)
+$footer-border-color: transparentize($text, .9)
+$footer-height: 17em
+$footer-copyright-width: 140px
+
+html
+  position: relative
+  min-height: 100%
+
+body
+  margin-bottom: $footer-height
+
+.footer
+  position: absolute
+  bottom: 0
+  width: 100%
+  height: $footer-height
+  font-size: .9em
+  color: $footer-color
+  padding: 0 1em
+  
+  .container
+    border-top: 1px solid $footer-border-color
+    margin: 3em auto 0
+    padding: 3em 0 2em
+  
+  .copyright
+    position: absolute
+    left: 50%
+    width: $footer-copyright-width
+    margin-left: $footer-copyright-width / -2
+    a
+      color: $footer-color
+  
+  
+  .links
+    float: none
+    text-align: center
+    
+    a
+      display: inline-block
+      margin: 0 1em 1em 1em
+      color: $footer-link-color
+      &:hover
+        color: $footer-link-hover-color
+        text-decoration: none
+  
+  .languages
+    float: none
+    text-align: center
+    img
+      display: inline-block
+      margin: 1em
+    
+    a
+      img
+        opacity: 0.6
+      &:hover img
+        opacity: 1

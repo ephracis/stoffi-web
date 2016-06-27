@@ -1,0 +1,32 @@
+en:
+  media:
+    events:
+      badge: 'event'
+      artists: 'Artists'
+
+      map: 'Map'
+      similar: 'Similar'
+      
+      info:
+        heading: 'Information'
+        country: 'Country'
+        city: 'City'
+        address: 'Address'
+        date: 'Date'
+        time: 'Time'
+        start: 'Starts at'
+        end: 'Until'
+        
+      manage:
+        heading: 'Management'
+        edit: 'Edit'
+        remove: 'Delete'
+        confirm: 'Are you sure you want to delete the event?'
+        sources:
+          heading: 'Sources'
+          new: 'Add'
+          confirm: 'Are you sure you want to remove the source?'
+        
+      edit:
+        title: "Edit '%{event}'"
+        heading: "Editing event: <strong>%{event}</strong>"

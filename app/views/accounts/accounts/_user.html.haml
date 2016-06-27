@@ -1,0 +1,18 @@
+= media_list_item user do |m|
+
+  - m.image avatar(user), link: { class: 'media-object-square' }
+  - m.title username(user), badge: local_assigns[:badge].present?
+  
+  / content
+  .row
+    .col-xs-4
+      %span.fa.fa-fw.fa-star
+      = number_to_human user.points
+      
+    .col-xs-4
+      %span.fa.fa-fw.fa-music
+      = number_to_human user.listens.count
+      
+    .col-xs-4
+      %span.fa.fa-fw.fa-bars
+      = number_to_human user.playlists.count

@@ -1,0 +1,39 @@
+- if activity.trackable
+  .panel.panel-default
+    .panel-body
+      .media
+        .media-left
+          = link_to '#' do
+            = image_tag avatar(activity.owner), class: 'media-object',
+                width: 40
+        .media-body
+          %div
+            - user = link_to username(activity.owner), activity.owner
+            - user = "<strong>#{user}</strong>"
+            - resource = case activity.trackable.resource.class.name
+            - when 'Media::Playlist' then 'playlist'
+            - when 'Media::Artist' then 'artist'
+            - when 'Media::Album' then 'album'
+            - when 'Media::Song' then 'song'
+            - when 'Media::Event' then 'event'
+            - else activity.trackable.resource.class
+
+            - resource_link = link_to(t("activities.share.#{resource}.link"), activity.trackable.resource)
+            = t("activities.share.#{resource}.line", user: user, resource: resource_link).html_safe
+
+          %div
+            %small
+              - time = t('ago', time: time_ago_in_words(activity.created_at))
+              - time[0] = time[0].capitalize
+              = time
+
+      = media_list activity.trackable.resource
+
+    -# .panel-footer
+    -#   %small.actions
+    -#     = link_to '#' do
+    -#       %span.fa.fa-share-alt
+    -#       share
+    -#     = link_to '#' do
+    -#       %span.fa.fa-thumbs-o-up
+    -#       follow

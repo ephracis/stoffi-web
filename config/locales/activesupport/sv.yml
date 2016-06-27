@@ -1,0 +1,12 @@
+sv:
+
+  # Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " och "
+      last_word_connector: " och "
+      
+    select:
+      # default value for :prompt => true in FormOptionsHelper
+      prompt: "Välj"

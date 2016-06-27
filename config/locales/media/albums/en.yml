@@ -1,0 +1,30 @@
+en:
+  media:
+    albums:
+      badge: 'album'
+      play: 'Play'
+      add_song: 'Add song'
+      
+      songs:
+        empty: "This album has no songs yet"
+        error: "Could not load songs for this album"
+        loading: "Loading songs, please wait..."
+      
+      stats:
+        heading: 'Statistics'
+        listens: 'Plays'
+        playlists: 'Playlists'
+        
+      manage:
+        heading: 'Management'
+        edit: 'Edit'
+        remove: 'Delete'
+        confirm: 'Are you sure you want to delete the album?'
+        sources:
+          heading: 'Sources'
+          new: 'Add'
+          confirm: 'Are you sure you want to remove the source?'
+        
+      edit:
+        title: "Edit '%{album}'"
+        heading: "Editing album: <strong>%{album}</strong>"

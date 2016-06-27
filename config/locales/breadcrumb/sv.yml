@@ -1,0 +1,25 @@
+sv:
+  breadcrumbs:
+    
+    home: 'Hem'
+    about: 'Info'
+    legal: 'Juridik'
+    contact: 'Kontakt'
+    
+    login: 'Logga in'
+    join: 'Gå med'
+    forgot: 'Glömt'
+    unlock: 'Lås upp'
+    settings: 'Inställningar'
+    dashboard: 'Panel'
+    
+    music: 'Musik'
+    new: 'Skapa'
+    edit: 'Redigera'
+    playlists: 'Spellistor'
+    new_playlist: 'Skapa spellista'
+    songs: 'Låtar'
+    artists: 'Artister'
+    albums: 'Album'
+    events: 'Evenemang'
+    genres: 'Genrar'

@@ -1,0 +1,9 @@
+se:
+  money:
+    text_html: >
+      <p>Stoffi är ett hobbyprojekt som jag driver på min fritid. Alla räkningar såsom server, domännamn,
+      lagring, och liknande betalar jag helt ur egen ficka.</p>
+      
+      <p>Om du gillar projektet får du mer än gärna visa din uppskattning genom att donera en slant. Alla donationer,
+      både stora och små, uppskattas enormt.</p>
+    thanks: "Tack en miljon gånger!"

@@ -1,0 +1,9 @@
+us:
+  money:
+    text_html: >
+      <p>Stoffi is a hobby projekt which I work on during my free time. All the bills such as server, domain name,
+      storage, and similar are payed by me from my own pocket.</p>
+      
+      <p>If you like the projekt you are very welcome to show your appreciation by donating a few bucks. All donations,
+      both large and small, are greatly appreciated.</p>
+    thanks: "A million times, thank you!"

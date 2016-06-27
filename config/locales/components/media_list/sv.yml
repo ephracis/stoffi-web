@@ -1,0 +1,4 @@
+sv:
+  components:
+    media_list:
+      empty: 'Hittade ingenting.'

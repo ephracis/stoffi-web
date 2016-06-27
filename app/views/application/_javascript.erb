@@ -1,0 +1,46 @@
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  <%
+  if Rails.env.production?
+    propId = 'UA-70045559-1'
+    mode = 'auto'
+  else
+    propId = 'UA-70045559-2'
+    mode = 'none'
+  end
+  %>
+
+  ga('create', '<%=propId%>', '<%=mode%>');
+
+  <% if user_signed_in? %>
+  ga('set', 'uid', '<%=current_user.id%>');
+  <% end %>
+
+  ga('send', 'pageview');
+</script>
+<script src="http://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
+
+<%
+bots = 20000
+speed = 1000000000
+text = t("accounts.password.strength",
+  botsize: number_with_delimiter(bots, locale: I18n.locale),
+  speed: number_to_human(speed, locale: I18n.locale).downcase)
+%>
+<%= javascript_tag do %>
+  PW_CRACKING_BOTS = <%= bots %>;
+  PW_CRACKING_SPEED = <%= speed %>;
+  PW_CRACKING_TOOLTIP = "<%= text %>";
+<% end %>
+
+<%= javascript_include_tag "application" %>
+
+<%= javascript_tag do %>
+  I18n.defaultLocale = "<%= I18n.default_locale %>";
+  I18n.locale = "<%= I18n.locale %>";
+<% end %>

@@ -1,0 +1,12 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-info
+    = t 'media.playlists.info.heading'
+  .panel-body
+    %dl
+      %dt= t 'media.playlists.info.author'
+      %dd= link_to username(@playlist.user), @playlist.user, target: '_self'
+      %dt= t 'media.playlists.info.created'
+      %dd= t 'ago', time: time_ago_in_words(@playlist.created_at)
+      %dt= t 'media.playlists.info.updated'
+      %dd= t 'ago', time: time_ago_in_words(@playlist.updated_at)

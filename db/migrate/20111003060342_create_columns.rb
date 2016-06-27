@@ -2,8 +2,8 @@
 class CreateColumns < ActiveRecord::Migration
   def self.up
     create_table :columns do |t|
-	  t.integer :user_id
-	  t.integer :list_config_id
+    t.integer :user_id
+    t.integer :list_config_id
       t.string :name
       t.string :text
       t.string :binding

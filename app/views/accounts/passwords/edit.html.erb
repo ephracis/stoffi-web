@@ -1,0 +1,91 @@
+<div class="panel panel-default panel-small center-block" id='password'>
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t 'accounts.password.reset.title' %></h3>
+  </div>
+  <div class="panel-body">
+    
+		<%= form_for resource, as: resource_name, html: { method: :put },
+		  url: edit_password_path(resource_name) do |f| %>
+	
+			<%= render 'shared/messages' %>
+			
+			<%= f.hidden_field :reset_password_token %>
+			<%= f.hidden_field :email, value: @email %>
+			
+		  <div class="input-group">
+        <span class="input-group-addon" id="reset-password">
+          <span class='fa fa-key'></span>
+        </span>
+        <%= f.password_field :plain, class: 'form-control',
+          placeholder: t("accounts.login.password"),
+          aria_describedby: :login_password,
+          data: { submit_on_enter: true } %>
+				<%= f.hidden_field :password %>
+      </div>
+      
+		  <div class="input-group">
+        <span class="input-group-addon" id="reset-password-confirm">
+          <span class='fa fa-key'></span>
+        </span>
+        <%= f.password_field :plain_confirmation, class: 'form-control',
+          placeholder: t("accounts.login.confirm_password"),
+          aria_describedby: :login_password_confirm,
+          data: { submit_on_enter: true } %>
+				<%= f.hidden_field :password_confirmation %>
+      </div>
+      
+      <div class='text-right'>
+  		  <%= f.button class: 'btn btn-primary' do %>
+  				<span class='fa fa-key'></span>
+  				<%=t 'accounts.password.button' %>
+  			<% end %>
+  		</div>
+			
+		<% end %>
+			
+		<%= render 'shared/login/links' %>
+		
+	</div>
+</div>
+
+<% if false %>
+<article class='small'>
+	<section>
+		<h1><%= t "pages.users.passwords.edit.title" %></h1>
+		
+		<div class='center'>
+			<%= form_for resource, as: resource_name, url: edit_password_path(resource_name), :html => { :method => :put } do |f| %>
+		
+				<%= render 'shared/messages' %>
+		
+				<%= f.hidden_field :reset_password_token %>
+				<%= f.hidden_field :email, :value => @email %>
+			
+				<div class='field'>
+					<%= f.password_field :password, placeholder: t("dialog.password_choose_placeholder"), autofocus: true,
+					 	data: { strength: 'crack-time' } %>
+					<%= f.hidden_field :password %>
+					<div style="display:none;" id="crack-time">
+						<span></span>
+						<%= image_tag "gfx/tooltip.png", id: "crack-time-img" %>
+					</div>
+				</div>
+				
+				<div class='field'>
+					<%= f.password_field :plain_confirmation, placeholder: t("dialog.password_confirm_placeholder") %>
+					<%= f.hidden_field :password_confirmation %>
+				</div>
+			
+				<%= link_to '#', class: 'button secondary', data: { button: :submit } do %>
+					<%= image_tag 'gfx/buttons/login.png' %>
+					<span><%=t 'pages.users.passwords.edit.link' %></span>
+				<% end %>
+				
+			<% end %>
+				
+			<%= render 'shared/login/links' %>
+		</div>
+		
+	</section>
+</article>
+<% end %>

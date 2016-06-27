@@ -1,0 +1,30 @@
+- init = { slug: playlist.slug, user_slug: playlist.user.slug,
+  followed: current_user.follows?(playlist) }
+  
+- item_data = { 'ng-controller' => 'PlaylistController',
+    'ng-init' => "init(#{ init.to_json })" }
+    
+= media_list_item playlist, data: item_data do |m|
+
+  - m.title playlist, badge: local_assigns[:badge].present?
+  
+  - m.buttons do
+  
+    = link_to '#', class: 'btn btn-xs btn-link',
+        data: { 'ng-click' => 'toggleFollow()' } do
+      %span{ data: { 'ng-show' => 'followed' } }
+        %span.fa.fa-fw.fa-minus{ data: { 'ng-hide' => 'togglingFollow' } }
+        %span.fa.fa-fw.fa-spinner.fa-pulse{ data: { 'ng-show' => 'togglingFollow' } }
+        = t 'media.playlists.unfollow'
+      %span{ data: { 'ng-hide' => 'followed' } }
+        %span.fa.fa-fw.fa-plus{ data: { 'ng-hide' => 'togglingFollow' } }
+        %span.fa.fa-fw.fa-spinner.fa-pulse{ data: { 'ng-show' => 'togglingFollow' } }
+        = t 'media.playlists.follow'
+      
+    = link_to '#', class: 'btn btn-xs btn-link' do
+      %span.fa.fa-fw.fa-play
+      = t 'media.playlists.play'
+  
+  / content    
+  %span.fa.fa-fw.fa-user
+  = link_to_user playlist.user

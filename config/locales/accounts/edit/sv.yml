@@ -1,0 +1,36 @@
+sv:
+  accounts:
+    edit:
+      general:
+        title: 'Inställningar'
+        tab: 'Generellt'
+        delete: 'Ta bort konto'
+        save: 'Spara'
+        name:
+          custom: 'Eget'
+          placeholder: 'Välj ett namn'
+
+        ads:
+          all: 'Visa all reklam'
+          text: 'Visa bara textreklam'
+          none: "Visa ingen reklam"
+          tooltip: "Ja, på riktigt! Du kan välja att ta bort reklam helt gratis."
+
+        password:
+          change: "Byt lösenord"
+          create: "Skapa ett lösenord"
+          current: "Ditt nuvarande lösenord"
+          new: "Välj ett lösenord"
+          confirm: "Bekräfta ditt nya lösenord"
+          
+      accounts:
+        title: 'Kopplade konton'
+        tab: 'Konton'
+        connect: 'Koppla med %{provider}'
+        unconnect: 'Ta bort'
+        confirm: 'Är du säker på att du vill koppla bort %{provider}?'
+        shares: 'Skicka saker jag delar'
+        listens: 'Skicka musik jag lyssnar på'
+        button: 'Visa länk till min profil'
+        playlists: 'Skicka spellistor jag skapar'
+        empty: "Du har inte kopplat några konton än."

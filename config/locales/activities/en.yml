@@ -1,0 +1,49 @@
+en:
+  activities:
+    listen:
+      lines:
+        song: "%{user} listened to a %{song}"
+        album: "%{user} listened to a %{song} in an %{album}"
+        playlist: "%{user} listened to a %{song} in a %{playlist}"
+      links:
+        song: 'song'
+        album: 'album'
+        playlist: 'playlist'
+
+    playlist:
+      create:
+        line: "%{user} created a %{playlist}"
+        link: 'playlist'
+
+      update:
+        line: "%{user} modified a %{playlist}"
+        link: 'playlist'
+
+      add:
+        line: "%{user} added %{songs} to a %{playlist}"
+        link: 'playlist'
+        songs:
+          one: 'a song'
+          other: "%{count} songs"
+        more: 'Show more...'
+
+    share:
+      playlist:
+        line: "%{user} shared a %{resource}"
+        link: 'playlist'
+        
+      artist:
+        line: "%{user} shared an %{resource}"
+        link: 'artist'
+        
+      album:
+        line: "%{user} shared an %{resource}"
+        link: 'album'
+        
+      song:
+        line: "%{user} shared a %{resource}"
+        link: 'song'
+        
+      event:
+        line: "%{user} shared an %{resource}"
+        link: 'event'

@@ -1,0 +1,12 @@
+en:
+  datetime:
+    distance_in_words:
+      x_weeks:
+        one: "one week"
+        other: "%{count} weeks"
+      about_x_centuries:
+        one: "about one century"
+        other: "about %{count} centuries"
+      x_centuries:
+        one: "one century"
+        other: "%{count} centuries"

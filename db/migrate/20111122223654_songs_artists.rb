@@ -7,6 +7,6 @@ class SongsArtists < ActiveRecord::Migration
   end
 
   def down
-	drop_table :songs_artists
+  drop_table :songs_artists
   end
 end

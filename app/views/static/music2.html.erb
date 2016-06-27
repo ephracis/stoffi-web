@@ -1,0 +1,63 @@
+<%
+l = 10
+lists = {
+  playlists: { objects: Media::Playlist.rank.limit(l) },
+  songs: { objects: Media::Song.rank.limit(l) },
+  albums: { objects: Media::Album.rank.limit(l), collapsable: true },
+  artists: { objects: Media::Artist.rank.limit(l), collapsable: true },
+  genres: { objects: Media::Genre.rank.limit(l), collapsable: true },
+  events: {
+    objects: Media::Event.upcoming.rank.limit(l).sort_by { |x| x.start },
+    collapsable: true },
+}
+%>
+
+<div id='music' data-ng-controller='MusicController'>
+
+  <ul class='nav nav-tabs'>
+  
+    <% lists.each do |k,v| %>
+      <%
+      css = v[:collapsable] ? 'hidden-xs' : ''
+      css = "{{ list == '#{k}' ? 'active #{css}' : '#{css}' }}"
+      %>
+      <li role='presentation' class="<%= css %>">
+        <a data-ng-click="setList('<%= k %>')">
+          <%= t "music.tabs.#{k}" %>
+        </a>
+      </li>
+    <% end %>
+    
+    <li role="presentation" class="dropdown visible-xs">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+         aria-haspopup="true" aria-expanded="false">
+        More <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">      
+        <% lists.select { |k,v| v[:collapsable] }.each do |k,v| %>
+          <li role='presentation' class="{{list =='<%= k %>' ? 'active' : ''}}">
+            <a data-ng-click="setList('<%= k %>')">
+              <%= t "music.tabs.#{k}" %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  
+  </ul>
+
+  <div class='row' id='content'>
+    
+    <% lists.each do |k,v| %>
+      <div class="col-md-8" data-ng-show="list == '<%= k %>'">
+        <%= media_list v[:objects] %>
+      </div>
+    <% end %>
+      
+      
+    <div class="col-md-4" id='sidebar'>
+      <%= render 'sidebar' %>
+    </div>
+  </div>
+
+</div>

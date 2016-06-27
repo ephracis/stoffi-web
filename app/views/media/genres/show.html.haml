@@ -1,0 +1,36 @@
+- content_for :title do
+  = @genre.name
+
+- content_for :description do
+  =t 'pages.genres.show.description', genre: @genre
+
+- content_for :header do
+  %meta{ property: "og:title", content: h(@genre.name) }
+  %meta{ property: "og:type", content: "music.album" }
+  %meta{ property: "og:image", content: @genre.image }
+  %meta{ property: "og:url", content: genre_url(@genre) }
+  %meta{ property: "og:description", content: t('pages.genres.show.description', genre: @genre) }
+
+%div{ data: { 'ng-controller' => 'GenreController',
+  'ng-init' => "fetch('#{genre_url(@genre, format: :json)}')" }}
+  
+  = cover_for @genre do |m|
+    - m.buttons do
+      %a.btn.btn-primary
+        %span.fa.fa-fw.fa-play
+        
+    .cover-meta
+      %span.fa.fa-fw.fa-user
+      = link_to_association @genre.artists.rank.limit(3)
+
+  .row
+    .col-md-8
+      = media_list @genre.playlists.rank.limit(10), t('media.genres.playlists')
+      = media_list @genre.songs.rank.limit(10), t('media.genres.songs')
+      = media_list @genre.artists.rank.limit(10), t('media.genres.artists')
+    
+    .col-md-4
+      - if current_user.admin? or @genre.sources.any?
+        = render partial: '/media/sources/index', locals: { resource: @genre }
+      - %w(stats manage).each do |panel|
+        = render "/media/genres/show/#{panel}"

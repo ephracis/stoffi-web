@@ -1,0 +1,23 @@
+foo_not_afraid:
+  playlist: foo
+  song: not_afraid
+
+foo_one_love:
+  playlist: foo
+  song: one_love
+
+bar_not_afraid:
+  playlist: bar
+  song: not_afraid
+  
+baz_one_love:
+  playlist: baz
+  song: one_love
+  
+baz_one_love:
+  playlist: baz
+  song: no_woman_no_cry
+  
+car_one_love:
+  playlist: car
+  song: one_love

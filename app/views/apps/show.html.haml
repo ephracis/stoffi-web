@@ -1,0 +1,25 @@
+- content_for :title do
+  = @app.name
+
+- content_for :description do
+  =t 'pages.apps.show.description', app: @app
+
+%div
+  
+  = cover_for @app do |m|
+    - m.buttons do
+      %a.btn.btn-primary
+        %span.fa.fa-fw.fa-add
+        = t 'apps.install'
+        
+    .cover-meta
+      %span.fa.fa-fw.fa-user
+      = link_to @app.author, @app.author_url
+
+  .row
+    .col-md-8
+      %p TODO
+    
+    .col-md-4
+      - %w(info manage).each do |panel|
+        = render "/apps/show/#{panel}"
