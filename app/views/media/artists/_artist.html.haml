@@ -1,0 +1,18 @@
+= media_list_item artist do |m|
+
+  - m.title artist, badge: local_assigns[:badge].present?
+  
+  - m.buttons do
+      
+    = link_to '#', class: 'btn btn-xs btn-link' do
+      %span.fa.fa-fw.fa-play
+      = t 'media.artists.play'
+  
+  / content
+  .row.media-attributes
+    .col-sm-4.col-xs-3.media-attribute
+      %span.fa.fa-fw.fa-music
+      = number_to_human artist.listens.count
+    .col-sm-8.col-xs-9.media-attribute
+      %span.fa.fa-fw.fa-tags
+      = link_to_association artist.genres.limit(3)

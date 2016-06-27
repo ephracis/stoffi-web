@@ -23,7 +23,7 @@ class ApiTest < ActionDispatch::IntegrationTest
   test "create device" do
     sign_in @user
     assert_difference "@user.devices.count", +1 do
-      post '/devices.json', device:
+      post "/#{@user.slug}/devices.json", device:
         {
           name: randstr, version: 'test', app_id: App.first.id
         }
@@ -36,7 +36,7 @@ class ApiTest < ActionDispatch::IntegrationTest
   test 'get device' do
     device = @user.devices.first
     sign_in @user
-    get device_url(device, format: :json)
+    get device_url(device.user, device, format: :json)
     assert_response :success
     body = JSON::parse(response.body)
     assert_equal device.id, body['id'].to_i

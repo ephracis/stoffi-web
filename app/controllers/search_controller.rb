@@ -15,7 +15,7 @@
 # and return them.
 class SearchController < ApplicationController
 
-  def suggest
+  def suggestions
     @query = query_param
     @suggestions = []
     if @query.present?
@@ -25,27 +25,20 @@ class SearchController < ApplicationController
       lat = pos[:latitude]
       loc = I18n.locale.to_s
       user = user_signed_in? ? current_user.id : -1
-      @suggestions = Search.suggest(@query, page, long, lat, loc, user)
+      cat = category_param
+      cat = [] if cat == Search.categories
+      @suggestions = Search.suggest(@query, page, long, lat, loc, cat, user)
     end
-    render json: @suggestions
   end
   
   def index
     @search = new_search
+    backends = params[:backends].present?
     respond_to do |format|
       format.html { render }
-      format.js { @results = @search.do(page_param, limit_param) }
-      format.json { render json: @search.do(page_param, limit_param) }
+      format.js { @results = @search.do(page_param, limit_param, backends) }
+      format.json { @results = @search.do(page_param, limit_param, backends) }
     end
-  end
-  
-  def fetch
-    @search = Search.find(params[:id])
-    head :unprocessable_entity and return if @search.query.blank?
-    @results = @search.do(page_param, limit_param)
-    @paginatable_array = Kaminari.paginate_array(@results[:hits], total_count: @results[:total_hits])
-      .page(page_param).per(limit_param)
-    render layout: false
   end
   
   private
@@ -57,11 +50,13 @@ class SearchController < ApplicationController
   
   def category_param
     x = params[:c] || params[:cat] || params[:categories] || params[:category]
+    x = Search.categories if x.to_s == 'all'
     x ? x.split(/[\|,]/) : Search.categories
   end
   
   def source_param
     x = params[:s] || params[:src] || params[:sources] || params[:source]
+    x = Search.sources if x.to_s == 'all'
     x ? x.split(/[\|,]/) : Search.sources
   end
   

@@ -32,7 +32,6 @@ class AlbumTest < ActiveSupport::TestCase
     assert a, "Didn't return album"
     assert_equal @hash[:title], a.title, "Didn't set title"
     
-    assert_equal @hash[:artists][0][:name], a.artists.first.name, "Didn't set artist"
     assert_equal @hash[:images].length, a.images.count, "Didn't set images"
     assert_equal 1, a.sources.count, "Didn't set source"
     
@@ -57,7 +56,6 @@ class AlbumTest < ActiveSupport::TestCase
     assert_no_difference 'Media::Artist.count', "Created new artist" do
       a = Media::Album.find_or_create_by_hash(@hash)
     end
-    assert_equal artist, a.artists.first, "Didn't set artist"
   end
   
   test "should find album" do
@@ -89,7 +87,7 @@ class AlbumTest < ActiveSupport::TestCase
     a = media_albums(:recovery)
     s = media_songs(:not_afraid)
     @hash[:title] = a.title
-    @hash[:artists] = [{name: a.artists.first.name}]
+    @hash[:artists] = a.artists.map { |x| { name: x.name } }
     @hash[:songs] = [
       {
         title: s.title, # shouldn't matter
@@ -128,12 +126,11 @@ class AlbumTest < ActiveSupport::TestCase
   end
   
   test "should get top albums" do
-    a = Media::Album.top limit: 3
+    a = Media::Album.rank.limit 3
     assert_equal 3, a.length, "Didn't return three top albums"
     assert_instance_of Media::Album, a.first, "Didn't return albums"
     assert a[0].listens.count >= a[1].listens.count, "Top albums not in order (first and second)"
-    assert a[1].listens.count == a[2].listens.count, "Top albums not in order (second and third, listens)"
-    assert a[1].popularity > a[2].popularity, "Top albums not in order (second and third, popularity)"
+    assert a[1].listens.count >= a[2].listens.count, "Top albums not in order (second and third, listens)"
   end
   
   test "should get popularity" do

@@ -47,7 +47,10 @@ module DuplicatableController
   
   # Automatically redirect to a resource's archetype if it has one
   def redirect_duplicates
-    resource = self.class.duplicatable_model.unscoped.find(params[:id])
+    return if params[:dedup] and current_user.admin?
+    klass = self.class.duplicatable_model.unscoped
+    klass = klass.friendly if klass.respond_to? :friendly
+    resource = klass.find(params[:id])
     redirect_to resource.archetype and return if resource.duplicate?
   end
   

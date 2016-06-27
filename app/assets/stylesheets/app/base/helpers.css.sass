@@ -1,0 +1,25 @@
+.gold
+  color: $gold
+.silver
+  color: $silver
+.bronze
+  color: $bronze
+
+.line-behind
+  display: table
+  white-space: nowrap
+  &:before, &:after
+    content: ''
+    display: table-cell
+    position: relative
+    top: 0.5em
+    width: 45%
+    border-top: 1px solid rgba($text, 0.2)
+
+  &:before
+    right: 1.5%
+  &:after
+    left: 1.5%
+
+div.spacer
+  margin: .5em 0

@@ -1,0 +1,48 @@
+- content_for :title do
+  = @song.title
+
+- content_for :header do
+  %meta{ property: 'og:title', content: @song.title }
+  %meta{ property: 'og:type', content: 'music.song' }
+  %meta{ property: 'og:image', content: image_for(@song) }
+  %meta{ property: 'og:url', content: song_url(@song) }
+  - @song.artists.each do |artist|
+    %meta{ property: 'music:musician', content: artist_url(artist) }
+  - @song.albums.each do |album|
+    %meta{ property: 'music:album', content: album_url(album) }
+
+%div{ data: { 'ng-controller' => 'SongController',
+  'ng-init' => "fetch('#{song_url(@song, format: :json)}')" }}
+  
+  = cover_for @song do |m|
+  
+    - m.buttons do
+      = render partial: '/media/playlists/menu',
+          locals: { size: :md, songs: [@song.id] }
+      %a.btn.btn-primary
+        %span.fa.fa-fw.fa-play
+    
+    - m.subheading = link_to_association @song.artists
+        
+    .cover-meta
+      %span.fa.fa-fw.fa-tags
+      = link_to_association @song.genres.limit(3)
+
+  .row
+    .col-md-8
+      = render @song.sources
+      = media_list @song.albums, t('media.songs.albums')
+      = media_list @song.similar, t('media.songs.similar'), show_empty: false,
+          archetype: @song
+      - if current_user.admin?
+        = media_list @song.duplicates, t('media.songs.duplicates'),
+            show_empty: false, archetype: @song
+        = media_list @song.duplicate_candidates,
+            t('media.songs.duplicate_candidates'),
+            show_empty: false, archetype: @song
+    
+    .col-md-4
+      - if current_user.admin? or @song.sources.any?
+        = render partial: '/media/sources/index', locals: { resource: @song }
+      - %w(stats artists manage).each do |panel|
+        = render "/media/songs/show/#{panel}"

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 c = Rails.application.secrets.oa_cred
 
 OmniAuth.config.logger = Rails.logger

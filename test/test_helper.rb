@@ -18,17 +18,20 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   def setup
     Rails.cache.clear
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(allow_localhost: false)
     url = /https?:\/\/.*\.jpe?g/
     path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
     @image_stub = stub_request(:get, url).to_return(body: File.new(path),
       status: 200)
+    @sunspot_stub = stub_request(:post,
+                                 %r{http:\/\/localhost:8981\/.*})
   end
 
   def teardown
     Rails.cache.clear rescue nil
     WebMock.allow_net_connect!
     remove_request_stub @image_stub if @image_stub
+    remove_request_stub @sunspot_stub if @sunspot_stub
   end
   
   # Generate a random string.
@@ -49,11 +52,20 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
+  include PlaylistHelperController
   def setup
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(allow_localhost: false)
     url = /http:\/\/.*\.jpe?g/
     path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
-    stub_request(:get, url).to_return(:body => File.new(path), :status => 200)
+    @image_stub = stub_request(:get, url).to_return(body: File.new(path),
+                                                    status: 200)
+    @sunspot_stub = stub_request(:post,
+                                 %r{http:\/\/localhost:8981\/.*})
+  end
+
+  def teardown
+    remove_request_stub @image_stub if @image_stub
+    remove_request_stub @sunspot_stub if @sunspot_stub
   end
   
   def stub_for_settings
@@ -83,6 +95,7 @@ class ActionController::TestCase
 end
 
 class ActionDispatch::IntegrationTest
+  include PlaylistHelperController
   include Capybara::DSL
   
   def set_pass(user, passwd)

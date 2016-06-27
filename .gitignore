@@ -10,6 +10,7 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+*~
 
 # Secret files
 config/initializers/secret_token.rb
@@ -31,4 +32,12 @@ config/application.yml
 .powenv
 
 public/assets
-solr
+solr/*
+!solr/configsets
+
+# bower components should be installed from bower.json
+vendor/assets/components/
+
+# yard documentation generatior
+doc/
+.yardoc/

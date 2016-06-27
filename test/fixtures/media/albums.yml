@@ -1,11 +1,9 @@
 relapse:
   title: Relapse
-  artists: bob_marley, eminem
   year: 2014
     
 recovery:
   title: Recovery
-  artists: eminem
   year: 2010
   
 best_of_bob_marley:

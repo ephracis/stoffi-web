@@ -1,7 +1,10 @@
-list = @songs.map do |song|
-	a = t('by', name: song.artists.map(&:name).to_sentence)
+json.array! @songs do |song|
+  artists = t('by', creator: song.artists.map(&:name).
+                    to_sentence)
 	title = song.title
-	title += " #{a}" unless song.artists.empty?
-	[title, song.listens.count]
+	title += " #{artists}" unless song.artists.empty?
+  json.array! [
+	  song.title,
+    song.listens.where(user: current_user).count
+  ]
 end
-json.array! list

@@ -1,0 +1,81 @@
+- content_for :title do
+  = t 'media.songs.edit.title', song: @song
+  
+- heading = t 'media.songs.edit.heading', song: @song
+- form_url = song_path(@song)
+- back_url = form_url
+- method = :patch
+- init = "fetch('#{song_url(@song, format: :json, dedup: true)}')"
+- form_data = { 'ng-controller' => 'SongController', 'ng-init' => init }
+- base_url = "#{request.protocol}#{request.host_with_port}"
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to back_url, target: '_self', class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @song, url: form_url, method: method, data: form_data do |f|
+
+  = render partial: 'shared/messages', locals: { resource: @song }
+
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.label :slug
+    .input-group
+      %span.input-group-addon
+        = "#{base_url}/songs/"
+      = f.text_field :slug, class: 'form-control'
+  
+  = hidden_field_tag "artists[][name]", "{{artist}}", mutiple: true,
+      data: { 'ng-repeat' => "artist in artists" }
+      
+  = hidden_field_tag 'song[genre]', "{{genreParam()}}"
+    
+  .form-group.fuelux
+    = f.label :artists
+    .pillbox#myPillbox{ data: { 'stf-pillbox' => '',
+          'stf-pillbox-add' => "addArtist",
+          'stf-pillbox-remove' => "removeArtist" } }
+      %ul.clearfix.pill-group
+        %li.btn.btn-default.pill{ data: { 'ng-repeat' => 'artist in artists',
+            value: '{{artist}}' } }
+          %span {{artist}}
+          %span.glyphicon.glyphicon-close
+            %span.sr-only Remove
+        
+        %li.pillbox-input-wrap.btn-group
+          %input.form-control.dropdown-toggle.pillbox-add-item{ type: :text,
+            placeholder: 'Add artist',
+            data: { 'stf-autocomplete' => '/search/suggestions.json?c=artists' } }
+          %ul.suggest.dropdown-menu{ role: :menu,
+            data: { toggle: :dropdown, flip: :auto }}
+    
+  .form-group.fuelux
+    = f.label :genres
+    .pillbox#myPillbox{ data: { 'stf-pillbox' => '',
+          'stf-pillbox-add' => "addGenre",
+          'stf-pillbox-remove' => "removeGenre" } }
+      %ul.clearfix.pill-group
+        %li.btn.btn-default.pill{ data: { 'ng-repeat' => 'genre in genres',
+            value: '{{genre}}' } }
+          %span {{genre}}
+          %span.glyphicon.glyphicon-close
+            %span.sr-only Remove
+        
+        %li.pillbox-input-wrap.btn-group
+          %input.form-control.dropdown-toggle.pillbox-add-item{ type: :text,
+            placeholder: 'Add genre',
+            data: { 'stf-autocomplete' => '/search/suggestions.json?c=genres' } }
+          %ul.suggest.dropdown-menu{ role: :menu,
+            data: { toggle: :dropdown, flip: :auto }}

@@ -3,6 +3,7 @@
 module Media
   
   # A song.
+  # FIXME: rename `#title` to `#name`.
   class Song < ActiveRecord::Base
     
     # concerns
@@ -12,6 +13,7 @@ module Media
     include Genreable
     include Rankable
     include Duplicatable
+    include FriendlyId
 
     # associations
     with_options uniq: true do |assoc|
@@ -37,24 +39,6 @@ module Media
     
     # validations
     validates :title, presence: true
-  
-    # include duplicates' association into self's
-    include_associations_of_dups :listens, :shares, :genres
-  
-    # when suggesting duplicates, go by `title`.
-    find_duplicates_by :title
-  
-    # TODO: move to view/helper
-    self.default_image = "gfx/icons/256/missing.png"
-  
-    searchable do
-      text :title, boost: 5
-      text :artist_names
-      integer :archetype_id
-      string :locations, multiple: true do
-        sources.map(&:name)
-      end
-    end
   
     # The name of all the artists, as a sentence.
     def artist_names
@@ -153,18 +137,18 @@ module Media
       artists = []
       title = ''
       
-      # split into title and artist
-      splitted_title = split_by_separator(str)
-      splitted_title = split_by_quotes(str) unless splitted_title
-      if splitted_title
-        artists = [splitted_title[0]]
-        title = splitted_title[1]
+      # split str into title and artist
+      split = split_by_separator(str)
+      split = split_by_quotes(str) unless split
+      if split
+        artists = [split[0]]
+        title = split[1]
       end
       
       # extract artists from title string
-      splitted_title = Artist.split_name title, split_by_words: false
-      title = splitted_title[0]
-      artists << splitted_title[1..-1]
+      split = Artist.split_name title, split_by_words: false, sort: false
+      title = split[0]
+      artists << split[1..-1]
       
       # split artist string
       artists = artists.flatten.map do |a|
@@ -241,6 +225,29 @@ module Media
       # clean whitespace
       str.split.join(' ')
     end
+    
+    # Configure all concerns and extensions.
+    def self.configure_concerns
+  
+      # Duplicatable
+      include_associations_of_dups :listens, :shares, :genres
+      find_duplicates_by :title
+  
+      # Searchable
+      searchable do
+        text :title, boost: 5
+        text :artist_names
+        integer :archetype_id
+        string :locations, multiple: true do
+          sources.map(&:name)
+        end
+      end
+      
+      # Enable URLs like `/artists/:name`.
+      friendly_id :title, use: :slugged
+      
+    end
+    configure_concerns
     
   end
 end

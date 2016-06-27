@@ -1,5 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 not_afraid_lastfm:
   name: lastfm
   foreign_id: 456

@@ -11,6 +11,8 @@ module Media
     include Sourceable
     include Followable
     include Sortable
+    include PublicActivity::Model
+    include FriendlyId
   
     # associations
     has_many :playlists_songs
@@ -20,7 +22,7 @@ module Media
       end
     end
   
-    has_many :listens, through: :songs
+    has_many :listens
     has_many :artists, through: :songs
     has_many :shares, as: :object # REFACTOR: rename `resource` to stay consistent.
     belongs_to :user
@@ -31,48 +33,10 @@ module Media
     validates :name, presence: true
     validates :user, presence: true
     validates :name, uniqueness: { scope: :user_id, case_sensitive: false }
+    validates :slug, uniqueness: { scope: :user_id }
   
-    followable_by User
-    can_sort :songs
-  
-    searchable do
-      text :name, boost: 5
-      text :artists do
-        artists.map(&:name)
-      end
-      text :songs do
-        songs.map(&:title)
-      end
-      string :locations, multiple: true do
-        sources.map(&:name)
-      end
-      integer :archetype_id do 0 end # not duplicatable, but still need to index this field
-    end
-  
-    # The image of the playlist
-    #
-    # TODO: Move to Imageable and make it so it tries to find
-    # an image based on name, genre, artist, album, song or let the
-    # user set a custom image.
-    def image(size = :huge)
-      "gfx/icons/256/playlist.png"
-      #songs.count == 0 ? "/assets/media/disc.png" : songs.first.picture
-    end
-  
-    # TODO: create concern Paginateable.
-    def paginate_songs(limit, offset)
-      @paginated_songs = Array.new
-      songs.limit(limit).offset(offset).each do |song|
-        @paginated_songs << song
-      end
-    end
-  
-    # TODO: create concern Paginateable.
-    def paginated_songs
-      return @paginated_songs
-    end
-  
-    # Whether or not the playlist is a dynamic playlist (ie just a search filter).
+    # Whether or not the playlist is a dynamic playlist (ie just a search
+    # filter).
     def dynamic?
       filter.present?
     end
@@ -81,8 +45,81 @@ module Media
     def visible_to?(user)
       is_public or self.user == user or user.admin?
     end
+
+    # Create an activity for adding songs to playlist.
+    def create_associate_activity(user, songs)
+      create_activity :add,
+                      owner: user,
+                      params: { songs: songs.compact.map(&:id) }
+    end
+
+    # Create an activity for removing songs from playlist.
+    def create_deassociate_activity(user, songs)
+      create_activity :remove,
+                      owner: user,
+                      params: { songs: songs.map(&:id) }
+    end
     
-    # TODO: set default scope to public or own?
+    def regenerate_slug
+      this.slug = nil
+      save!
+    rescue
+      begin
+        this.slug = "#{id}-#{to_s.parameterize}"
+        save!
+      rescue
+        raise Playlist.where(slug: slug).inspect
+      end
+    end
+    
+    # Configure all concerns and extensions.
+    def self.configure_concerns
+
+      # Allow `User`s to follow `Playlist`s.
+      followable_by User
+      
+      # Allow `Playlist#songs` to be sorted, access via `Playlist#sorted_songs`.
+      can_sort :songs
+      
+      # Record activity on this resource.
+      tracked owner: Proc.new { |controller, model|
+        if controller and controller.current_user
+          return controller.current_user
+        else
+          model.user
+        end
+      }
+  
+      # Allow this resource to be searched for.
+      searchable do
+        text :name, boost: 5
+        text :artists do
+          artists.map(&:name)
+        end
+        text :songs do
+          songs.map(&:title)
+        end
+        string :locations, multiple: true do
+          sources.map(&:name)
+        end
+      
+        # not duplicatable, but still need to index this field
+        integer :archetype_id do 0 end
+      end
+    
+      # Enable URLs like `/:username/:playlist`.
+      friendly_id :name, use: :slugged
+    
+    end
+    configure_concerns
+    
+    # Override so we can generate in case it's `nil`.
+    def to_param
+      save! if slug.blank?
+      super
+    end
+    
+    # TODO: set default scope to public or own.
     
   end
 end

@@ -11,41 +11,22 @@ module Media
   
     oauthenticate interactive: true, except: [ :index, :show ]
     before_action :ensure_admin, only: [ :edit, :update, :destroy ]
-  
-    # GET /albums
-    def index
-      @recent = Listen.order(created_at: :desc).where.not(album: nil).limit(limit).
-        offset(offset).map(&:album)
-      @weekly = Album.top from: 7.days.ago, limit: limit, offset: offset
-      @all_time = Album.top limit: limit, offset: offset
-    
-      if user_signed_in?
-        @user_recent = current_user.listens.order(created_at: :desc).
-          where.not(album: nil).limit(limit).offset(offset).map(&:album)
-        @user_weekly = Album.top for: current_user, from: 7.days.ago,
-          limit: limit, offset: offset
-        @user_all_time = Album.top for: current_user, limit: limit,
-          offset: offset
-      end
-    
-      respond_with @all_time
-    end
 
     # GET /albums/1
     def show
-      @album.paginate_songs limit, offset
-      respond_with @album, methods: [ :paginated_songs ]
     end
 
     # GET /albums/1/edit
     def edit
-      render layout: false
     end
 
     # PATCH /albums/1
     def update
+      if params[:songs].is_a? Array
+        ids = params[:songs].map(&:to_i) rescue nil
+      end
       associate_resources(:songs)
-      success = true
+      success = @album.sort(:songs, ids) if ids.present?
       if params[:album].present?
         success = @album.update_attributes(album_params) 
       end
@@ -60,6 +41,13 @@ module Media
     end
   
     private
+    
+    # Create an instance of the resource given the parameters.
+    def set_resource
+      @resource = @album = Media::Album.friendly.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      not_found :album
+    end
 
     # Never trust parameters from the scary internet, only allow the white list
     # through.

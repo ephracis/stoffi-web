@@ -1,0 +1,24 @@
+sv:
+  media:
+    sources:
+      
+      index:
+        heading: 'Andra ställen'
+        
+      delete:
+        confirm: 'Säker på att du vill ta bort källan?'
+        success: 'Källan togs bort'
+        
+      new:
+        title: 'Lägg till källa till %{resource}'
+        heading: 'Lägger till källa till <strong>%{resource}</strong>'
+        
+      create:
+        success: 'Källan har skapats'
+        
+      update:
+        success: 'Källan har ändrats'
+        
+      edit:
+        title: "Redigera '%{source}' för '%{resource}'"
+        heading: "Redigerar källan <strong>%{source}</strong> för <strong>%{resource}</strong>"

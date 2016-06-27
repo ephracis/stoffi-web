@@ -1,0 +1,32 @@
+en:
+  accounts:
+    login:
+      title: 'Login to Stoffi'
+      button: 'Login'
+      link: 'Login'
+      services: 'Use one of these'
+      form: 'or fill out this form'
+      email: 'Email address'
+      password: 'Enter password'
+      confirm_password: 'Confirm password'
+      
+    join:
+      title: 'Create an account'
+      button: 'Join'
+      link: 'Create account'
+      
+    password:
+      title: 'Request a new password'
+      button: 'Request password'
+      link: 'Forgot password'
+      strength: "Assumes the cracker has access to a botnet of %{botsize} computers each capable of guessing %{speed} passwords per second using the GPU."
+      hint:
+        very_short: "Can be guessed in less than a second."
+        very_long: "Can't be guessed in a reasonable time."
+        text: "Can be guessed in %{time}."
+      
+    unlock:
+      title: 'Unlock your account'
+      button: 'Request unlock'
+      link: 'Unlock account'
+      email: 'Email address'

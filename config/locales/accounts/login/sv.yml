@@ -1,0 +1,31 @@
+sv:
+  accounts:
+    login:
+      title: 'Logga in på Stoffi'
+      button: 'Logga in'
+      link: 'Logga in'
+      services: 'Använd en av dessa'
+      form: 'eller fyll i det här'
+      email: 'Mailadress'
+      password: 'Ange lösenord'
+      confirm_password: 'Bekräfta lösenord'
+      
+    join:
+      title: 'Skapa ett konto'
+      button: 'Gå med'
+      link: 'Skapa konto'
+      
+    password:
+      title: 'Begär ett nytt lösenord'
+      button: 'Begär lösenord'
+      link: 'Glömt lösenord'
+      strength: "Antar att knäckaren har tillgång till ett botnät på %{botsize} datorer, där varje dator kan gissa %{speed} lösenord per sekund med hjälp av GPUn."
+      hint:
+        very_short: "Kan gissas på under en sekund."
+        very_long: "Kan inte gissas under överskådlig tid."
+        text: "Kan gissas på %{time}."
+      
+    unlock:
+      title: 'Lås upp konto'
+      button: 'Lås upp'
+      link: 'Lås upp konto'

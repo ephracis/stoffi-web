@@ -1,0 +1,31 @@
+sv:
+  apps:
+    create: 'Skapa ny'
+    install: 'Installera'
+    uninstall: 'Avinstallera'
+      
+    info:
+      heading: 'Information'
+      author: 'Skapad av'
+      created: 'Skapades'
+      update: 'Ändrades'
+      users: 'Användare'
+      support: 'Hjälp'
+
+    owner:
+      callback: 'Callback'
+        
+    manage:
+      heading: 'Administration'
+      edit: 'Redigera'
+      remove: 'Ta bort'
+      confirm: 'Är du säker på att du vill ta bort appen?'
+        
+    new:
+      button: 'Skapa app'
+      title: 'Skapa app'
+      heading: 'Skapar ny app'
+      
+    edit:
+      title: "Redigera '%{app}'"
+      heading: "Redigerar app: <strong>%{app}</strong>"

@@ -7,60 +7,34 @@ class User < ActiveRecord::Base
   include Base
   include Followingable
   include Rankable
-
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :omniauthable, :timeoutable and 
-  devise :database_authenticatable, :registerable, 
-         :recoverable, :rememberable, :trackable, :validatable, :lockable
+  include FriendlyId
+  
+  # validations
+  validates :name, presence: true
+  #validates :slug, presence: true, uniqueness: true
+  
+  # hooks
+  before_validation :generate_name
    
-  with_options dependent: :destroy do |assoc|
-    assoc.has_many :links, class_name: Accounts::Link
-    assoc.has_many :devices, class_name: Accounts::Device
-    assoc.has_many :playlists, class_name: Media::Playlist
-    assoc.has_many :shares
-    assoc.has_many :listens, class_name: Media::Listen
-    assoc.has_many :apps
-    assoc.has_many :tokens, -> { order "authorized_at desc" },
-      class_name: Accounts::OauthToken
-  end
-  
-  has_many :songs, through: :listens
-  has_many :artists, through: :songs
-
-  # The name of the user.
-  #
-  # Will get the name of the user by either:
-  # # Pull the name from a linked account if the user has choosen such a name source.
-  # # Return a custom name if the user has provided one.
-  # # Look at the email.
-  # # Return a default name.
-  def name
-    if name_source.present?
-      providers = ["twitter","facebook","google_oauth2","lastfm","vimeo"]
-      p,v = name_source.split("::",2)
-      return name_source unless p.in? providers
-      l = self.links.find_by(provider: p)
-      if l
-        names = l.names
-        return names[v.to_sym] if names.is_a? Hash and v and names[v.to_sym]
-      end
-    end
-  
-    return custom_name if custom_name.present?
-    return email.split('@')[0].titleize if email.present?
-    User.default_name
-  end
-
-  # The default picture of a user.
-  # TODO: fix default image for user
-  def self.default_pic(size = :huge)
-    "gfx/icons/128/user.png"
-  end
-
-  # The default name of a user.
-  def self.default_name
-    "Anon"
-  end
+  # associations
+  has_many :links, dependent: :destroy, class_name: Accounts::Link
+  has_many :devices, dependent: :destroy, class_name: Accounts::Device
+  has_many :playlists, dependent: :destroy, class_name: Media::Playlist
+  has_many :shares, dependent: :destroy
+  has_many :listens, dependent: :destroy, class_name: Media::Listen
+  has_many :apps, dependent: :destroy
+  has_many :tokens, -> { order "authorized_at desc" }, dependent: :destroy,
+           class_name: Accounts::OauthToken
+  has_many :played_songs, through: :listens, class_name: Media::Song,
+           source: :song
+  has_many :played_albums, through: :listens, class_name: Media::Album,
+           source: :album
+  has_many :played_playlists, through: :listens, class_name: Media::Playlist,
+           source: :playlist
+  has_many :played_artists, through: :played_songs, class_name: Media::Artist,
+           source: :artists
+  has_many :activities, as: :owner, class_name: PublicActivity::Activity
+  belongs_to :name_source, class_name: Accounts::Link
 
   # The unique hash of a user.
   #
@@ -79,37 +53,6 @@ class User < ActiveRecord::Base
     else
       listens.count
     end
-  end
-
-  # The picture of the user.
-  #
-  # Will get the picture of the user by either:
-  # # Pull the picture from a linked account if the user has choosen such a picture source.
-  # # Return a default picture.
-  def picture(options = nil)
-    size = ""
-    size = options[:size] if options != nil
-    s = image.to_s
-  
-    # no image source
-    return User.default_pic(size) unless s.present?
-  
-    # image source is gravatar
-    if [:gravatar, :identicon, :monsterid, :wavatar, :retro].include? s.to_sym
-      s = s == 'gravatar' ? :mm : s.to_sym
-      return gravatar(s)
-    
-    # image source is something else
-    else
-      l = self.links.find_by(provider: s)
-      return User.default_pic unless l
-      pic = l.picture
-      return User.default_pic unless pic
-      return pic
-    end
-  
-    # should we really ever reach this point?
-    return User.default_pic(size)
   end
 
   # Returns all apps of a user.
@@ -134,7 +77,7 @@ class User < ActiveRecord::Base
   # Returns all links that the user hasn't yet connected.
   def unconnected_links
     Accounts::Link.available.select do |l|
-      links.find_by(provider: l[:link_name] || l[:name].downcase) == nil
+      links.find_by(provider: l[:slug] || l[:name].downcase) == nil
     end
   end
 
@@ -157,54 +100,6 @@ class User < ActiveRecord::Base
     gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)
     force = type == :mm ? "" : "&f=y"
     "https://gravatar.com/avatar/#{gravatar_id}.png?s=128&d=#{type}#{force}"
-  end
-
-  # Looks for, and creates if necessary, the user based on an authentication with a third party service.
-  def self.find_or_create_with_omniauth(auth)
-    link = Accounts::Link.find_by(provider: auth['provider'], uid: auth['uid'])
-    user = User.find_by(email: auth['info']['email']) if auth['info']['email']
-  
-    # link found
-    if link
-      d = auth['credentials']['expires_at']
-      d = DateTime.strptime("#{d}",'%s') if d
-      link.update_attributes(
-        access_token: auth['credentials']['token'],
-        access_token_secret: auth['credentials']['secret'],
-        refresh_token: auth['credentials']['refresh_token'],
-        token_expires_at: d
-      )
-      return link.user
-  
-    # email already registrered, create link for that user
-    elsif auth['info'] && auth['info']['email'] && user
-      user.create_link(auth)
-      return user
-  
-    # create a new user and a link for that user
-    else
-      return create_with_omniauth(auth)
-    end
-  end
-
-  # Creates an account by using an authentication to a third party service.
-  def self.create_with_omniauth(auth)
-    email = auth['info']['email']
-    pass = Devise.friendly_token[0,20]
-
-    # create user
-    user = User.new(
-      email: email,
-      password: pass,
-      password_confirmation: pass,
-      has_password: false
-    )
-    user.save(validate: false)
-  
-    # create link
-    user.create_link(auth)
-  
-    return user
   end
 
   # Updates the user resource.
@@ -268,6 +163,7 @@ class User < ActiveRecord::Base
   end
 
   # The options to use when the user is serialized.
+  # TODO: remove
   def serialize_options
     {
       except: [
@@ -278,15 +174,209 @@ class User < ActiveRecord::Base
       methods: [ :kind, :display, :url ]
     }
   end
+  
+  def to_partial_path
+    '/accounts/accounts/user'
+  end
+
+  # Looks for, and creates if necessary, the user based on an authentication with a third party service.
+  def self.find_or_create_with_omniauth(auth)
+    link = Accounts::Link.find_by(provider: auth['provider'], uid: auth['uid'])
+    user = User.find_by(email: auth['info']['email']) if auth['info']['email']
+  
+    # link found
+    if link
+      d = auth['credentials']['expires_at']
+      d = DateTime.strptime("#{d}",'%s') if d
+      link.update_attributes(
+        access_token: auth['credentials']['token'],
+        access_token_secret: auth['credentials']['secret'],
+        refresh_token: auth['credentials']['refresh_token'],
+        token_expires_at: d
+      )
+      return link.user
+  
+    # email already registrered, create link for that user
+    elsif auth['info'] && auth['info']['email'] && user
+      user.create_link(auth)
+      return user
+  
+    # create a new user and a link for that user
+    else
+      return create_with_omniauth(auth)
+    end
+  end
+
+  # Creates an account by using an authentication to a third party service.
+  def self.create_with_omniauth(auth)
+    email = auth['info']['email']
+    pass = Devise.friendly_token[0,20]
+
+    # create user
+    user = User.new(
+      email: email,
+      password: pass,
+      password_confirmation: pass,
+      has_password: false
+    )
+    user.save(validate: false)
+  
+    # create link
+    user.create_link(auth)
+  
+    return user
+  end
+    
+  # Rank by the number of listens.
+  def self.rank(user = nil)
+    self.select("users.*, COUNT(listens.id) AS listens_count").
+      joins(:listens).
+      group("users.id").
+      order("listens_count DESC")
+  end
+  
+  ###################### DEPRECATED ######################
+  
+
+  # DEPRECATED
+  # Remove after migration 20151115233849 is run.
+  def deprecated_name
+    if name_source.present?
+      providers = ["twitter","facebook","google_oauth2","lastfm","vimeo"]
+      p,v = name_source.split("::",2)
+      return name_source unless p.in? providers
+      l = self.links.find_by(provider: p)
+      if l
+        names = l.names
+        return names[v.to_sym] if names.is_a? Hash and v and names[v.to_sym]
+      end
+    end
+  
+    return custom_name if custom_name.present?
+    return email.split('@')[0].titleize if email.present?
+    User.default_name
+  end
+
+  # DEPRECATED
+  # Remove after migration 20151115233849 is run.
+  def self.default_name
+    "Anon"
+  end
+
+  # DEPRECATED
+  # Remove after migration 20151115233849 is run.
+  def self.default_pic(size)
+    nil
+  end
+
+  # DEPRECATED
+  # Remove after migration 20151115233849 is run.
+  def picture(options = nil)
+    size = ""
+    size = options[:size] if options != nil
+    s = image.to_s
+  
+    # no image source
+    return User.default_pic(size) unless s.present?
+  
+    # image source is gravatar
+    if [:gravatar, :identicon, :monsterid, :wavatar, :retro].include? s.to_sym
+      s = s == 'gravatar' ? :mm : s.to_sym
+      return gravatar(s)
+    
+    # image source is something else
+    else
+      l = self.links.find_by(provider: s)
+      return User.default_pic unless l
+      pic = l.picture
+      return User.default_pic unless pic
+      return pic
+    end
+  
+    # should we really ever reach this point?
+    return User.default_pic(size)
+  end
+  
+  private
+  
+  # Generate a unique slug for the user based on the name or email.
+  def generate_slug
+    return if slug.present?
+    s = 'anon'
+    if email.present?
+      s = email.split('@')[0].gsub('_','-').parameterize
+    elsif name.present?
+      s = name.parameterize
+    end
+    self.slug = s
+    i = 0
+    while User.find_by(slug: self.slug)
+      i += 1
+      self.slug = "#{s}-#{i}"
+    end
+  end
+  
+  # Generate a name based on the email.
+  def generate_name
+    return if name.present?
+    if email.present?
+      self.name = email.split('@')[0].gsub('.',' ').titleize
+    end
+  end
+    
+  # Configure all concerns and extensions.
+  def self.configure_concerns
+
+    # Included devise modules. Others available are:
+    # - `:token_authenticatable`
+    # - `:encryptable`
+    # - `:confirmable`
+    # - `:omniauthable`
+    # - `:timeoutable`
+    devise :database_authenticatable,
+           :registerable, 
+           :recoverable,
+           :rememberable,
+           :trackable,
+           :validatable,
+           :lockable
+    
+    # Enable URLs like `/:name`.
+    friendly_id :name, use: :slugged
+    
+  end
+  configure_concerns
+  
 end
 
-# Allow us to do some checks without having to check
-# that current_user != nil.
+# Extend `nil` to clean up some code.
+#
+# This:
+#
+#     current_user.present? and current_user.admin?
+# 
+# becomes:
+#
+#     current_user.admin?
+#
 class NilClass
 
   # Anonymous users doesn't own anything.
+  #
+  # Example:
+  # 
+  #     current_user # nil
+  #     current_user.owns?(Media::Playlist.first) # false
+  #
   def owns?(resource) false end
   
   # Anonymous users are never admins.
+  #
+  # Example:
+  # 
+  #     current_user # nil
+  #     current_user.admin? # false
+  #
   def admin?() false end
+  
 end

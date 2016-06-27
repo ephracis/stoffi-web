@@ -1,0 +1,16 @@
+- if title.present? and local_assigns[:heading] == :outside
+  %h4= title
+- if collection.present?
+  .panel.panel-default
+    - if title.present? and local_assigns[:heading] == :inside
+      .panel-heading
+        %h3.panel-title= title
+    - css = local_assigns.delete(:css) || ''
+    - css = "list-group media-list #{css}"
+    %ul{ class: css }
+      = render partial: collection, layout: 'shared/media_list_item',
+          locals: local_assigns
+- else
+  .alert.alert-info
+    %span.fa.fa-fw.fa-info
+    = empty_message

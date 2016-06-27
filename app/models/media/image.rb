@@ -9,7 +9,12 @@ module Media
     belongs_to :resource, polymorphic: true
     
     # validations
-    validates :url, uniqueness: true
+    validates :url, presence: true, uniqueness: true
+    validates :width, presence: true, numericality: true
+    validates :height, presence: true, numericality: true
+    
+    # hooks
+    before_validation :set_size
   
     # Create new or fetch existing images from an array of hashes.
     #
@@ -85,6 +90,14 @@ module Media
     # If a size is asked for, but not found, the first match in this list is returned instead.
     def self.default_sizes
       [:medium, :large, :small, :huge, :tiny]
+    end
+    
+    # Set the size of the image given its URL.
+    def set_size
+      return if width.present? and height.present?
+      size = FastImage.size(url)
+      self.width = size[0]
+      self.height = size[1]
     end
   
     # Translate a width+height into a symbol size such as `:large` or `:tiny`.

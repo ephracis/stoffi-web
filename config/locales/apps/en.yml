@@ -1,0 +1,31 @@
+en:
+  apps:
+    create: 'Create new'
+    install: 'Install'
+    uninstall: 'Uninstall'
+      
+    info:
+      heading: 'Information'
+      author: 'Created by'
+      created: 'Created'
+      update: 'Last modified'
+      users: 'Users'
+      support: 'Support'
+
+    owner:
+      callback: 'Callback'
+        
+    manage:
+      heading: 'Management'
+      edit: 'Edit'
+      remove: 'Delete'
+      confirm: 'Are you sure you want to delete the app?'
+        
+    new:
+      button: 'Create app'
+      title: 'Create app'
+      heading: 'Creating new app'
+      
+    edit:
+      title: "Edit '%{app}'"
+      heading: "Editing app: <strong>%{app}</strong>"

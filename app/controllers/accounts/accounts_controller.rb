@@ -5,12 +5,12 @@ module Accounts
   # Handle requests for managing accounts.
   class AccountsController < Devise::RegistrationsController
     
-    before_filter :get_profile_id, only: [ :show, :playlists ]
+    # hooks
+    before_filter :set_resource, only: [ :show, :playlists ]
+    before_filter :set_resource_for_update, only: [ :edit, :update ]
     before_filter :set_return_to, only: [ :new, :destroy ]
 
     oauthenticate except: [ :new, :create, :show ]
-    
-    respond_to :html, :json, :embedded
 
     # GET /join
     def new
@@ -18,7 +18,7 @@ module Accounts
       if request.format == :embedded
         render
       else
-        render '/accounts/sessions/new', layout: 'fullwidth'
+        render '/accounts/sessions/new'
       end
     end
   
@@ -36,26 +36,33 @@ module Accounts
           
         else # save failed
           clean_up_passwords resource
-          render '/users/sessions/new', layout: 'fullwidth'
+          render '/users/sessions/new'
         end
         
       else # recaptcha failed
         #set_flash_message :notice, :failed_recaptcha
         build_resource
         clean_up_passwords(resource)
-        render '/users/sessions/new', layout: 'fullwidth'
+        render '/users/sessions/new'
       end
     end
   
     # GET /profile
     def show
-      @user = User.find params[:id]
-      respond_with @user
     end
   
     # GET /dashboard
     def dashboard
-      render layout: (params[:format] == 'embedded' ? 'empty' : true)
+      set_rankings
+      ids = PublicActivity::Activity.pluck(:id).shuffle[0..19]
+      @activities = PublicActivity::Activity.where(id: ids)
+      #@activities = PublicActivity::Activity.order(created_at:
+      #:desc).limit(20)
+      @devices = current_user.devices
+      respond_to do |format|
+        format.html { render }
+        format.json { render "accounts/accounts/dashboard/#{params[:tab]}" }
+      end
     end
   
     # GET /settings
@@ -68,8 +75,7 @@ module Accounts
   
     # PATCH /settings
     def update
-      @user = get_user
-      change_admin_flag_if_admin
+      change_admin_protected_values if current_user.admin?
       
       if update_user
         
@@ -80,21 +86,19 @@ module Accounts
             redirect_to after_update_path_for(@user)
           }
           format.json { render json: @user }
-          format.embedded { render }
         end
         
       else
         
         # failed to update
+        add_breadcrumb I18n.t('breadcrumbs.settings'), settings_path
         respond_to do |format|
           format.html {
-            prepare_settings
             render 'edit'
           }
           format.json {
             render json: @user.errors, status: :unprocessable_entity
           }
-          format.embedded { render }
         end
       end
       
@@ -107,7 +111,7 @@ module Accounts
       set_flash_message :notice, :destroyed
       sign_out_and_redirect(self.resource)
     end
-  
+
     protected
   
     # The URL where the user should return to after finishing updating the
@@ -147,36 +151,54 @@ module Accounts
     # account.
     def resource_params
       params.require(:user).permit(:email, :password, :password_confirmation,
-        :current_password, :image, :name_source, :custom_name, :show_ads)
+        :current_password, :avatar, :name, :name_source_id, :slug, :show_ads)
     end
   
-    # Get the ID of the requested user. Processes the special ID `me` to the ID
-    # of the current user.
-    def get_profile_id
-      params[:id] = process_me(params[:id])
+    # Get the ID of the requested user.
+    def get_user_id
+      # treat `params[:user_slug]` as alias of `params[:id]`
+      params[:id] = params[:user_slug] if params[:user_slug].present?
+      
+      # default to id of current user if missing, but require auth
+      if params[:id].blank? and current_user.blank?
+        redirect_to :new_user_session_path and return
+      end
+      params[:id] ||= current_user.id
     end
     
-    # Get the user object to edit.
+    # Get the user object in order to edit it.
     #
     # Normal users get their own user, admins can specify other users to edit.
-    def get_user
+    def set_resource_for_update
+      params[:id] = get_user_id
       if params[:id] and current_user.admin?
-        User.find params[:id]
+        @resource = @user = User.friendly.find params[:id]
       else
-        current_user
+        @resource = @user = current_user
       end
     end
     
-    # Change the admin status of `@user`.
+    # Create an instance of the resource given the parameters.
+    def set_resource
+      @resource = @user = User.friendly.find get_user_id
+    rescue
+      raise params.inspect
+    end
+    
+    # Change the values of `@user` that are available to admins only.
     #
-    # Only admins can change the admin flag and they can only change the admin
-    # flag of other users.
-    def change_admin_flag_if_admin
+    # Admins cannot change these values on themselves, though.
+    def change_admin_protected_values
       return unless current_user.admin?
       return if @user == current_user
-      return unless params[:user][:admin]
-      @user.update_attribute(:admin, params[:user][:admin])
-      params[:user].delete :admin
+      if params[:user][:admin]
+        @user.update_attribute(:admin, params[:user][:admin])
+        params[:user].delete :admin
+      end
+      if params[:user][:locked_at]
+        @user.update_attribute(:locked_at, params[:user][:locked_at])
+        params[:user].delete :locked_at
+      end
     end
     
     # Update the attributes of the user.
@@ -193,30 +215,18 @@ module Accounts
         return @user.update_without_password resource_params
       end
     end
-  
-    # def prepare_settings
-    #     
-    #       @new_links = Link.available.map do |link|
-    #         
-    #       end
-    #       Link.available.each do |link|
-    #         n = link[:name]
-    #         ln = link[:link_name] || n.downcase
-    #         if current_user.links.find_by(provider: ln) == nil
-    #           img = "auth/#{n.downcase}_14_white"
-    #           title = t("auth.link", service: n)
-    #           path = "/auth/#{ln}"
-    #           @new_links <<
-    #           {
-    #             name: n,
-    #             img: img,
-    #             title: title,
-    #             path: path
-    #           }
-    #         end
-    #       end
-    #     
-    #     end
+
+    # Set the list of users that are around `current_user` in
+    # the rankings, and the position of the first user in that
+    # list.
+    def set_rankings
+      users = User.rank
+      current_pos = users.find_index current_user
+      start_pos = [0,current_pos-5].max
+      length = current_pos < 6 ? 10 : 11
+      @rank_users = users[start_pos,length]
+      @start_ranking = start_pos + 1
+    end
     
   end # class 
 end # module

@@ -1,5 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 micro:
   url: http://bar.com/tiny.jpg
   resource: not_afraid (Media::Song)

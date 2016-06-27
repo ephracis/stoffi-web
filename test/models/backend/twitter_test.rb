@@ -12,10 +12,7 @@ class TwitterTest < ActiveSupport::TestCase
       
     backend = Backends::Twitter.new
     backend.user_id = 'my_id'
-    names = backend.names
-    
-    assert_equal "alice", names[:username]
-    assert_equal "Alice Babs", names[:fullname]
+    assert_equal "Alice Babs", backend.name
   end
   
   test "should get picture" do

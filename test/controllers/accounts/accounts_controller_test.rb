@@ -8,20 +8,15 @@ class Accounts::AccountsControllerTest < ActionController::TestCase
     @user = users(:bob)
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
-
-  test "should not get own profile when logged out" do
-    get :show
-    assert_redirected_to new_user_session_path
-  end
   
-  test "should get others profile when logged out" do
-    get :show, id: users(:bob)
+  test "should get profile when logged out" do
+    get :show, id: @admin
     assert_response :success
   end
   
   test "should get profile while logged in" do
     sign_in @user
-    get :show
+    get :show, id: @admin
     assert_response :success
   end
   

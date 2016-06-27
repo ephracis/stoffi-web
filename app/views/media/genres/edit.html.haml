@@ -1,0 +1,38 @@
+- content_for :title do
+  = t 'media.genres.edit.title', genre: @genre
+  
+- heading = t 'media.genres.edit.heading', genre: @genre
+- form_url = genre_path(@genre)
+- back_url = form_url
+- method = :patch
+- init = "fetch('#{genre_url(@genre, format: :json)}')"
+- form_data = { 'ng-controller' => 'GenreController', 'ng-init' => init }
+- base_url = "#{request.protocol}#{request.host_with_port}"
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to back_url, target: '_self', class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @genre, url: form_url, method: method, data: form_data do |f|
+
+  = render partial: 'shared/messages', locals: { resource: @genre }
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :slug
+    .input-group
+      %span.input-group-addon
+        = "#{base_url}/genres/"
+      = f.text_field :slug, class: 'form-control'

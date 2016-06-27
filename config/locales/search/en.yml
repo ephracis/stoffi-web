@@ -1,0 +1,23 @@
+en:
+  search:
+    placeholder:
+      all: "Search for music"
+      artists: 'Search for artists'
+      albums: 'Search for albums'
+      songs: 'Search for songs'
+      playlists: 'Search for playlists'
+      genres: 'Search for genres'
+      events: 'Search for events'
+    empty: "Miss! Try searching for something else."
+    error: "Oops! There was a problem with your search."
+    spinner:
+      db: "Searching..."
+      internet: "Nothing in database, searching the Internet.\n\nThis will take a while..."
+    category:
+      all: "Everything"
+      artists: 'Artists'
+      albums: 'Albums'
+      songs: 'Songs'
+      playlists: 'Playlists'
+      events: 'Events'
+      genres: 'Genres'

@@ -1,0 +1,23 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-bar-chart
+    = t 'accounts.profile.statistics.heading'
+  %ul.list-group
+    %li.list-group-item
+      = t 'accounts.profile.statistics.listens'
+      %span.badge= number_to_human @user.listens.count
+    %li.list-group-item
+      = t 'accounts.profile.statistics.songs'
+      %span.badge= number_to_human @user.played_songs.count
+    %li.list-group-item
+      = t 'accounts.profile.statistics.artists'
+      %span.badge= number_to_human @user.played_artists.count
+    %li.list-group-item
+      = t 'accounts.profile.statistics.albums'
+      %span.badge= number_to_human @user.played_albums.count
+    %li.list-group-item
+      = t 'accounts.profile.statistics.playlists'
+      %span.badge= number_to_human @user.played_playlists.count
+    %li.list-group-item
+      = t 'accounts.profile.statistics.logins'
+      %span.badge= number_to_human @user.sign_in_count

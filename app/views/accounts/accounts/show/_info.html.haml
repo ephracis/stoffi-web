@@ -1,0 +1,28 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-info
+    = t 'accounts.profile.information.heading'
+  .panel-body
+    %dl
+      %dt= t 'accounts.profile.information.country'
+      %dd
+        = flag_image_tag(@user.last_sign_in_ip)
+        = country(@user.last_sign_in_ip)
+    
+      - if current_user.admin?
+        %dt= t 'accounts.profile.information.last_login'
+        %dd= t 'ago', time: time_ago_in_words(@user.last_sign_in_at)
+        %dt= t 'accounts.profile.information.failed_logins'
+        %dd= number_to_human @user.failed_attempts
+        %dt= t 'accounts.profile.information.last_edit'
+        %dd= t 'ago', time: time_ago_in_words(@user.updated_at)
+        
+        - unless current_user == @user
+          %dt= t 'accounts.profile.information.locked'
+          %dd
+            %input{ type: :checkbox, data: { 'ng-model' => 'isLocked',
+              'ng-change' => 'toggleLock()' } }
+          %dt= t 'accounts.profile.information.admin'
+          %dd
+            %input{ type: :checkbox, data: { 'ng-model' => 'isAdmin',
+              'ng-change' => 'toggleAdmin()' } }

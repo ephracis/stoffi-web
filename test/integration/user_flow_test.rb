@@ -20,14 +20,14 @@ class UserFlowTest < ActionDispatch::IntegrationTest
     post_via_redirect new_user_session_path, user: { email: user.email, password: passwd }
     assert_equal dashboard_path, path
     
-    get user_path
+    get user_path(user)
     assert_response :success
     assert assigns(:user)
     assert_equal assigns(:user).id, user.id
   end
   
   test "login and continue" do
-    get new_user_session_path, {}, {'HTTP_REFERER' => news_path}
+    get new_user_session_path, {}, {'HTTP_REFERER' => about_path}
     assert_response :success
     
     user = users(:alice)
@@ -35,24 +35,25 @@ class UserFlowTest < ActionDispatch::IntegrationTest
     set_pass(user, passwd)
     
     post_via_redirect new_user_session_path, user: { email: user.email, password: passwd }
-    assert_equal news_path, path
+    assert_equal about_path, path
   end
   
   test "redirect to login and continue" do
-    get_via_redirect user_path
+    user = users(:alice)
+    passwd = "foobar"
+    
+    get_via_redirect dashboard_path
     assert_response :success
     assert_equal new_user_session_path, path
     
     # referer isn't set yet so we need to re-request with the header
-    get new_user_session_path, {}, {'HTTP_REFERER' => user_path}
+    get new_user_session_path, {}, {'HTTP_REFERER' => dashboard_path}
     assert session['user_return_to'], "Return path not set"
     
-    user = users(:alice)
-    passwd = "foobar"
     set_pass(user, passwd)
     
     post_via_redirect new_user_session_path, user: { email: user.email, password: passwd }
-    assert_equal user_path, path
+    assert_equal dashboard_path, path
   end
   
   test "fail login with wrong password" do
@@ -90,7 +91,7 @@ class UserFlowTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal new_user_session_path, path
     
-    get user_path
+    get dashboard_path
     assert_response :redirect
   end
   
@@ -100,8 +101,8 @@ class UserFlowTest < ActionDispatch::IntegrationTest
     set_pass(user, passwd)
     post_via_redirect new_user_session_path, user: { email: user.email, password: passwd }
     
-    get_via_redirect destroy_user_session_path, {}, {'HTTP_REFERER' => news_path}
+    get_via_redirect destroy_user_session_path, {}, {'HTTP_REFERER' => about_path}
     assert_response :success
-    assert_equal news_path, path
+    assert_equal about_path, path
   end
 end

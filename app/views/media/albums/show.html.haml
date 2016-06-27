@@ -1,0 +1,36 @@
+- content_for :title do
+  = @album
+  
+- content_for :header do
+  %meta{ property: 'og:title', content: @album }
+  %meta{ property: 'og:type', content: 'music.artist' }
+  %meta{ property: 'og:image', content: image_for(@album) }
+  %meta{ property: 'og:url', content: album_url(@album) }
+  - @album.songs.each do |song|
+    %meta{ property: 'music:song', content: song_url(song) }
+
+%div{ data: { 'ng-controller' => 'AlbumController',
+  'ng-init' => "fetch('#{album_url(@album, format: :json)}')" }}
+  
+  = cover_for @album do |m|
+    - m.buttons do
+      = render partial: 'media/playlists/menu',
+          locals: { size: :md, songs: @album.songs.map(&:id) }
+      %a.btn.btn-primary
+        %span.fa.fa-fw.fa-play
+          
+    - m.subheading = link_to_association @album.artists
+        
+    .cover-meta
+      %span.fa.fa-fw.fa-tags
+      = link_to_association @album.genres.limit(3)
+
+  .row
+    .col-md-8
+      = media_list @album.ordered_songs
+    
+    .col-md-4
+      - if current_user.admin? or @album.sources.any?
+        = render partial: '/media/sources/index', locals: { resource: @album }
+      - %w(stats artists manage).each do |panel|
+        = render "/media/albums/show/#{panel}"

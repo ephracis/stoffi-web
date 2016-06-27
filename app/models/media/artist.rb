@@ -11,30 +11,21 @@ module Media
     include Imageable
     include Rankable
     include Duplicatable
+    include FriendlyId
   
     # associations
     with_options uniq: true do |assoc|
-      assoc.has_and_belongs_to_many :albums
       assoc.has_and_belongs_to_many :songs
       assoc.has_and_belongs_to_many :events, join_table: :performances
     end
     has_many :genres, through: :songs
     has_many :listens, through: :songs
+    has_many :albums, through: :songs
+    has_many :playlists, through: :songs
   
     # validations
     validates :name, presence: true, uniqueness: true
-  
-    include_associations_of_dups :listens
-  
-    searchable do
-      text :name
-      string :locations, multiple: true do
-        sources.map(&:name)
-      end
-      integer :archetype_id
-    end
-  
-    self.default_image = "gfx/icons/256/artist.png"
+    validates :slug, presence: true
   
     # Paginates the songs of the artist. Should be called before <tt>paginated_songs</tt> is called.
     #
@@ -54,6 +45,11 @@ module Media
     def paginated_songs
       return @paginated_songs
     end
+  
+    # The path to use when creating links using `url_for` to the resource.
+    #def to_param
+    #  to_s.parameterize
+    #end
     
     # Find an artist by its hash.
     def self.find_by_hash(hash)
@@ -86,14 +82,20 @@ module Media
       # default options
       options = {
         split_by_words: true,
-        split_by_feat: true
+        split_by_feat: true,
+        sort: true
       }.merge(options)
       
       splitted = [name]
       splitted = splitted.map { |s| split_by_feat(s) }.flatten if options[:split_by_feat]
       splitted = splitted.map { |s| split_by_words(s) }.flatten if options[:split_by_words]
-      splitted.sort
+      splitted = splitted.sort if options[:sort]
+      splitted
     end
+    
+    #def to_param
+    #  super
+    #end
   
     private
     
@@ -120,6 +122,27 @@ module Media
       words = "vs[\\.\\s]" + words
       str.split(/(?:(?:\s+(?:#{words}))|\s*[,\+\&])\s*/i)
     end
+    
+    # Configure all concerns and extensions.
+    def self.configure_concerns
+      
+      # Duplicatable
+      include_associations_of_dups :listens
+  
+      # Searchable
+      searchable do
+        text :name
+        string :locations, multiple: true do
+          sources.map(&:name)
+        end
+        integer :archetype_id
+      end
+      
+      # Enable URLs like `/artists/:name`.
+      friendly_id :name, use: :slugged
+      
+    end
+    configure_concerns
     
   end
 end

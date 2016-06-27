@@ -1,0 +1,25 @@
+- klass = resource.class.name.demodulize.parameterize
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-globe
+    = t 'media.sources.index.heading'
+    - if current_user.admin?
+      %span.pull-right
+        = link_to send("new_#{klass}_source_path", resource), target: '_self' do
+          %span.fa.fa-fw.fa-plus
+    
+  %ul.list-group
+    - resource.sources.each do |source|
+      %li.list-group-item
+        = link_to source.foreign_url do
+          %span{ class: "fa fa-fw fa-#{source.name}" }
+          = source
+        - if current_user.admin?
+          %span.pull-right
+            = link_to send("edit_#{klass}_source_path", source.resource, source),
+                target: '_self' do
+              %span.fa.fa-fw.fa-pencil
+            = link_to send("#{klass}_source_path", source.resource, source),
+                method: :delete, target: '_self',
+                data: { confirm: t('media.sources.delete.confirm') } do
+              %span.fa.fa-fw.fa-close

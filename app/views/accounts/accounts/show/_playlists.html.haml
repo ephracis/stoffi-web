@@ -1,0 +1,8 @@
+%p.visible-xs.visible-sm &nbsp;
+= media_list @user.playlists,
+  t('accounts.profile.playlists.created.heading', user: @user),
+  empty_message: t('accounts.profile.playlists.created.empty', user: @user)
+  
+= media_list @user.following(Media::Playlist),
+  t('accounts.profile.playlists.followed.heading', user: @user),
+  empty_message: t('accounts.profile.playlists.followed.empty', user: @user)

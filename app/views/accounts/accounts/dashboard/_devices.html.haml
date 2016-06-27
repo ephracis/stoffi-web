@@ -1,0 +1,25 @@
+%p.visible-xs &nbsp;
+- @devices.each do |device|
+  - type = device.type
+  - type = :mobile if type == :phone
+  .panel.panel-default
+    .panel-body
+      .media
+        .media-left
+          %span{ class: "fa fa-fw fa-4x fa-#{type}" }
+        .media-body
+          %h4.media-heading= device.name
+          .btn-toolbar
+            .btn-group
+              %button.btn.btn-xs.btn-default
+                %span.fa.fa-fw.fa-step-backward
+              %button.btn.btn-xs.btn-default
+                %span.fa.fa-fw.fa-play
+              %button.btn.btn-xs.btn-default
+                %span.fa.fa-fw.fa-step-forward
+            .btn-group
+              %button.btn.btn-xs.btn-default
+                %span.fa.fa-fw.fa-random
+              %button.btn.btn-xs.btn-default
+                %span.fa.fa-fw.fa-repeat
+

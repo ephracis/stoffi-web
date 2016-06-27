@@ -11,7 +11,22 @@ class Search < ActiveRecord::Base
     ['soundcloud', 'youtube', 'jamendo', 'lastfm']
   end
   
-  def self.suggest(query, page, longitude, latitude, locale, user_id = -1, limit = 10)
+  def self.suggest(query, page, longitude, latitude, locale, categories = [], user_id = -1, limit = 10)
+    if categories.present?
+      terms = []
+      categories.each do |category|
+        begin
+          klass = "Media::#{category.classify}".constantize
+          field = 'name'
+          field = 'title' if category.in? ['songs', 'album']
+          terms += klass.where("lower(#{field}) like ?", [query.downcase+'%']).
+            map { |x| { value: x.display, id: x.id } }
+        rescue
+          logger.warn "Could not find suggestions for resource #{category}"
+        end
+      end
+      return terms
+    end
     terms = []
     self.select("*, count(*) as hits").where("lower(query) like ?", [query.downcase+'%']).
          group("lower(query)").order("hits desc").find_each do |search|
@@ -38,16 +53,18 @@ class Search < ActiveRecord::Base
       d = 0.001 if d == 0
       weight *= eval(SCORE_WEIGHT_DISTANCE.sub('x', d.to_s)).to_f
       
-      terms << {query: search.query, score: search.hits.to_f * weight.to_f}
-      x = {query: search.query, score: search.hits.to_f * weight.to_f}
-      logger.debug x.inspect
+      terms << {value: search.query, score: search.hits.to_f * weight.to_f}
     end
     return terms.sort_by { |x| x[:score] }.reverse[0..limit-1]
   end
   
-  def do(page = 1, limit = 5)
+  def do(page = 1, limit = 5, do_backends = false)
     results = {}
     time = Benchmark.measure do
+      if do_backends
+        hits = Search.search_backends(query, categories, sources)
+        Search.save_hits(hits)
+      end
       hits = []
       search = search_in_db(page, limit)
       results[:total_sources] = sources_array.length
@@ -60,13 +77,6 @@ class Search < ActiveRecord::Base
       results[:out_of_bounds] = search.results.out_of_bounds?
       results[:offset] = search.results.offset
       hits = rank(search.results.uniq)
-      
-      # TODO: show exact match
-      #exact = find_exact(hits) if page == 1
-      #if exact
-      # results[:exact] = exact
-      # hits.reject! { |x| x[:object] == exact }
-      #end
     
       results[:hits] = hits.collect { |h| h[:object] }
     
@@ -170,7 +180,7 @@ class Search < ActiveRecord::Base
           
           # some artists are named "Foo feat. Bar" so we split
           # the name and divide the popularity among them
-          artists = Artist.split_name(hit[:name])
+          artists = Media::Artist.split_name(hit[:name])
           popularity_pot = hit[:popularity] / artists.count.to_f
           artists.each do |name|
             h = hit.dup
@@ -184,14 +194,17 @@ class Search < ActiveRecord::Base
           # songs usually contain the name of the artist in their title
           # so we do our best to extract the artist and the name of the
           # song from the song title 
-          artist,title = Song.parse_title(hit[:name])
-          hit[:name] = title
-          hit[:artist] ||= artist
-          hit[:artists] = Artist.split_name(hit[:artist]) if hit[:artist]
+          artists,title = Media::Song.parse_title(hit[:title])
+          hit[:title] = title
+          if hit[:artists].empty? and artists.present?
+            hit[:artists] << { name: artists }
+          else
+            hit[:artists] = Media::Artist.split_name(hit[:artist]) if hit[:artist]
+          end
           add_parsed_hit(:song, parsed_hits, hit, true)
           
         when :album
-          hit[:artists] = Artist.split_name(hit[:artist]) if hit[:artist]
+          hit[:artists] = Media::Artist.split_name(hit[:artist]) if hit[:artist]
           add_parsed_hit(:album, parsed_hits, hit, true)
           
         when :event
@@ -201,7 +214,7 @@ class Search < ActiveRecord::Base
           add_parsed_hit(hit[:type], parsed_hits, hit, true)
         end
       rescue StandardError => e
-        raise e if Rails.env.test?
+        raise e #if Rails.env.test?
       end
     end
     return parsed_hits
@@ -232,7 +245,9 @@ class Search < ActiveRecord::Base
     end
     Sunspot.search(objects) do |q|
       q.keywords(query, minimum_matches: 1)
-      q.with(:locations, sources_array)
+      unless sources_array == self.class.sources.sort
+        q.with(:locations, sources_array)
+      end
       q.paginate(page: page, per_page: limit)
       
       # skip duplicates

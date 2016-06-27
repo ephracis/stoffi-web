@@ -1,25 +1,52 @@
-# -*- encoding : utf-8 -*-
 module UsersHelper
-  def text_ads?
-    current_user == nil || current_user.show_ads != "none"
+  
+  # Whether or not to show text ads for a given user.
+  def text_ads?(user = current_user)
+    user.blank? || user.show_ads != "none"
   end
   
-  def image_ads?
-    current_user == nil || (current_user && current_user.show_ads == "all")
+  # Whether or not to show image ads for a given user.
+  def image_ads?(user = current_user)
+    user.blank? || user.show_ads == "all"
+  end
+
+  def avatar(user = current_user)
+    return user.avatar if user.avatar.present?
+    asset_url 'avatars/user.png'
+  end
+
+  # Get the username for a given user.
+  def username(user = current_user)
+    return user.name if user.name.present?
+    return user.email.split('@')[0].titleize if user.email.present?
+    "Anon"
   end
   
-  def name_options_for_select
-    options = []
-    
+  # Get a link to a user.
+  def link_to_user(user = current_user, options = {})
+    link_to username(user), user, options
+  end
+
+  def avatar_options_for_select
+    options = [[t('accounts.settings.general.default_avatar'), '',
+                { data: { 'img-src' => image_path('avatars/user.png') } }]]
+
     current_user.links.each do |l|
-      l.names.each do |label,name|
-        options << ["#{name} (#{l})", "#{l.provider}::#{label}"]
+      if l.picture.present?
+        options << [l.display, l.picture,
+                    { data: { 'img-src' => l.picture } } ]
       end
     end
+
+    [:mm, :identicon, :monsterid, :wavatar, :retro].each do |i|
+      name = i == :mm ? "Gravatar" : i.to_s
+      disp = name.titleize
+      disp = 'MonsterID' if name == 'monsterid'
+      url = current_user.gravatar i
+      options << [disp, url, { data: { 'img-src' => url }}]
+    end
     
-    options << [t('settings.custom'), '']
-    
-    options_for_select options, current_user.name_source
+    options_for_select options, current_user.avatar
   end
   
   def image_options_for_select

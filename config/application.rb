@@ -19,11 +19,11 @@ module Stoffi
     # config.time_zone = 'Central Time (US & Canada)'
 
     # The default locale is :us and all translations from config/locales/**/*.rb,yml are auto loaded.
-    config.i18n.default_locale = :us
+    config.i18n.default_locale = :en
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    config.i18n.available_locales = [:us, :uk, :cn, :de, :se, :en]
-    config.i18n.fallbacks = [:us]
+    config.i18n.available_locales = [:sv, :en]
+    config.i18n.fallbacks = [:en]
 
     # oauth-plugin requires Rack Filter
     config.middleware.use OAuth::Rack::OAuthFilter
@@ -33,5 +33,8 @@ module Stoffi
 
     # Use custom exception handler
     config.exceptions_app = self.routes
+    
+    config.action_view.prefix_partial_path_with_controller_namespace = false
+    
   end
 end

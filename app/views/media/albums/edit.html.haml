@@ -1,0 +1,79 @@
+- content_for :title do
+  = t 'media.albums.edit.title', album: @album
+  
+- heading = t 'media.albums.edit.heading', album: @album
+- form_url = album_path(@album)
+- back_url = form_url
+- method = :patch
+- init = "fetch('#{album_url(@album, format: :json)}')"
+- form_data = { 'ng-controller' => 'AlbumController', 'ng-init' => init }
+- base_url = "#{request.protocol}#{request.host_with_port}"
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to back_url, target: '_self', class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @album, url: form_url, method: method, data: form_data do |f|
+
+  = render partial: 'shared/messages', locals: { resource: @album }
+  
+  = hidden_field_tag "songs[]", "{{songId}}", mutiple: true,
+      data: { 'ng-repeat' => "songId in songIds" }
+
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.label :slug
+    .input-group
+      %span.input-group-addon
+        = "#{base_url}/albums/"
+      = f.text_field :slug, class: 'form-control'
+
+  .form-group
+    = f.label :songs
+    
+    .input-group
+      %span.input-group-addon
+        %span.fa.fa-search{ data: { 'ng-show' => "!searchingForSongs" }}
+        %span.fa.fa-spinner.fa-pulse{ data: { 'ng-show' => "searchingForSongs" }}
+      = text_field_tag :q, '', id: :new_song, autofocus: :true,
+        placeholder: t('media.albums.add_song'), class: 'form-control',
+        autocomplete: 'off',
+        data: { 'stf-search' => '/search.js?c=songs&limit=5',
+          'stf-search-before' => "beforeSongSearch",
+          'stf-search-after' => "afterSongSearch",
+          'stf-search-select' => "selectSongSearch" }
+      
+    .spacer
+       
+    .alert.alert-warning{ data: { 'ng-show' => "mode == 'empty'" }}
+      %span.fa.fa-warning
+      = t 'media.albums.songs.empty'
+  
+    .alert.alert-danger{ data: { 'ng-show' => "mode == 'error'" }}
+      %span.fa.fa-warning
+      = t 'media.albums.songs.error'
+      
+    .panel.panel-default{ data: { 'ng-show' => "mode == 'loading' || mode == 'ready' "}}
+      .panel-body{ data: { 'ng-show' => "mode == 'loading'" }}
+        #loading
+          = render 'spinner'
+          .spinner-label#loading-label
+            = t 'media.albums.songs.loading'
+    
+      %ul.list-group.media-list.list-resources-removable{ data: { 'ng-show' => "mode == 'ready'",
+        'ng-model' => 'songs',
+        'ui-sortable' => 'sortableFormOptions',
+        'ng-bind-html' => 'songsHtml',
+        'dynamic-content' => '' }}

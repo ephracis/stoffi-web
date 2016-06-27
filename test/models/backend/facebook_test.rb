@@ -6,15 +6,10 @@ class FacebookTest < ActiveSupport::TestCase
   include Backends::FacebookTestHelpers
   include Rails.application.routes.url_helpers
   
-  test "should get names" do
-    stub_oauth "/me?fields=name,username",
-      { "name" => "Alice Babs", "username" => "alice" }
-      
+  test "should get name" do
+    stub_oauth "/me?fields=name", { "name" => "Alice Babs" }
     backend = Backends::Facebook.new
-    names = backend.names
-    
-    assert_equal "alice", names[:username]
-    assert_equal "Alice Babs", names[:fullname]
+    assert_equal "Alice Babs", backend.name
   end
   
   test "should get picture" do
@@ -151,7 +146,7 @@ class FacebookTest < ActiveSupport::TestCase
   test "should create playlist" do
     playlist = media_playlists(:foo)
     stub_playlist [], method: :post,
-      params: { playlist: playlist_url(playlist.id, l: nil) }
+      params: { playlist: playlist_url(playlist.user, playlist) }
     accounts_links(:alice_facebook).create_playlist(playlist)
   end
   
@@ -164,7 +159,7 @@ class FacebookTest < ActiveSupport::TestCase
       {
         id: 'bar',
         application: { id: Rails.application.secrets.oa_cred['facebook']['id'] },
-        data: { playlist: { url: playlist_url(playlist.id, l: nil) } }
+        data: { playlist: { url: playlist_url(playlist.user, playlist) } }
       }
     ]
     stub_playlists response, url: '/me/music.playlists?limit=25&offset=0'
@@ -184,7 +179,7 @@ class FacebookTest < ActiveSupport::TestCase
     
     # create playlist
     stub_playlist [], method: :post,
-      params: { playlist: playlist_url(playlist.id, l: nil) }
+      params: { playlist: playlist_url(playlist.user, playlist) }
       
     accounts_links(:alice_facebook).update_playlist(playlist)
   end
@@ -198,7 +193,7 @@ class FacebookTest < ActiveSupport::TestCase
       {
         id: 'bar',
         application: { id: Rails.application.secrets.oa_cred['facebook']['id'] },
-        data: { playlist: { url: playlist_url(playlist.id, l: nil) } }
+        data: { playlist: { url: playlist_url(playlist.user, playlist) } }
       }
     ]
     stub_playlists response, url: '/me/music.playlists?limit=25&offset=0'
@@ -228,7 +223,7 @@ class FacebookTest < ActiveSupport::TestCase
   end
   
   test "should get encrypted uid" do
-    stub_oauth '/dmp?fields=third_party_id', { 'third_party_id' => 'foo' }
+    stub_oauth '/me?fields=third_party_id', { 'third_party_id' => 'foo' }
     uid = Backends::Facebook.new.encrypted_uid
     assert_equal 'foo', uid
   end

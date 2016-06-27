@@ -28,6 +28,8 @@ module Backends
       ids = response['items'].collect { |i| i['id']['videoId'] }
     
       return get_songs(ids)
+    rescue
+      []
     end
   
     # Get an array of songs with IDs `ids`.
@@ -67,7 +69,7 @@ module Backends
     
       rescue StandardError => e
         raise e if Rails.env.test?
-        logger.error "error retrieving youtube videos: #{e.message}"
+        Rails.logger.error "error retrieving youtube videos: #{e.message}"
       end
     
       return songs
@@ -95,12 +97,13 @@ module Backends
         url.query = [url.query, "key=#{creds['key']}"].compact.join('&')
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = (url.scheme == 'https')
+        Rails.logger.debug "fetching: #{url}"
         data = http.get(url.request_uri)
         feed = JSON.parse(data.body)
         return feed
       rescue StandardError => e
         Rails.logger.error "error making request: #{e.message}"
-        raise e
+        raise e if Rails.env.test?
       end
     end
     

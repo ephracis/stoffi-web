@@ -6,7 +6,7 @@ module Imageable
   included do
     has_many :images, as: :resource, dependent: :destroy
     class_attribute :default_image
-    self.default_image = "gfx/icons/256/missing.png" # TODO: move to view
+    self.default_image = "http://placehold.it/438x255" # TODO: move to view
   end
   
   def image(size = :medium, options = {})

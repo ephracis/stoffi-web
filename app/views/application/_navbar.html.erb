@@ -1,0 +1,108 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to root_path, class: 'navbar-brand' do %>
+	      <div class='logo logo-small'>
+          <%= render 'logo' %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to music_path do %>
+            <i class="fa fa-music"></i>&nbsp;
+            <%= t 'navbar.music' %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to search_path do %>
+            <i class="fa fa-search"></i>&nbsp;
+            <%= t 'navbar.search' %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to '#' do %>
+            <i class="fa fa-download"></i>&nbsp;
+            <%= t 'navbar.app' %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to about_path do %>
+            <i class="fa fa-info-circle"></i>&nbsp;
+            <%= t 'navbar.about' %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to donate_path do %>
+            <i class="fa fa-heart"></i>&nbsp;
+            <%= t 'navbar.donate' %>
+          <% end %>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+		    <% if user_signed_in? %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true" aria-expanded="false">
+               <span class='fa fa-user'></span>&nbsp;
+               <%= username %>
+               <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to dashboard_path do %>
+                  <span class='fa fa-fw fa-area-chart'></span>&nbsp;
+                  <%= t 'navbar.dashboard' %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to user_path(current_user) do %>
+                  <span class='fa fa-fw fa-user'></span>&nbsp;
+                  <%= t 'navbar.profile' %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to edit_user_registration_path do %>
+                  <span class='fa fa-fw fa-cogs'></span>&nbsp;
+                  <%= t 'navbar.settings' %>
+                <% end %>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <%= link_to destroy_user_session_path do %>
+                  <span class='fa fa-fw fa-sign-out'></span>&nbsp;
+                  <%= t 'navbar.logout' %>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+          
+		    <% else %>
+          <li>
+            <%= link_to new_user_session_path do %>
+              <i class="fa fa-sign-in"></i>&nbsp;
+              <%= t 'navbar.login' %>
+            <% end %>
+          </li>
+        <% end %>
+        
+      </ul>
+      
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class='navbar-filler'></div>

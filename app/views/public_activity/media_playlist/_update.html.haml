@@ -1,0 +1,36 @@
+- # TODO: shrink this activity
+- if activity.trackable
+  - playlist = activity.trackable
+  .panel.panel-default
+    .panel-body
+      .media
+        .media-left
+          = link_to '#' do
+            = image_tag avatar(activity.owner), class: 'media-object',
+                width: 40
+        .media-body
+          %div
+            - user = link_to username(activity.owner), activity.owner
+            - user = "<strong>#{user}</strong>"
+            - playlist = link_to t("activities.playlist.update.link"),
+              playlist_url(playlist.user, playlist)
+            = t('activities.playlist.update.line', user: user, playlist: playlist).html_safe
+          %div
+            %small
+              - time = t('ago', time: time_ago_in_words(activity.created_at))
+              - time[0] = time[0].capitalize
+              = time
+
+      .panel.panel-default
+        .panel-body
+          = media_list activity.trackable
+
+    -# .panel-footer
+    -#   %small.actions
+    -#     = link_to '#' do
+    -#       %span.fa.fa-share-alt
+    -#       share
+    -#     = link_to '#' do
+    -#       %span.fa.fa-thumbs-o-up
+    -#       follow
+  

@@ -19,6 +19,7 @@ module Accounts
     def to_s
       self.class.pretty_name(provider)
     end
+    alias_method :display, :to_s
   
     # Update the authentication credentials from a hash.
     #
@@ -38,25 +39,13 @@ module Accounts
       retry_failed_submissions
     end
     
-    # Whether or not the link supports showing a button.
-    def can_show_button?
-      backend.can_show_button?
-    end
-    
-    # Whether or not a button should be shown for this link.
-    #
-    # For example a 'Follow' button for Twitter.
-    def show_button?
-      show_button and can_show_button?
-    end
-    
-    %w[listens shares playlists].each do |resources|
-      define_method "can_send_#{resources}?" do
-        backend.send("can_send_#{resources}?")
+    %w[listens shares playlists button].each do |resources|
+      define_method "#{resources}?" do
+        backend.send("#{resources}?")
       end
       
-      define_method "send_#{resources}?" do
-        send("send_#{resources}") and send("can_send_#{resources}?")
+      define_method "#{resources}_enabled?" do
+        send("enable_#{resources}") and send("#{resources}?")
       end
     end
     
@@ -65,19 +54,9 @@ module Accounts
       backend.picture
     end
     
-    # The user's names on the third party account.
-    #
-    # Returns a hash of `fullname` and/or `username`.
-    def names
-      return backend.names
-    end
-      
     # The user's name on the third party account.
     def name
-      n = names
-      return n[:fullname] if n[:fullname]
-      return n[:username] if n[:username]
-      return nil
+      backend.name
     end
       
     # The most recent error message in the `backlog`.
@@ -87,12 +66,12 @@ module Accounts
     
     # Share a resource.
     def share(message = nil, backend_options = {})
-      backend.share(message, backend_options) if send_shares?
+      backend.share(message, backend_options) if shares?
     end
       
     # Let the service know that the user has started to play a song.
     def start_listen(l)
-      backend.start_listen(l) if send_listens?
+      backend.start_listen(l) if listens?
     rescue Exception => e
       catch_error(l, e)
     end
@@ -100,14 +79,14 @@ module Accounts
     # Let the service know that the user has paused, resumed, or otherwise
     # updated a currently active song.
     def update_listen(l)
-      backend.update_listen(l) if send_listens?
+      backend.update_listen(l) if listens?
     rescue Exception => e
       catch_error(l, e)
     end
       
     # Let the service know that the user has stopped listen to a song.
     def end_listen(l)
-      backend.end_listen(l) if send_listens?
+      backend.end_listen(l) if listens?
     rescue Exception => e
       catch_error(l, e)
     end
@@ -116,26 +95,26 @@ module Accounts
     #
     # Used when the song was skipped or not played for long enough.
     def delete_listen(l)
-      backend.delete_listen(l) if send_listens?
+      backend.delete_listen(l) if listens?
     end
       
     # Let the service know that the user just created a playlist.
     def create_playlist(p)
-      backend.create_playlist(p) if send_playlists?
+      backend.create_playlist(p) if playlists?
     rescue Exception => e
       catch_error(p, e)
     end
       
     # Let the service know that the user just updated a playlist.
     def update_playlist(p)
-      backend.update_playlist(p) if send_playlists?
+      backend.update_playlist(p) if playlists?
     rescue Exception => e
       catch_error(p, e)
     end
       
     # Let the service know that the user just removed a playlist.
     def delete_playlist(p)
-      backend.delete_playlist(p) if send_playlists?
+      backend.delete_playlist(p) if playlists?
     end
     
     def encrypted_uid
@@ -150,16 +129,12 @@ module Accounts
       [
         { name: "Twitter" },
         { name: "Facebook" },
-        { name: "Google", link_name: "google_oauth2" },
+        { name: "Google", slug: "google_oauth2" },
         { name: "Vimeo" },
         { name: "SoundCloud" },
-        { name: "Last.fm", link_name: "lastfm" },
-        { name: "MySpace" },
-        { name: "Yahoo" },
+        { name: "Last.fm", slug: :lastfm, icon: :lastfm },
         { name: "Weibo" },
-        { name: "vKontakte" },
-        { name: "LinkedIn" },
-        { name: "Windows Live", link_name: "windowslive" }
+        { name: "Windows Live", slug: :windowslive }
       ]
     end
   

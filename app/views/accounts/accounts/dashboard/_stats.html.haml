@@ -1,0 +1,17 @@
+%h2= t 'accounts.dashboard.stats.listens'
+= line_chart charts_listens_for_user_path
+    
+%h2= t 'accounts.dashboard.stats.songs'
+= bar_chart charts_songs_for_user_path
+
+%h2= t 'accounts.dashboard.stats.playlists'
+= bar_chart charts_playlists_for_user_path
+
+%h2= t 'accounts.dashboard.stats.artists'
+= pie_chart charts_artists_for_user_path
+    
+%h2= t 'accounts.dashboard.stats.albums'
+= pie_chart charts_albums_for_user_path
+    
+%h2= t 'accounts.dashboard.stats.genres'
+= pie_chart charts_genres_for_user_path

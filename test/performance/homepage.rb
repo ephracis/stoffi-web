@@ -20,4 +20,6 @@ class HomepageTest < ActionDispatch::PerformanceTest
   test "barebone" do
     get barebone_path
   end
+  
+  # TODO: test layouts without content
 end

@@ -17,21 +17,21 @@ class Media::EventsControllerTest < ActionController::TestCase
       stop: 4.days.from_now,
       venue: randstr
     }
+    Geokit::Geocoders::GoogleGeocoder.stubs(:reverse_geocode).
+      returns stub(country_code: 'XX', city: 'Test')
   end
 
   test "should get index logged in" do
     sign_in @user
     get :index
     assert_response :success
-    assert_not_nil assigns(:popular)
-    assert_not_nil assigns(:user_popular)
+    assert_not_nil assigns(:events)
   end
 
   test "should get index logged out" do
     get :index
     assert_response :success
-    assert_nil assigns(:user_popular)
-    assert_not_nil assigns(:popular)
+    assert_not_nil assigns(:events)
   end
   
   test "should get show logged in" do
@@ -79,10 +79,21 @@ class Media::EventsControllerTest < ActionController::TestCase
     assert_redirected_to event_path(assigns(:event))
   end
 
-  test "should not get edit" do
-    assert_raises AbstractController::ActionNotFound do
-      get :edit, id: @event
-    end
+  test "should not get edit logged out" do
+    get :edit, id: @event.to_param
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should not get edit as user" do
+    sign_in @user
+    get :edit, id: @event.to_param
+    assert_redirected_to dashboard_path
+  end
+
+  test "should get edit as admin" do
+    sign_in @admin
+    get :edit, id: @event.to_param
+    assert_response :success
   end
 
   test "should not update logged out" do

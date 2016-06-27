@@ -11,8 +11,7 @@ class Accounts::LinksControllerTest < ActionController::TestCase
   test "should get index" do
     sign_in @user
     get :index
-    assert_response :success
-    assert_not_nil assigns(:links)
+    assert_redirected_to '/settings/accounts'
   end
 
   test "should redirect for index when logged out" do
@@ -49,7 +48,7 @@ class Accounts::LinksControllerTest < ActionController::TestCase
       post :create
     end
    
-    assert_redirected_to edit_user_registration_path+'#accounts'
+    assert_redirected_to '/settings/accounts'
   end
   
   test "should refresh link for signed in user" do
@@ -131,16 +130,16 @@ class Accounts::LinksControllerTest < ActionController::TestCase
   test "should show link" do
     sign_in @user
     get :show, id: @link.id
-    assert_response :success
+    assert_redirected_to '/settings/accounts'
   end
   
   test "should update link" do
     sign_in @user
-    send_shares = @link.send_shares
+    enable_shares = @link.enable_shares
     stub_for_settings
-    patch :update, id: @link.id, link: { send_shares: !send_shares }
-    assert_redirected_to edit_user_registration_path + '#accounts'
-    assert_equal !send_shares, Accounts::Link.find(@link.id).send_shares, "Setting wasn't changed"
+    patch :update, id: @link.id, link: { enable_shares: !enable_shares }
+    assert_redirected_to '/settings/accounts'
+    assert_equal !enable_shares, Accounts::Link.find(@link.id).enable_shares, "Setting wasn't changed"
   end
    
   test "should destroy link" do
@@ -159,6 +158,6 @@ class Accounts::LinksControllerTest < ActionController::TestCase
       delete :destroy, id: @link
     end
    
-    assert_redirected_to edit_user_registration_path + '#accounts'
+    assert_redirected_to '/settings/accounts'
   end
 end

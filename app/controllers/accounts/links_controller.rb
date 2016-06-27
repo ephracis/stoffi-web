@@ -10,25 +10,24 @@ module Accounts
     
     before_filter :ensure_html, only: :create
     before_filter :set_link, only: [ :show, :update, :destroy ]
-    
-    respond_to :html, :json
   
     # GET /links
     def index
       @links = current_user.links
       @all = { connected: @links, not_connected: [] }
     
-      respond_with @links do |format|
-        format.html
-        format.embedded
-        format.xml { render xml: @all }
-        format.json { render json: @all }
+      respond_to do |format|
+        format.html { redirect_to account_page }
+        format.json { render }
       end
     end
 
     # GET /links/1
     def show
-      respond_with @link
+      respond_to do |format|
+        format.html { redirect_to account_page }
+        format.json { render }
+      end
     end
 
     # POST /links
@@ -61,10 +60,10 @@ module Accounts
         end
       end
 
-      respond_with(@link) do |format|
+      respond_to do |format|
         if @link
           format.html { redirect_to request.env['omniauth.origin'] ||
-            edit_user_registration_path + '#accounts' }
+            account_page }
           format.json { render json: @link, status: :created, location: @link }
         else
           format.html { redirect_to request.env['omniauth.origin'] ||
@@ -80,9 +79,9 @@ module Accounts
       success = @link.update_attributes(resource_params)
       # TODO: send to connected devices
 
-      respond_with(@link) do |format|
+      respond_to do |format|
         if success
-          format.html { redirect_to edit_user_registration_path + '#accounts' }
+          format.html { redirect_to account_page }
           format.embedded { redirect_to edit_user_registration_path }
           format.json { head :ok }
         else
@@ -101,8 +100,8 @@ module Accounts
       end
       @link.destroy
 
-      respond_with(@link) do |format|
-        format.html { redirect_to(edit_user_registration_path + '#accounts') }
+      respond_to do |format|
+        format.html { redirect_to account_page }
         format.embedded { redirect_to(edit_user_registration_path) }
       end
     end
@@ -118,13 +117,17 @@ module Accounts
     # Never trust parameters from the scary internet, only allow the white list
     # through.
     def resource_params
-      params.require(:link).permit(:send_shares, :send_listens, :send_playlists,
-        :show_button)
+      params.require(:link).permit(:enable_shares, :enable_listens, :enable_playlists,
+        :enable_button)
     end
     
     # Make sure the request is an HTML request.
     def ensure_html
       head :forbidden and return unless request.format == :html
+    end
+    
+    def account_page
+      edit_user_registration_path + '/accounts'
     end
     
   end

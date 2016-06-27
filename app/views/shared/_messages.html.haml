@@ -1,0 +1,30 @@
+- # NOTE: All alert boxes will always be present. Even though there are no
+- # messages, the alert box needs to exist so we can add content to it later with
+- # javascript.
+
+- keys = [:danger, :warning]
+- alerts = {}
+
+- keys.each do |key|
+  - alerts[key] = { messages: (flash[key] || '').split("\n") }
+
+- # add more errors
+- alerts[:danger][:messages] += (flash[:alert] || '').split("\n")
+- alerts[:danger][:messages] += (flash[:danger] || '').split("\n")
+- alerts[:danger][:messages] += (flash[:error] || '').split("\n")
+- if defined?(resource) and resource.errors.present?
+  - alerts[:danger][:messages] += resource.errors.full_messages
+
+- # define icons
+- alerts[:danger][:icon] = 'warning'
+- alerts[:warning][:icon] = 'warning'
+
+- keys.each do |key|
+  - alert = alerts[key]
+  = content_tag :div, class: "alert alert-#{key}", role: :alert,
+    style: (alert[:messages].present? ? '' : 'display:none') do
+
+    - alert[:messages].each do |msg|
+      %span{ class: "fa fa-#{alert[:icon]}"} &nbsp;
+      = msg
+      %br

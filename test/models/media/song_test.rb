@@ -123,14 +123,14 @@ class Media::SongTest < ActiveSupport::TestCase
   end
   
   test "should get top songs" do
-    s = Media::Song.top limit: 3
+    s = Media::Song.rank.limit 3
     assert_equal 3, s.length, "Didn't return three songs"
     assert s[0].listens.count >= s[1].listens.count, "Top songs not in order (first and second)"
     assert s[1].listens.count >= s[2].listens.count, "Top songs not in order (second and third)"
   end
   
   test "should get top songs for artist" do
-    s = media_artists(:bob_marley).songs.top limit: 3
+    s = media_artists(:bob_marley).songs.rank.limit 3
     assert_equal 3, s.length, "Didn't return three songs"
     assert s[0].listens.count >= s[1].listens.count, "Top songs not in order (first and second)"
     assert s[1].listens.count >= s[2].listens.count, "Top songs not in order (second and third)"

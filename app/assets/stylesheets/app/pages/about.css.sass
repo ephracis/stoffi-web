@@ -1,0 +1,59 @@
+.jumbotron
+  position: relative
+  overflow: hidden
+  
+  .jumbotron-bg
+    z-index: 0
+    background: url(http://placehold.it/1140x300)
+    -webkit-filter: blur(3px)
+    filter: blur(3px)
+    position: absolute
+    
+    $offset: -10px
+    top: $offset
+    bottom: $offset
+    left: $offset
+    right: $offset
+    opacity: .8
+  
+  .jumbotron-content
+    z-index: 1
+    position: relative
+    
+    h1 .logo svg
+      vertical-align: bottom
+      margin-bottom: 3px
+  
+    a.btn.btn-primary.btn-lg
+      border: 1px solid $primary-text
+      box-shadow: 1px 1px 5px $text-color
+
+#highlights .thumbnail
+  min-height: 480px
+  
+  img
+    width: 100%
+
+#rewards
+  white-space: nowrap
+  background: $secondary
+  
+  .reward
+    width: 20%
+    display: inline-block
+    text-align: center
+    
+    img
+      width: 90%
+      max-width: 150px
+
+#future
+  text-align: center
+  
+  .future-idea
+    margin-bottom: 2em
+    .fa
+      color: $primary
+      
+#story #creator img
+  margin-bottom: 1em

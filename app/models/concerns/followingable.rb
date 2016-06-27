@@ -51,3 +51,28 @@ module Followingable
     followings.where(followee: resource).destroy_all
   end
 end
+
+# Extend `nil` to clean up some code.
+#
+# This:
+#
+#     current_user.present? and current_user.follows?(MyResource)
+# 
+# becomes:
+#
+#     current_user.follows?(MyResource)
+#
+# keeping the code DRY.
+#
+class NilClass
+
+  # Anonymous users doesn't follow anything.
+  #
+  # Example:
+  # 
+  #     current_user # nil
+  #     current_user.follows?(Media::Playlist.first) # false
+  #
+  def follows?(resource) false end
+  
+end

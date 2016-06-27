@@ -1,0 +1,43 @@
+sv:
+  media:
+    artists:
+      badge: 'artist'
+      
+      albums: 'Album'
+      genres: 'Genrar'
+      songs: 'Låtar'
+      events: 'Evenemang'
+      playlists: 'Spellistor'
+      play: 'Spela'
+      
+      cover:
+        listens:
+          one: 'Spelats %{count} gång'
+          other: 'Spelats %{count} gånger'
+        playlists:
+          one: 'Finns i %{count} spellista'
+          other: 'Finns i %{count} spellistor'
+      
+      stats:
+        heading: 'Statistik'
+        listens: 'Spelningar'
+        playlists: 'Spellistor'
+        albums: 'Album'
+        songs: 'Låtar'
+      
+      info:
+        heading: 'Information'
+        
+      manage:
+        heading: 'Administration'
+        edit: 'Redigera'
+        remove: 'Ta bort'
+        confirm: 'Är du säker på att du vill ta bort artisten?'
+        sources:
+          heading: 'Källor'
+          new: 'Ny'
+          confirm: 'Är du säker på att du vill ta bort källan?'
+        
+      edit:
+        title: "Redigera '%{artist}'"
+        heading: "Redigerar artisten: <strong>%{artist}</strong>"

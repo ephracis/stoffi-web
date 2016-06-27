@@ -1,0 +1,15 @@
+= media_list_item event do |m|
+
+  - m.title event, badge: local_assigns[:badge].present?
+  
+  / content
+  .row.media-attributes
+    .col-sm-4.col-xs-8.media-attribute
+      %span.fa.fa-fw.fa-map-marker
+      = event.venue
+    .col-sm-2.col-xs-4.media-attribute
+      %span.fa.fa-fw.fa-clock-o
+      = l event.start
+    .col-sm-6.media-attribute.media-attribute-sm
+      %span.fa.fa-fw.fa-user
+      = link_to_association event.artists.limit(3)

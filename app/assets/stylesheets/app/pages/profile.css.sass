@@ -1,0 +1,29 @@
+#profile #sidebar
+  @media screen and (min-width: $screen-md)
+    border-right: 1px solid $nav-tabs-border-color
+    
+  .nav-stacked
+    margin: 1em 0
+    
+    li a
+      border-top: 1px solid transparent
+      border-left: 1px solid transparent
+      border-bottom: 1px solid transparent
+      margin-right: -13px
+
+    li.active a
+      background: $panel-bg
+      color: $text-color
+      margin-right: -16px
+      border-top: 1px solid $nav-tabs-border-color
+      border-left: 1px solid $nav-tabs-border-color
+      border-bottom: 1px solid $nav-tabs-border-color
+      border-top-right-radius: 0
+      border-bottom-right-radius: 0
+
+  #username
+    margin: 1em 0 0
+    h5
+      font-weight: bold
+    .subtitle
+      color: $text-muted

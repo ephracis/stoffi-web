@@ -1,0 +1,4 @@
+<%= @album.ordered_songs.map do |song|
+  render partial: song, layout: 'shared/media_list_item.html'
+end.to_s.html_safe
+%>

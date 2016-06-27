@@ -9,11 +9,6 @@ module Accounts
     before_action :set_device, only: [:show, :update, :destroy]
     before_action :ensure_owner_or_admin, only: [:show, :update, :destroy]
   
-    # GET /devices
-    def index
-      @devices = current_user.devices
-    end
-
     # GET /devices/1
     def show
     end

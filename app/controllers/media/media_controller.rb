@@ -17,7 +17,47 @@ module Media
     # set resource instance for some methods
     before_action :set_resource, only: [ :show, :edit, :update, :destroy ]
     
+    # set breadcrumbs
+    before_action :set_media_breadcrumb, only: [ :show, :new, :edit ]
+    
+    def index
+      resources_name = resource_klass.demodulize.tableize
+      klass = resource_klass.constantize
+      if params[:ids]
+        resources = klass.where(id: params[:ids].split(',').map(&:to_i))
+      else
+        resources = klass.rank.limit(50)
+      end
+      instance_variable_set('@'+resources_name, resources)
+      respond_to do |format|
+        format.html { render 'static/music' }
+        format.json { render }
+        format.js { render }
+      end
+    end
+    
     private
+    
+    # Adds the appropriate breadcrumbs for the current action.
+    def set_media_breadcrumb
+      add_breadcrumb I18n.t('breadcrumbs.home'), '/'
+      add_breadcrumb I18n.t('breadcrumbs.music'), '/music'
+      
+      resources_name = resource_klass.demodulize.tableize
+      path = send("#{resources_name}_path") rescue ''
+      add_breadcrumb I18n.t("breadcrumbs.#{resources_name}"), path
+      
+      if action_name.to_sym.in? [:show, :new, :edit] and @resource
+        path = url_for(@resource) rescue ''
+        add_breadcrumb @resource, path
+      end
+      
+      if action_name.to_sym.in? [:new, :edit]
+        resource_name = resource_klass.demodulize.parameterize
+        path = send("edit_#{resource_name}_path", @resource) rescue ''
+        add_breadcrumb I18n.t("breadcrumbs.#{action_name}"), path
+      end
+    end
     
     # Attempt to create an instance of the resource given the parameters.
     def set_resource
@@ -38,7 +78,7 @@ module Media
     def resource_klass
       suffix = 'Controller'
       unless self.class.name.ends_with? suffix
-        raise "Model doesn't following naming convention"
+        raise "Controller doesn't following naming convention"
       end
       self.class.name.chomp(suffix).singularize
     end
@@ -111,7 +151,7 @@ module Media
     # given association of the current resource.
     def associate_resources_from_params(association)
       return unless params.key?(association)
-      associate_values association, params[association]
+      associate_values association, params.delete(association)
     end
     
     # Assign an array of sourceable resources from the request's `body` to a
@@ -150,13 +190,21 @@ module Media
     #         added: [123, 456, { name: 'One Love' }],
     #         removed: ['stoffi:song:youtube:abc', 'stoffi:song:soundcloud:123']
     #
+    # FIXME: Write tests.
     def associate_values(association, values)
-      values = { added: values } unless values.is_a?(Hash)
-      if values.key? :added
-        values[:added].each { |v| associate_value(association, v) }
+      changes = values.is_a?(Hash) ?
+        values : value_changes(association, values)
+      if changes.key? :added
+        added = changes[:added].map { |v| associate_value(association, v) }
+        if resource.respond_to? :create_associate_activity
+          resource.send(:create_associate_activity, current_user, added)
+        end
       end
-      if values.key? :removed
-        values[:removed].each { |v| deassociate_value(association, v) }
+      if changes.key? :removed
+        removed = changes[:removed].map { |v| deassociate_value(association, v) }
+        if resource.respond_to? :create_deassociate_activity
+          resource.send(:create_deassociate_activity, current_user, removed)
+        end
       end
     end
     
@@ -188,6 +236,7 @@ module Media
       unless resource.send("#{association}").include?(r)
         resource.send("#{association}") << r
       end
+      return r
     rescue StandardError => e
       raise e if Rails.env.test?
     end
@@ -220,6 +269,7 @@ module Media
       if resource.send("#{association}").include?(r)
         resource.send("#{association}").delete(r)
       end
+      return r
     rescue StandardError => e
       raise e if Rails.env.test?
     end
@@ -230,20 +280,30 @@ module Media
     # - A path to a source for the resource
     def get_resource_from_value(klass, value)
       
-      # ID
-      if value.is_a?(Integer) or (value.is_a?(String) and value.to_i > 0)
+      # inspect capabilities
+      is_friendly = klass.respond_to?(:friendly)
+      is_sourceable_by_path = klass.respond_to?(:find_or_create_by_path)
+      is_sourceable_by_hash = klass.respond_to?(:find_or_create_by_path)
+      
+      # Friendly ID (but not a source path)
+      if value.is_a?(String) and is_friendly and
+         not (value.start_with?('stoffi:') and is_sourceable_by_path)
+        return klass.friendly.find(value) rescue nil
+      
+      # Numeric ID
+      elsif value.is_a?(Integer) or (value.is_a?(String) and value.to_i > 0)
         return klass.find(value.to_i) rescue nil
         
       # Hash
       elsif value.is_a?(Hash)
-        unless klass.respond_to?(:find_or_create_by_hash)
+        unless is_sourceable_by_hash
           raise "Hash given but #{klass} is not sourceable"
         end
         return klass.find_or_create_by_hash(value) rescue nil
         
       # Path
       elsif value.is_a?(String)
-        unless klass.respond_to?(:find_or_create_by_path)
+        unless is_sourceable_by_path
           raise "Path given but #{klass} is not sourceable"
         end
         return klass.find_or_create_by_path(value) rescue nil
@@ -252,6 +312,21 @@ module Media
       else
         raise "Cannot create resource from value of type #{value.class.name}"
       end
+    end
+    
+    # Calculate the changes needed for going to `values`,
+    # Represented as `{ added: ... , removed: ... }`.
+    def value_changes(association, values)
+      changes = { added: [], removed: [] }
+      oldState = resource.send("#{association}").map(&:id)
+      newState = []
+      values.each do |value|
+        r = get_resource_from_value association_class(association), value
+        newState << r.id if r
+      end
+      changes[:added] = newState.reject { |x| x.in? oldState }
+      changes[:removed] = oldState.reject { |x| x.in? newState }
+      changes
     end
     
   end

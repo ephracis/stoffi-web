@@ -1,0 +1,14 @@
+en:
+  navbar:
+    about: 'About'
+    music: 'Music'
+    search: 'Search'
+    app: 'App'
+    donate: 'Donate'
+    login: 'Login'
+    logout: 'Logout'
+    dashboard: 'Dashboard'
+    playlists: 'Playlists'
+    profile: 'Profile'
+    settings: 'Settings'
+    

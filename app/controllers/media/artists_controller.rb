@@ -3,30 +3,11 @@
 module Media
   
   # The business logic for artists.
-  class ArtistsController < ApplicationController
+  class ArtistsController < MediaController
     include ImageableController
 
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
     oauthenticate interactive: true, except: [ :index, :show ]
     before_filter :ensure_admin, except: [ :index, :show ]
-    respond_to :html, :xml, :json
-  
-    def index
-      l, o = pagination_params
-      @recent = Listen.order(created_at: :desc).limit(l).offset(o).map(&:song).map(&:artists).flatten.uniq
-      @weekly = Artist.top from: 7.days.ago, limit: l, offset: o
-      @all_time = Artist.top limit: l, offset: o
-    
-      if user_signed_in?
-        @user_recent = current_user.listens.order(created_at: :desc).limit(l).
-          offset(o).map(&:song).map(&:artists).flatten.uniq
-        @user_weekly = Artist.top for: current_user, from: 7.days.ago,
-          limit: l, offset: o
-        @user_all_time = Artist.top for: current_user, limit: l, offset: o
-      end
-    
-      respond_with(@all_time)
-    end
 
     def show
       l, o = pagination_params
@@ -45,16 +26,10 @@ module Media
     end
   
     private
-
-    # Use callbacks to share common setup or constraints between actions.
+    
+    # Create an instance of the resource given the parameters.
     def set_resource
-      not_found('artist') and return unless Artist.exists? params[:id]
-      @artist = Artist.find(params[:id])
-    end
-  
-    # Access the resource for this controller.
-    def resource
-      @artist
+      @resource = @artist = Media::Artist.friendly.find params[:id]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

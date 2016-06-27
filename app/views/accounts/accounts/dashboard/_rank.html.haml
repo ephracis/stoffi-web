@@ -1,0 +1,22 @@
+%p.visible-xs &nbsp;
+%table.table
+  %thead
+    %tr
+      %th #
+      %th= t('accounts.dashboard.rank.name')
+      %th= t('accounts.dashboard.rank.listens')
+  %tbody
+    - rank = @start_ranking
+    - @rank_users.each do |user|
+      %tr{ class: user == current_user ? 'info' : '' }
+        %th{scope:'row'}
+          = rank += 1
+          - case rank
+          - when 1
+            %span.fa.fa-fw.fa-trophy.gold
+          - when 2
+            %span.fa.fa-fw.fa-trophy.silver
+          - when 3
+            %span.fa.fa-fw.fa-trophy.bronze
+        %td= user.name
+        %td= user.listens.count

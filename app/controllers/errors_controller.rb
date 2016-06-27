@@ -11,7 +11,7 @@ class ErrorsController < ApplicationController
       render '404', status: :not_found
       
     else
-      render 'show', status: @code.to_i, layout: 'empty'
+      render 'show', status: @code.to_i
     end
   end
   

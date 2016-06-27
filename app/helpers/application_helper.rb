@@ -1,10 +1,8 @@
-# -*- encoding : utf-8 -*-
-require 'htmlentities'
-
 module ApplicationHelper
   
   def link_to_association(resources)
-    x = resources.map { |r| link_to h(r), r }.to_sentence.html_safe
+    x = resources.map { |r| link_to h(r), r, target: '_self' }
+      .to_sentence.html_safe
     x.present? ? x : nil
   end
   
@@ -13,17 +11,6 @@ module ApplicationHelper
     when :us, :uk then :en
     else I18n.locale end
     I18n.with_locale(l) { number.to_words }
-  end
-  
-  def h(str)
-    if str.is_a? String
-      str = html_escape(d(str))
-    end
-    return str
-  end
-  
-  def header(text)
-    "<div class='line-behind-text'><h2>#{h text}</h2></div>".html_safe
   end
   
   def pretty_errors(resource = nil)
@@ -59,4 +46,12 @@ module ApplicationHelper
     
     return url
   end
+  
+  # Since we have mutliple root paths depending on the result of the A/B
+  # testing, we cannot have it named in routes.rb and instead have to specify
+  # it by hand here.
+  def root_path
+    '/'
+  end
+  
 end

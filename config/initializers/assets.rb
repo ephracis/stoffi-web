@@ -4,5 +4,6 @@
 Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( realtime.js chrome.css mobile.js embedded.css embedded.js themes/default-light.css themes/default-dark.css )
+# application.js, application.css, and all non-JS/CSS in app/assets folder are
+# already added.
+Rails.application.config.assets.precompile += %w( youtube.js )

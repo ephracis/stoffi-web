@@ -7,6 +7,7 @@ module Media
     
     # concerns
     include Base
+    include PublicActivity::Model
   
     # associations
     belongs_to :user
@@ -20,7 +21,16 @@ module Media
     
     # validations
     validates :user, :song, :device, presence: true
-  
+
+    # Record activity on this resource.
+    tracked owner: Proc.new { |controller, model|
+      if controller and controller.current_user
+        return controller.current_user
+      else
+        model.user
+      end
+    }
+    
     # The string to display to users for representing the resource.
     def to_s
       song.to_s

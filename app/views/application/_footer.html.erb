@@ -1,0 +1,61 @@
+<footer class='footer'>
+  
+  <div class='container'>
+  	
+  	<nav class='links text-right'>
+  		<%= link_to legal_path, target: '_self' do %>
+        <i class="fa fa-legal"></i>
+  		  <%= t("footer.legal") %>
+  		<% end %>
+  		
+  		<%= link_to contact_path, target: '_self' do %>
+        <i class="fa fa-send"></i>
+  		  <%= t("footer.contact") %>
+  		<% end %>
+  		
+  		<%= link_to "https://facebook.com/stoffiplayer", target: '_self' do %>
+        <i class="fa fa-facebook"></i>
+  		  Facebook
+  		<% end %>
+  		
+  		<%= link_to "https://twitter.com/stoffiplayer", target: '_self' do %>
+        <i class="fa fa-twitter"></i>
+  		  Twitter
+  		<% end %>
+  		
+  		<%= link_to "https://github.com/simplare", target: '_self' do %>
+        <i class="fa fa-github"></i>
+  		  Github
+  		<% end %>
+  		
+  		<%= link_to apps_path, target: '_self' do %>
+        <i class="fa fa-cube"></i>
+  		  <%=t 'footer.apps' %>
+  		<% end %>
+  	</nav>
+  	
+  	<p class="languages text-left">
+  	  <% I18n.available_locales.each do |locale| %>
+  	    <%
+  	    flag = image_tag "flags/#{flag locale}.png"
+  	    current = locale == I18n.locale
+  	    %>
+  	    <% if current %>
+  	      <%= flag %>
+  	    <% else %>
+  	      <%= link_to(flag, params.merge(l: locale), target: '_self') %>
+  	    <% end %>
+  	  <% end %>
+  		
+  	</p>
+  	
+  	<p class='copyright text-center'>
+  		© <%= Time.now.year %>
+  		<a href="http://www.simplare.com" target='_blank'>
+  		  Simplare
+  		</a>
+  	</p>
+  	  
+  </div>
+	
+</footer>

@@ -1,0 +1,82 @@
+- inSweden = (origin_country.country_code2 == 'se' or I18n.locale == :sv)
+#contact.row
+  .col-sm-8.col-md-5
+    %h2
+      = t 'static.contact.form.header'
+      
+    = form_tag contact_path do
+      = render 'shared/messages'
+      .input-group
+        .input-group-addon
+          %span.fa.fa-fw.fa-user
+        = text_field_tag :name, params[:name],
+                         placeholder: t('static.contact.form.name'),
+                         class: 'form-control'
+
+      .input-group
+        .input-group-addon
+          %span.fa.fa-fw.fa-envelope
+        = email_field_tag :email, params[:email],
+                         placeholder: t('static.contact.form.email'),
+                         class: 'form-control'
+
+      .form-group
+        = text_field_tag :subject, params[:subject],
+                         placeholder: t('static.contact.form.subject'),
+                         class: 'form-control'
+
+      .form-group
+        = text_area_tag :message, params[:message], rows: 5,
+                         placeholder: t('static.contact.form.message'),
+                         class: 'form-control'
+
+      .recaptcha
+        = recaptcha_tags ssl: true, hl: I18n.locale
+
+      %p
+        %button.btn.btn-primary
+          %span.fa.fa-send
+          = t 'static.contact.form.submit'
+
+  .col-sm-4.col-md-offset-3
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %span.fa.fa-fw.fa-user-md
+          = t 'static.contact.issue.header'
+      .panel-body
+        %p
+          = t 'static.contact.issue.body'
+        %p
+          = t 'static.contact.issue.button.header'
+        %a.btn.btn-primary{ href: 'https://github.com/simplare/stoffi-web/issues/new' }
+          %span.fa.fa-fw.fa-globe
+          = t 'static.contact.issue.button.web'
+        %a.btn.btn-primary{ href: 'https://github.com/simplare/stoffi-player-win/issues/new' }
+          %span.fa.fa-fw.fa-windows
+          = t 'static.contact.issue.button.win'
+    
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %span.fa.fa-fw.fa-home
+          = t 'static.contact.address.header'
+      .panel-body
+        %address
+          %strong Stoffi <br>
+          Råbyvägen 32<br>
+          754 22 Uppsala<br>
+          = "SWEDEN<br>".html_safe unless inSweden
+          %br
+          %abbr{ title: t('static.contact.address.phone.label') }
+            = t('static.contact.address.phone.abbr')+':'
+          = (inSweden ? " 0" : " +46 (0)") + "76 1337 235"
+          
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %span.fa.fa-fw.fa-building-o
+          = t 'static.contact.map.header'
+      .panel-body
+        %map{ center: '59.8690907,17.6431539', zoom: inSweden ? 6 : 2 }
+          %marker{ position: '[59.8690907,17.6431539]', title: 'Stoffi HQ' }

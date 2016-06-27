@@ -1,0 +1,6 @@
+en:
+  by: "By %{creator}"
+  ago: "%{time} ago"
+  save: 'Save'
+  cancel: 'Cancel'
+  back: 'Back'

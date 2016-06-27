@@ -1,0 +1,51 @@
+- if @app.new_record?
+  - heading = t 'apps.new.heading'
+  - back_url = apps_path
+- else
+  - heading = t 'apps.edit.heading', app: @app
+  - back_url = app_path(@app)
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to back_url, target: '_self', class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @app do |f|
+
+  = render partial: 'shared/messages', locals: { resource: @app }
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
+
+  .form-group
+    = f.label :website
+    = f.text_field :website, class: 'form-control'
+
+  .form-group
+    = f.label :author
+    = f.text_field :author, class: 'form-control'
+
+  .form-group
+    = f.label :author_url
+    = f.text_field :author_url, class: 'form-control'
+
+  .form-group
+    = f.label :callback_url
+    = f.text_field :callback_url, class: 'form-control'
+
+  .form-group
+    = f.label :support_url
+    = f.text_field :support_url, class: 'form-control'

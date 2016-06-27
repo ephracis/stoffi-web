@@ -1,0 +1,35 @@
+/ config
+- songs = local_assigns[:songs] || []
+- size = local_assigns[:size] || :xs
+- type = local_assigns[:type] || (size == :xs ? :link : :default)
+
+/ data
+- css = "btn btn-#{size} btn-#{type}"
+- menu_data = { 'playlist-menu' => '',
+  'playlist-menu-songs' => songs.to_s }
+  
+/ markup
+- if user_signed_in?
+  .dropdown{ data: menu_data }
+    %a{ dropdown: :toggle, class: css,
+      data: { toggle: :dropdown } }
+      %span.fa.fa-bars
+      = t 'media.playlists.add' # TODO: rename to 'media.playlists.menu'
+      %span.fa.fa-angle-down
+    %ul.dropdown-menu
+      - current_user.playlists.each do |playlist|
+        - path = playlist_path(playlist)
+        - psongs = playlist.songs.map(&:id)
+        - data = { li: { 'playlist-menu-playlist-songs' => psongs },
+          a: { 'playlist-menu-playlist' => path },
+          added: { 'playlist-menu-playlist-added' => (songs-psongs).empty?.to_s },
+          loading: { 'playlist-menu-playlist-loading' => '' } }
+        
+        %li{ data: data[:li] }
+          = link_to '#', data: data[:a] do
+            %span.fa.fa-fw.fa-spinner.fa-pulse{ data: data[:loading] }
+            %span.fa.fa-fw.fa-check{ data: data[:added] }
+            = playlist
+      %li
+        %input{ type: :text, placeholder: t('media.playlists.create'),
+          data: { 'playlist-menu-new' => '' }}

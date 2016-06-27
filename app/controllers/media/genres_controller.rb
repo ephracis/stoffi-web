@@ -3,29 +3,11 @@
 module Media
   
   # The business logic for genres.
-  class GenresController < ApplicationController
+  class GenresController < MediaController
     include ImageableController
   
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
-    before_action :ensure_admin, only: [ :update, :destroy ]
+    before_action :ensure_admin, except: [ :index, :show, :create ]
     oauthenticate interactive: true, except: [ :index, :show ]
-
-    # GET /genres
-    def index
-      l, o = pagination_params
-      @recent = Listen.order(created_at: :desc).offset(o).limit(l).
-        map { |x| x.song.genres }.flatten.uniq
-      @weekly = Genre.top from: 7.days.ago, offset: o, limit: l
-      @all_time = Genre.top offset: o, limit: l
-    
-      if user_signed_in?
-        @user_recent = current_user.listens.order(created_at: :desc).
-          offset(o).limit(l).map(&:song).map(&:genres).flatten.uniq
-        @user_weekly = Genre.top for: current_user, from: 7.days.ago,
-          offset: o, limit: l
-        @user_all_time = Genre.top for: current_user, offset: o, limit: l
-      end
-    end
 
     # GET /genres/1
     def show
@@ -72,13 +54,9 @@ module Media
   
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
-      not_found('genre') and return unless Genre.exists? params[:id]
-      @genre = Genre.find(params[:id])
-    end
-  
-    # Access the resource for this controller.
-    def resource
-      @genre
+      @resource = @genre = Media::Genre.friendly.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      not_found :genre
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

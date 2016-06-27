@@ -1,0 +1,14 @@
+- offset = "{ from: 'bottom', amount: 20 }"
+- params = { alert: { type: 'danger', icon: 'alert' },
+    danger: { type: 'danger', icon: 'alert' },
+    warning: { type: 'danger', icon: 'alert' },
+    info: { type: 'info', icon: 'exclamation-circle' },
+    notice: { type: 'info', icon: 'exclamation-circle' },
+    success: { type: 'success', icon: 'check' } }
+
+- [:danger, :alert, :warning, :info, :notice, :success].each do |key|
+  - if flash[key].present?
+    - icon = "<span class='fa.fa-fw.fa-#{params[key][:icon]}'></span>"
+    - message = "#{icon} #{flash[key]}"
+    - options = "{ type: '#{params[key][:type]}', offset: #{offset} }"
+    = javascript_tag "$.bootstrapGrowl(\"#{message}\", #{options});"

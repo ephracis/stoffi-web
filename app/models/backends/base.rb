@@ -64,22 +64,18 @@ module Backends
     # This requires that `access_token` and `access_token_secret` is set.
     def picture; nil; end
     
-    # The user's fullname and/or username.
+    # The user's name.
     #
     # This requires that `access_token` and `access_token_secret` is set.
-    def names; nil; end
+    def name; nil; end
     
     # A list of the user's friends.
     #
     # This requires that `access_token` and `access_token_secret` is set.
     def friends; []; end
     
-    # Whether or not the backend supports showing buttons such as Twitter's
-    # "Follow" button.
-    def can_show_button?; false; end
-    
-    %w[shares listens playlists].each do |resources|
-      define_method "can_send_#{resources}?" do
+    %w[shares listens playlists button].each do |resources|
+      define_method "#{resources}?" do
         false
       end
     end

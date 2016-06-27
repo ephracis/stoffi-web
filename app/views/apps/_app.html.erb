@@ -16,7 +16,7 @@
 		<% end %>
 		
 		<span class='description'>
-			<%= t 'apps.description_html', author: link_to(app.user,
+			<%= t 'apps.description_html', author: link_to(username(app.user),
 			  url_for(app.user)) %>
 		</span>
 		

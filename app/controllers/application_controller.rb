@@ -1,25 +1,38 @@
 # Copyright (c) 2015 Simplare
 
 # Handle requests to the app.
+#
+# TODO: split
 class ApplicationController < ActionController::Base
   
   # we need number_to_currency for our title formatting
   include ActionView::Helpers::NumberHelper
+  
+  # we need to fix `url_for` and other helpers.
+  #include Media::PlaylistsController::Helpers
+  
+  include I18nController
+  include PlaylistHelperController
+  include DeviceHelperController
 
   require 'geoip'
   
   # prevent csrf
   protect_from_forgery
+  after_filter :set_csrf_cookie
   
   before_filter :auth_with_params,
                 :ensure_device_id,
-                :set_tab,
                 :classify_device,
-                :prepare_for_embedded,
                 :set_locale,
-                :set_theme,
                 :check_tracking,
                 :check_old_browsers
+
+  # put the CSRF token into a cookie for Angular to use
+  # when sending requests to the API.
+  def set_csrf_cookie
+    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  end
   
   def owns(resource, id)
     o = resource.find(id)
@@ -84,46 +97,6 @@ class ApplicationController < ActionController::Base
     @current_device
   end
   
-  # Decode a string for presentation.
-  def self.d(str)
-    return str unless str.is_a? String
-    
-    next_str = HTMLEntities.new.decode(str)
-    while (next_str != str)
-      str = next_str
-      next_str = HTMLEntities.new.decode(str)
-    end
-    return next_str
-  end
-  def d(str)
-    self.class.d(str)
-  end
-  helper_method :d
-  
-  # Encodes a string so it can be stored and transmitted.
-  #
-  # The string is first decoded until it doesn't change
-  # anything and then a single encoding is performed.
-  def self.e(str)
-    return unless str
-    
-    if str.is_a? String
-      str = HTMLEntities.new.encode(d(str), :decimal)
-      str.gsub!(/[']/, "&#39;")
-      str.gsub!(/["]/, "&#34;")
-      str.gsub!(/[\\]/, "&#92;")
-      return str
-    end
-    
-    return str.map { |s| e(s) } if str.is_a?(Array)
-    return str.each { |a,b| str[a] = e(b) } if str.is_a?(Hash)
-    return str
-  end
-  def e(str)
-    self.class.e(str)
-  end
-  helper_method :e
-  
   def ensure_admin
     access_denied unless current_user.admin?
   end
@@ -168,26 +141,17 @@ class ApplicationController < ActionController::Base
       nil
     end
   end
-  
-  def process_me(id)
-    if (!id || id == "me")
-      redirect_to new_user_session_path and return unless current_user || current_token
-      logger.debug "processing special user 'me'"
-      user = current_user || current_token.user
-      return user.id if user
-    end
-    return id
-  end
-    
-  def default_url_options(options={})
-    { l: base_path }.merge(options)
+
+  protected
+
+  # Ensure that the request contains a valid CSRF token. 
+  def verified_request?
+    super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
   end
   
   def verify_authenticity_token
-    v = verified_request?
-    o = oauth?
-    logger.debug "verify_authenticity_token is passed: verified=#{v} || oauth=#{o}\n"
-    v || o || raise(ActionController::InvalidAuthenticityToken)
+    verified_request? || oauth? ||
+      raise(ActionController::InvalidAuthenticityToken)
   end
   
   private
@@ -204,119 +168,6 @@ class ApplicationController < ActionController::Base
     request.referer || new_user_session_path
   end
   
-  def base_path
-    return nil unless @parsed_locale
-    return nil if ['us', '--'].include?(@parsed_locale.to_s)
-    @parsed_locale.to_s
-  end
-  
-  def set_theme
-    @available_themes = [
-      'default-dark',
-      'default-light'
-    ]
-    default = 'default-light'
-    raise "invalid default theme" unless default.in? @available_themes
-    
-    @theme = params[:t] || params[:theme]
-    cookies[:theme] = @theme if @theme.in? @available_themes
-    @theme = cookies[:theme] unless @theme
-    @theme = default unless @theme.in? @available_themes
-    @theme
-  end
-  
-  def set_locale
-    @parsed_locale =
-      extract_locale_from_param ||
-      extract_locale_from_tld || 
-      extract_locale_from_subdomain ||
-      extract_locale_from_cookie ||
-      extract_locale_from_accept_language_header ||
-      extract_locale_from_ip
-
-    @parsed_locale = @parsed_locale.to_sym if @parsed_locale
-    @parsed_locale = :us if @parsed_locale == :en # no stupid :en! either :us or :uk, thanks.
-    @parsed_locale = nil if @parsed_locale and not I18n.available_locales.include?(@parsed_locale)
-    I18n.locale = @parsed_locale || I18n.default_locale
-  end
-  
-  # Get locale code from parameter.
-  # Sets a cookie if parameter found.
-  def extract_locale_from_param
-    parsed_locale = params[:l] || params[:locale] || params[:i18n_locale]
-    if parsed_locale && 
-      cookies[:locale] = parsed_locale
-      parsed_locale
-    else
-      nil
-    end
-  end
-  
-  # Get locale code from cookie.
-  def extract_locale_from_cookie
-    parsed_locale = cookies[:locale]
-    if parsed_locale && I18n.available_locales.include?(parsed_locale.to_sym)
-      parsed_locale
-    else
-      nil
-    end
-  end
-  
-  # Get locale from top-level domain or return nil if such locale is not available
-  # You have to put something like:
-  #   127.0.0.1 application.com
-  #   127.0.0.1 application.it
-  #   127.0.0.1 application.pl
-  # in your /etc/hosts file to try this out locally
-  def extract_locale_from_tld
-    tld = request.host.split('.').last
-    parsed_locale = case tld
-      when 'hk' then 'cn'
-      else tld
-    end
-    I18n.available_locales.include?(parsed_locale.to_sym) ? parsed_locale  : nil
-  end
-  
-  # Get locale code from request subdomain (like http://it.application.local:3000)
-  # You have to put something like:
-  #   127.0.0.1 gr.application.local
-  # in your /etc/hosts file to try this out locally
-  def extract_locale_from_subdomain
-    parsed_locale = request.subdomains.first
-    return nil if parsed_locale == nil
-    I18n.available_locales.include?(parsed_locale.to_sym) ? parsed_locale : nil
-  end
-  
-  # Get locale code from reading the "Accept-Language" header
-  def extract_locale_from_accept_language_header
-    begin
-      l = request.env['HTTP_ACCEPT_LANGUAGE']
-      if l
-        parsed_locale = l.scan(/^[a-z]{2}[-_]([a-zA-Z]{2})/).first.first.to_s.downcase
-        if parsed_locale && I18n.available_locales.include?(parsed_locale.to_sym)
-          return parsed_locale
-        else
-          return nil
-        end
-      end
-    rescue
-      return nil
-    end
-  end
-  
-  # Get locale code from looking up location of the IP
-  def extract_locale_from_ip
-    o = origin_country(request.remote_ip)
-    if o
-      parsed_locale = o.country_code2.downcase
-      if parsed_locale && I18n.available_locales.include?(parsed_locale.to_sym)
-        parsed_locale
-      else
-        nil
-      end
-    end
-  end
-  
   def check_tracking
     dnt = request.env['HTTP_DNT']
     @track = true
@@ -324,7 +175,8 @@ class ApplicationController < ActionController::Base
   end
   
   # Gets the origin country of an IP
-  def origin_country(ip)
+  def origin_country(ip = nil)
+    ip ||= request.remote_ip
     db = File.join(Rails.root, "lib", "assets", "GeoIP.dat")
     if File.exists? db
       GeoIP.new(db).country(ip)
@@ -370,63 +222,26 @@ class ApplicationController < ActionController::Base
   end
   helper_method :origin_network
   
-  def set_tab(controller = controller_name, action = action_name)
-    @tab = ""
-    if controller == "pages" and action == "download"
-      @tab = "get"
-    elsif controller == "pages"
-      @tab = action
-    elsif controller == "oauth_clients"
-      @tab = "apps"
-    elsif controller == "devices"
-      @tab = "devices"
-    elsif controller == "donations"
-      @tab = "donations"
-    elsif controller == "registrations" and action == "new"
-      @tab = "join"
-    elsif controller == "registrations" and (action == "edit" or action == "settings")
-      @tab = "settings"
-    elsif controller == "registrations"
-      @tab = "dashboard"
-    elsif controller == "contribute"
-      @tab = "contribute"
-    elsif controller == "sessions"
-      @tab = "login"
-    end
-    @c = controller
-    @a = action
-  end
-  
   def classify_device
     @ua = request.user_agent.to_s.downcase
-    embedder = request.env['HTTP_X_EMBEDDER']
-    begin
-      embedder = embedder.split('/')
-      @browser = embedder[0].downcase
-      @embedder_version = embedder[1]
-    rescue
-      embedder = nil
-    end
-      
-    if embedder.to_s == ""
-      case @ua
-      when /facebook/i
-        @browser = "facebook"
-      when /googlebot/i
-        @browser = "google"
-      when /chrome/i
-        @browser = "chrome"
-      when /opera/i
-        @browser = "opera"
-      when /firefox/i
-        @browser = "firefox"
-      when /safari/i, /applewebkit/i
-        @browser = "safari"
-      when /msie/i, /trident/i
-        @browser = "ie"
-      else
-        @browser = "unknown"
-      end
+    
+    case @ua
+    when /facebook/i
+      @browser = "facebook"
+    when /googlebot/i
+      @browser = "google"
+    when /chrome/i
+      @browser = "chrome"
+    when /opera/i
+      @browser = "opera"
+    when /firefox/i
+      @browser = "firefox"
+    when /safari/i, /applewebkit/i
+      @browser = "safari"
+    when /msie/i, /trident/i
+      @browser = "internet-explorer"
+    else
+      @browser = "unknown"
     end
 
     case @ua
@@ -457,9 +272,8 @@ class ApplicationController < ActionController::Base
   
   def check_old_browsers
     return if cookies[:skip_old]
-    return if embedded_device?
     return if ["facebook","google"].include? @browser
-    return if controller_name == "pages" and action_name == "old"
+    return if controller_name == "static" and action_name == "old"
     return if @ua.include?("capybara-webkit")
     
     if params[:dangerous]
@@ -467,7 +281,7 @@ class ApplicationController < ActionController::Base
     else
       begin
         old = case @browser
-        when "ie"
+        when "internet-explorer"
           v = @ua.match(/ msie (\d+\.\d+)/)[1].to_i
           v < 9
           
@@ -495,12 +309,7 @@ class ApplicationController < ActionController::Base
           
         when "safari"
           m = @ua.match(/webkit\/(\d[\d\.]*\d)/)
-          if m
-            v = m[1].to_i
-          else
-            v = 0
-          end
-          
+          v = m ? m[1].to_i : 0
           v < (@os == 'windows' ? 534 : 537)
           
         else
@@ -509,26 +318,10 @@ class ApplicationController < ActionController::Base
         
         if old
           logger.info "render warning of old browser instead of requested page"
-          render("pages/old", l: I18n.locale, layout: 'empty') and return
+          render("static/old", l: I18n.locale) and return
         end
       rescue
       end
-    end
-  end
-  
-  def embedded_device?
-    if cookies[:embedded_param]
-      return cookies[:embedded_param] == "1"
-    else
-      return (request.env['HTTP_X_EMBEDDER'] != nil or @ua.match(/ msie 7\.0;.* \.net4.0/))
-    end
-  end
-  helper_method :embedded_device?
-  
-  def prepare_for_embedded
-    if embedded_device?
-      cookies[:embedded_param] = '1'
-      request.format = :embedded
     end
   end
   

@@ -1,0 +1,154 @@
+.cover
+  margin-bottom: 15px
+  
+  .cover-image
+    vertical-align: middle
+    display: table-cell
+    
+    .cover-image-wrapper
+      width: 120px
+      height: 120px
+      overflow: hidden
+      position: relative
+      
+      img
+        width: 100%
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+    
+      .edit
+        position: absolute
+        left: 0
+        bottom: 0
+        right: 0
+        height: 0px
+        line-height: 27px
+        text-align: left
+        background: transparentize($primary, 0.1)
+        color: $primary-text
+        padding-left: .5em
+        transition: height .3s
+        a
+          color: inherit
+
+      &:hover
+        .edit
+          height: 30px
+    
+  .cover-content
+    vertical-align: middle
+    display: table-cell
+    width: 10000px
+    padding-left: 15px
+    
+    .cover-subtitle
+      margin: 0
+      a
+        color: inherit
+        
+    .cover-title
+      margin: 0px 0 8px -2px
+      @media screen and (max-width: $screen-md-max)
+        font-size: 24px
+      @media screen and (max-width: $screen-sm-max)
+        font-size: 18px
+      
+      
+    .cover-meta
+      margin: .2em 0
+    
+  .cover-buttons
+    vertical-align: top
+    display: table-cell
+    white-space: nowrap
+    
+    @media screen and (max-width: $screen-sm-max)
+      position: initial
+      display: block
+      clear: both
+      
+    .dropdown
+      display: inline-block
+      
+      @media screen and (min-width: $screen-sm)
+        ul.dropdown-menu
+          left: initial
+          right: 0
+
+.xcover
+  padding: 0 0 1em
+  position: relative
+  min-height: 120px
+  
+  &:after
+    content: ''
+    clear: both
+    display: table
+  
+  .cover-image
+    position: absolute
+    padding: 0
+    width: 120px
+    height: 120px
+    overflow: hidden
+    
+    img
+      width: 100%
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+    
+    .edit
+      position: absolute
+      left: 0
+      bottom: 0
+      right: 0
+      height: 0px
+      line-height: 27px
+      text-align: left
+      background: transparentize($primary, 0.1)
+      color: $primary-text
+      padding-left: .5em
+      transition: height .3s
+      a
+        color: inherit
+
+    &:hover
+      .edit
+        height: 30px
+
+  .cover-wrapper
+    float: left
+    margin-left: 135px
+  
+    &:after
+      content: ''
+      clear: both
+      display: table
+    
+  .cover-content
+    
+    .cover-subtitle
+      margin: 20px 0 0px
+      a
+        color: inherit
+    .cover-title
+      margin: 0px 0 8px -2px
+    .cover-meta
+      margin: .2em 0
+  
+  .cover-buttons
+    position: absolute
+    right: 0
+    top: 0
+    
+    @media screen and (max-width: $screen-sm-max)
+      position: initial
+      display: block
+      clear: both
+    
+    .dropdown
+      display: inline-block

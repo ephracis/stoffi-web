@@ -1,0 +1,25 @@
+en:
+  breadcrumbs:
+    
+    home: 'Home'
+    about: 'About'
+    legal: 'Legal'
+    contact: 'Contact'
+    
+    login: 'Login'
+    join: 'Join'
+    forgot: 'Forgot'
+    unlock: 'Unlock'
+    settings: 'Settings'
+    dashboard: 'Dashboard'
+    
+    music: 'Music'
+    new: 'New'
+    edit: 'Edit'
+    playlists: 'Playlists'
+    new_playlist: 'New playlist'
+    songs: 'Songs'
+    artists: 'Artists'
+    albums: 'Albums'
+    events: 'Events'
+    genres: 'Genres'

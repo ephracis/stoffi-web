@@ -1,0 +1,17 @@
+sv:
+  music:
+    tabs:
+      artists: 'Artister'
+      albums: 'Album'
+      songs: 'Låtar'
+      playlists: 'Spellistor'
+      events: 'Evenemang'
+      genres: 'Genrar'
+    titles:
+      artists: 'Populära artister'
+      albums: 'Populära album'
+      songs: 'Populära låtar'
+      playlists: 'Populära spellistor'
+      events: 'Kommande evenemang'
+      genres: 'Populära genrar'
+      

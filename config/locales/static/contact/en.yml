@@ -1,0 +1,34 @@
+en:
+  static:
+    contact:
+      issue:
+        header: 'Help Stoffi improve'
+        body: "Report a bug you've found or request a feature you'd like to see in Stoffi."
+        button:
+          header: 'What do you want to improve?'
+          web: 'Website'
+          win: 'Player'
+
+      form:
+        header: "Send a message"
+        name: "Your name"
+        email: "Your email"
+        subject: "A short summary"
+        message: "Your message"
+        submit: "Send"
+        success: "Your message has been sent. You should hear from me soon."
+        errors:
+          subject: "Subject must be at least four characters."
+          name: "Your name is certainly more than one character."
+          message: "Message must be at least twenty characters."
+          email: "You forgot your e-mail."
+          captcha: "I'm sure you are a human. Try again."
+
+      address:
+        header: "Address"
+        phone:
+          label: "Telephone number"
+          abbr: "P"
+
+      map:
+        header: "Stoffi HQ"

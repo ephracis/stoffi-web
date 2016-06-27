@@ -1,0 +1,20 @@
+.panel.panel-default
+  .panel-heading
+    %span.fa.fa-fw.fa-bar-chart
+    = t 'media.genres.stats.heading'
+  %ul.list-group
+    %li.list-group-item
+      = t 'media.genres.stats.listens'
+      %span.badge= number_to_human @genre.listens.count
+    %li.list-group-item
+      = t 'media.genres.stats.playlists'
+      %span.badge= number_to_human @genre.playlists.count
+    %li.list-group-item
+      = t 'media.genres.stats.songs'
+      %span.badge= number_to_human @genre.songs.count
+    %li.list-group-item
+      = t 'media.genres.stats.artists'
+      %span.badge= number_to_human @genre.artists.count
+    %li.list-group-item
+      = t 'media.genres.stats.albums'
+      %span.badge= number_to_human @genre.albums.count

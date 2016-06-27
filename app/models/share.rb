@@ -5,6 +5,7 @@ class Share < ActiveRecord::Base
     
   # concerns
   include Base
+  include PublicActivity::Model
   
   # associations
   belongs_to :resource, polymorphic: true
@@ -15,6 +16,15 @@ class Share < ActiveRecord::Base
   
   # validations
   validates :resource, :user, presence: true
+
+  # Record activity on this resource.
+  tracked owner: Proc.new { |controller, model|
+    if controller and controller.current_user
+      return controller.current_user
+    else
+      model.user
+    end
+  }
   
   # The string to display to users for representing the resource.
   def to_s

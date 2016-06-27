@@ -1,0 +1,51 @@
+sv:
+  accounts:
+    profile:
+      
+      points:
+        one: "En poäng"
+        other: "%{count} poäng"
+        
+      information:
+        heading: "Information"
+        country: "Land"
+        status:
+          heading: "Status"
+          online: "Inloggad"
+          offline: "Ej inloggad"
+        last_login: "Senaste inloggning"
+        failed_logins: "Misslyckade inloggningar"
+        last_edit: "Senaste uppdatering"
+        locked: "Låst?"
+        admin: "Admin?"
+        
+      statistics:
+        heading: "Statistik"
+        listens: "Spelningar"
+        songs: "Spelade låtar"
+        artists: "Spelade artister"
+        albums: "Spelade album"
+        playlists: "Spelade spellistor"
+        logins: "Inloggningar"
+        
+      listens:
+        tab: 'Senaste'
+        title: 'Senaste'
+        
+      toplists:
+        tab: 'Topplista'
+        list: 'Topplista'
+        
+      activity:
+        tab: 'Aktivitet'
+        title: 'Aktivitet'
+        
+      playlists:
+        tab: 'Spellistor'
+        title: 'Spellistor'
+        created:
+          heading: "Spellistor som %{user} skapat"
+          empty: "%{user} har inte skapat några spellistor än"
+        followed:
+          heading: "Spellistor som %{user} följer"
+          empty: "%{user} följer inte några spellistor."

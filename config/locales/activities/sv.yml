@@ -1,0 +1,49 @@
+sv:
+  activities:
+    listen:
+      lines:
+        song: "%{user} lyssnade på en %{song}"
+        album: "%{user} lyssnade på en %{song} från ett %{album}"
+        playlist: "%{user} lyssnade på en %{song} från en %{playlist}"
+      links:
+        song: 'låt'
+        album: 'album'
+        playlist: 'spellista'
+
+    playlist:
+      create:
+        line: "%{user} skapade en %{playlist}"
+        link: 'spellista'
+
+      update:
+        line: "%{user} ändrade en %{playlist}"
+        link: 'spellista'
+
+      add:
+        line: "%{user} lade till %{songs} till en %{playlist}"
+        link: 'spellista'
+        songs:
+          one: 'en låt'
+          other: "%{count} låtar"
+        more: 'Visa mer...'
+
+    share:
+      playlist:
+        line: "%{user} delade en %{resource}"
+        link: 'spellista'
+        
+      artist:
+        line: "%{user} delade en %{resource}"
+        link: 'artist'
+        
+      album:
+        line: "%{user} delade ett %{resource}"
+        link: 'album'
+        
+      song:
+        line: "%{user} delade en %{resource}"
+        link: 'låt'
+        
+      event:
+        line: "%{user} delade ett %{resource}"
+        link: 'evenemang'

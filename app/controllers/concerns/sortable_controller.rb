@@ -12,6 +12,8 @@ module SortableController
     end
   end
   
+  # FIXME: accept new order when editing
+  
   def sort
     if params[:format].to_sym != :json
       render text: 'only json allowed, not '+params[:format], status: :not_found and return 
@@ -24,19 +26,20 @@ module SortableController
     
     set_resource
     logger.debug "sorting #{resource.class} with id #{resource.id}"
-    
+
+    # TODO: pluralize param key
     collection = self.class.sortable_model.pluralize.to_sym
     success = resource.sort collection, params[self.class.sortable_model].map(&:to_i)
     
-    #SyncController.send('update', resource, request) if success
     respond_to do |format|
       if success
         format.html { redirect_to resource }
-        format.json { render json: resource, status: :ok, location: resource } # TODO: render :show + jbuilder
+        format.json { render :show }
       else
         format.html { render :edit }
         format.json { render json: resource.errors, status: :unprocessable_entity }
       end
     end
   end
+  
 end

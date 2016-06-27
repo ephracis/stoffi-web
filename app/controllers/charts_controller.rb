@@ -8,45 +8,35 @@ class ChartsController < ApplicationController
     :artists_for_user, :playlists_for_user, :genres_for_user, :top_listeners]
   
   def listens_for_user
-    render json: current_user.listens.where("created_at > ?", 1.year.ago).group_by_day(:created_at)
+    @days = current_user.listens.where("created_at > ?", 1.year.ago).group_by_day(:created_at)
   end
 
   def songs_for_user
-    @songs = Media::Song.top(for: current_user, empty: false, limit: 10)
+    @songs = Media::Song.rank.for_user(current_user).limit(10)
   end
 
   def artists_for_user
-    render json: Media::Artist.top(for: current_user, empty: false, limit: 10).
-      map { |x| [x.name,x.listens.count] }.to_h
+    @artists = Media::Artist.rank.for_user(current_user).limit(10)
   end
 
   def albums_for_user
-    render json: Media::Album.top(for: current_user, empty: false, limit: 10).
-      map { |x| [x.title,x.listens.count] }.to_h
+    @albums = Media::Album.rank.for_user(current_user).limit(10)
   end
 
   def playlists_for_user
-    render json: Media::Playlist.top(for: current_user, empty: false, limit: 10).
-      map { |x| [x.name,x.listens.count] }.to_h
+    @playlists = Media::Playlist.rank.for_user(current_user).limit(10)
   end
 
   def genres_for_user
-    render json: Media::Genre.top(for: current_user, empty: false, limit: 10).
-      map { |x| [x.name,x.listens.count] }.to_h
+    @genres = Media::Genre.rank.for_user(current_user).limit(10)
   end
   
   def top_listeners
-    begin
-      start = params[:start].to_date
-    rescue
-      start = DateTime.strptime('0', '%s')
-    end
-    render json: User.top(associations: [:listens], limit: 10).
-      map { |x| [x.name,x.listens.count] }.to_h
+    @users = User.rank.limit(10)
   end
 
   def active_users
-    render json: User.group(:email).order(sign_in_count: :desc).limit(10).sum(:sign_in_count)
+    @users = User.order(sign_in_count: :desc).limit(10)
   end
   
   private

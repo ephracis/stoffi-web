@@ -1,0 +1,17 @@
+- if current_user.admin?
+  .panel.panel-default
+    .panel-heading
+      %span.fa.fa-fw.fa-shield
+      = t 'media.songs.manage.heading'
+    .panel-body
+  
+      = link_to edit_song_path(@song),
+          class: 'btn btn-default', target: '_self' do
+        %span.fa.fa-fw.fa-edit
+        = t 'media.songs.manage.edit'
+      
+      = link_to song_path(@song),
+          class: 'btn btn-danger', method: :delete, target: '_self',
+          data: { confirm: t('media.songs.manage.confirm') } do
+        %span.fa.fa-fw.fa-remove
+        = t 'media.songs.manage.remove'

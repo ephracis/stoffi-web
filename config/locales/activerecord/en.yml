@@ -1,0 +1,37 @@
+en:
+  activerecord:
+    attributes:
+      
+      user:
+        email: "Email"
+        current_password: "Current password"
+        password: "New password"
+        confirm_password: "Confirm password"
+        name: "Name"
+        show_ads: "Advertisements"
+        avatar: "Profile picture"
+        slug: 'URL'
+        
+      'media/playlist':
+        name: 'Name'
+        slug: 'URL'
+        songs: 'Songs'
+        new_song: 'New song'
+        
+      'media/source':
+        name: 'Type'
+        foreign_id: 'External ID'
+        foreign_url: 'External URL'
+        length: 'Duration'
+        
+      'media/image':
+        url: 'URL'
+        thumbnail: 'Thumbnail'
+        size: 'Size'
+        
+      'media/song':
+        title: 'Title'
+        slug: 'URL'
+        artists: 'Artists'
+        genres: 'Genres'
+        

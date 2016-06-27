@@ -1,0 +1,40 @@
+sv:
+  static:
+    about:
+      headline: 'Här är Stoffi 2'
+      tagline: "Världens nästa musikapp"
+      download: 'Hämta appen'
+    
+      highlights:
+        music:
+          title: 'All musik, ett ställe'
+          body: 'Få tillgång till musik från flera källor såsom Spotify, SoundCloud och YouTube från en och samma app.'
+        
+        social:
+          title: 'Musik är socialt'
+          body: 'Dela dina favoritlåtar och bästa spellistor med familj, vänner eller hela världen.'
+        
+        fresh:
+          title: 'Ny och fräsch'
+          body: 'Stoffi är ung och hipp. Bygg från grunden med modern teknologi och en den kärlek och känsla för detaljer som bara en sann hobbyist kan ge.'
+    
+      quotes:
+        winajuda: "...integrerar bra med Windows 7..."
+        softonic: "...gränssnittet är väldigt vackert..."
+        3d2f: "...lätt att använda och vacker att se på"
+      
+      future:
+        title: 'Idéer för framtiden'
+        platforms: "Ta Stoffi till fler plattformar såsom Android, iOS och OS X."
+        meta: "Ha med låttexter och information från Wikipedia."
+        shuffle: "Smart slumpläge som väljer låtar baserat på din smak."
+        sources: "Få musik från ännu fler källor."
+      
+      story:
+        headline: 'Berättelsen Bakom Stoffi'
+        paragraph1: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        paragraph2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        paragraph3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+        creator:
+          headline: 'Mannen Bakom Stoffi'
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'

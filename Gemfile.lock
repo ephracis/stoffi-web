@@ -1,42 +1,43 @@
 GEM
   remote: http://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
-    actionmailer (4.2.4)
-      actionpack (= 4.2.4)
-      actionview (= 4.2.4)
-      activejob (= 4.2.4)
+    actionmailer (4.2.5)
+      actionpack (= 4.2.5)
+      actionview (= 4.2.5)
+      activejob (= 4.2.5)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.4)
-      actionview (= 4.2.4)
-      activesupport (= 4.2.4)
+    actionpack (4.2.5)
+      actionview (= 4.2.5)
+      activesupport (= 4.2.5)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.4)
-      activesupport (= 4.2.4)
+    actionview (4.2.5)
+      activesupport (= 4.2.5)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    activejob (4.2.4)
-      activesupport (= 4.2.4)
+    activejob (4.2.5)
+      activesupport (= 4.2.5)
       globalid (>= 0.3.0)
-    activemodel (4.2.4)
-      activesupport (= 4.2.4)
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
       builder (~> 3.1)
-    activerecord (4.2.4)
-      activemodel (= 4.2.4)
-      activesupport (= 4.2.4)
+    activerecord (4.2.5)
+      activemodel (= 4.2.5)
+      activesupport (= 4.2.5)
       arel (~> 6.0)
-    activesupport (4.2.4)
+    activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
+    addressable (2.4.0)
     arel (6.0.3)
     bcrypt (3.1.10)
     better_errors (2.1.1)
@@ -45,6 +46,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    breadcrumbs_on_rails (2.3.1)
     builder (3.2.2)
     callsite (0.0.11)
     capistrano (3.4.0)
@@ -54,9 +56,9 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-passenger (0.1.1)
+    capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
-    capistrano-rails (1.1.3)
+    capistrano-rails (1.1.5)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -68,9 +70,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    chartkick (1.3.2)
-    chunky_png (1.3.4)
-    codeclimate-test-reporter (0.4.7)
+    chartkick (1.4.1)
+    codeclimate-test-reporter (0.4.8)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -79,20 +80,13 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1.1)
+    coffee-script-source (1.10.0)
     colorize (0.7.7)
-    compass (0.12.7)
-      chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.2.19)
-    compass-rails (2.0.0)
-      compass (>= 0.12.2)
-    crack (0.4.2)
+    crack (0.4.3)
       safe_yaml (~> 1.0.0)
     dateslices (0.0.3)
       rails (~> 4.0)
     debug_inspector (0.0.2)
-    deep_merge (1.0.1)
     devise (3.5.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -101,20 +95,20 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     docile (1.1.5)
-    dogapi (1.20.0)
+    dogapi (1.21.0)
       multi_json
     erubis (2.7.0)
     execjs (2.6.0)
-    expression_parser (0.9.0)
-    faraday (0.9.1)
+    faker (1.6.1)
+      i18n (~> 0.5)
+    faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
-    fastimage (1.7.0)
+    fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
     figaro (1.1.1)
       thor (~> 0.14)
-    font-awesome-sass (4.4.0)
-      sass (>= 3.2)
-    fssm (0.2.10)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     geoip (1.6.1)
     geokit (1.10.0)
     geokit-rails (2.1.0)
@@ -123,30 +117,25 @@ GEM
     git-version-bump (0.15.1)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    haml (4.0.5)
+    haml (4.0.7)
       tilt
     hanna-nouveau (0.2.2)
       haml
       rdoc
-    hashie (3.4.2)
+    hashdiff (0.2.3)
+    hashie (3.4.3)
     haversine (0.3.0)
+    highline (1.7.8)
     hike (1.2.3)
-    htmlentities (4.3.4)
     i18n (0.7.0)
-    iso8601 (0.8.6)
-    jbuilder (2.3.1)
+    i18n-js (3.0.0.rc11)
+      i18n (~> 0.6)
+    iso8601 (0.8.7)
+    jbuilder (2.3.2)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
-    jquery-rails (4.0.4)
-      rails-dom-testing (~> 1.0)
-      railties (>= 4.2.0)
-      thor (>= 0.14, < 2.0)
-    jquery-ui-rails (5.0.5)
-      railties (>= 3.2.16)
     json (1.8.3)
-    juggernaut (2.1.1)
-      redis
-    jwt (1.5.1)
+    jwt (1.5.2)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -154,30 +143,26 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mediacloth (0.6)
     meta_request (0.3.4)
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
       railties (>= 3.0.0, < 5.0.0)
     metaclass (0.0.4)
-    mime-types (2.6.1)
-    mini_portile (0.6.2)
-    minitest (5.8.0)
+    mime-types (2.99)
+    mini_portile2 (2.0.0)
+    minitest (5.8.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.20)
+    mysql2 (0.4.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (2.9.2)
-    netrc (0.10.3)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
-    numbers_and_words (0.10.0)
-      activesupport
-      i18n
+    net-ssh (3.0.1)
+    netrc (0.11.0)
+    nokogiri (1.6.7)
+      mini_portile2 (~> 2.0.0.rc2)
     oauth (0.4.7)
     oauth-plugin (0.5.1)
       multi_json
@@ -195,9 +180,12 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (1.6.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-google-oauth2 (0.2.6)
-      omniauth (> 1.0)
-      omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.2.8)
+      addressable (~> 2.3)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      omniauth (>= 1.1.1)
+      omniauth-oauth2 (>= 1.1.1)
     omniauth-lastfm (0.0.6)
       omniauth-oauth (~> 1.0)
       rest-client (>= 1.6.6, < 1.8)
@@ -221,7 +209,7 @@ GEM
       omniauth-oauth (~> 1.1)
     omniauth-vimeo (2.0.0)
       omniauth-oauth2
-    omniauth-vkontakte (1.3.3)
+    omniauth-vkontakte (1.3.6)
       multi_json
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
@@ -238,53 +226,107 @@ GEM
       omniauth-oauth2 (~> 1.0)
     omniauth-youtube (2.1)
       omniauth-oauth2 (~> 1.0)
+    options (2.3.2)
     orm_adapter (0.5.0)
     pr_geohash (1.0.0)
+    progress_bar (1.0.5)
+      highline (~> 1.6)
+      options (~> 2.3.0)
+    public_activity (1.4.2)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
     rack (1.6.4)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
       rack (~> 1.4)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.2.4)
-      actionmailer (= 4.2.4)
-      actionpack (= 4.2.4)
-      actionview (= 4.2.4)
-      activejob (= 4.2.4)
-      activemodel (= 4.2.4)
-      activerecord (= 4.2.4)
-      activesupport (= 4.2.4)
+    rails (4.2.5)
+      actionmailer (= 4.2.5)
+      actionpack (= 4.2.5)
+      actionview (= 4.2.5)
+      activejob (= 4.2.5)
+      activemodel (= 4.2.5)
+      activerecord (= 4.2.5)
+      activesupport (= 4.2.5)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.4)
+      railties (= 4.2.5)
       sprockets-rails
+    rails-assets-SHA-1 (0.1.1)
+    rails-assets-angular (1.4.8)
+    rails-assets-angular-mocks (1.4.8)
+      rails-assets-angular (= 1.4.8)
+    rails-assets-angular-ui (0.4.0)
+    rails-assets-angular-ui-sortable (0.13.4)
+      rails-assets-angular (>= 1.2)
+      rails-assets-jquery-ui (>= 1.9)
+    rails-assets-angulartics (0.20.2)
+      rails-assets-SHA-1
+      rails-assets-angular (>= 1.1.5)
+      rails-assets-waypoints (~> 3.1.1)
+    rails-assets-angulartics-google-analytics (0.1.3)
+      rails-assets-angulartics (~> 0.20)
+    rails-assets-bootstrap (3.3.6)
+      rails-assets-jquery (>= 1.9.1, < 3)
+    rails-assets-bootstrap-growl (1.1.0)
+    rails-assets-bootstrap-sass (3.3.6)
+      rails-assets-jquery (>= 1.9.0)
+    rails-assets-cryptojslib (3.1.2)
+    rails-assets-eventEmitter (4.3.0)
+    rails-assets-eventie (1.0.6)
+    rails-assets-fontawesome (4.5.0)
+    rails-assets-fuelux (3.13.0)
+      rails-assets-bootstrap (~> 3.0)
+      rails-assets-jquery
+      rails-assets-moment (>= 2.10.6, < 3)
+      rails-assets-requirejs (~> 2.0)
+    rails-assets-image-picker (0.2.4)
+    rails-assets-imagesloaded (3.2.0)
+      rails-assets-eventEmitter (>= 4.2, < 5.0)
+      rails-assets-eventie (~> 1.0.4)
+    rails-assets-jquery (2.1.4)
+    rails-assets-jquery-ui (1.11.4)
+      rails-assets-jquery (>= 1.6)
+    rails-assets-jquery-ujs (1.1.0)
+      rails-assets-jquery (> 1.8)
+    rails-assets-moment (2.11.0)
+    rails-assets-ngmap (1.15.1)
+    rails-assets-qtip2 (2.2.1)
+      rails-assets-imagesloaded (>= 3.0.0)
+      rails-assets-jquery (>= 1.6.0)
+    rails-assets-requirejs (2.1.22)
+    rails-assets-waypoints (3.1.1)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-gallery (0.3.3)
-      hashie (>= 2.0.0)
-      rails (>= 3.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     rails-perftest (0.0.6)
-    railties (4.2.4)
-      actionpack (= 4.2.4)
-      activesupport (= 4.2.4)
+    railties (4.2.5)
+      actionpack (= 4.2.5)
+      activesupport (= 4.2.5)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-      json (~> 1.4)
-    recaptcha (0.4.0)
-    redis (3.2.1)
+    recaptcha (1.0.2)
+      json
+    redis (3.2.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rsolr (1.0.12)
+    rsolr (1.0.13)
       builder (>= 2.1.2)
     ruby-duration (3.2.1)
       activesupport (>= 3.0.0)
@@ -301,63 +343,66 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    simplecov (0.10.0)
+    simple-random (1.0.3)
+    simplecov (0.11.1)
       docile (~> 1.1.0)
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    spring (1.3.6)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    split (1.3.0)
+      redis (>= 2.1)
+      redis-namespace (>= 1.1.0)
+      simple-random
+      sinatra (>= 1.2.6)
+    spring (1.5.0)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.3.2)
+    sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sqlite3 (1.3.10)
-    sshkit (1.7.1)
-      colorize (>= 0.7.0)
+    sqlite3 (1.3.11)
+    sshkit (1.8.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    sunspot (2.2.0)
+    sunspot (2.2.2)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
-    sunspot_rails (2.2.0)
+    sunspot_rails (2.2.2)
       nokogiri
       rails (>= 3)
-      sunspot (= 2.2.0)
-    sunspot_solr (2.2.0)
+      sunspot (= 2.2.2)
+    sunspot_solr (2.2.2)
+    teaspoon (1.1.1)
+      railties (>= 3.2.5, < 5)
+    teaspoon-mocha (2.3.3)
+      teaspoon (>= 1.0.0)
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
     turbolinks (2.5.3)
       coffee-rails
-    twitter-text (1.12.0)
-      unf (~> 0.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.1)
     warden (1.2.3)
       rack (>= 1.0)
-    webmock (1.21.0)
+    webmock (1.22.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-    wikicloth (0.8.3)
-      builder
-      expression_parser
-      htmlentities
-      nokogiri
-      twitter-text
-    wikipedia-client (1.5.0)
+      hashdiff
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
@@ -365,6 +410,8 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  breadcrumbs_on_rails
+  bundler (>= 1.8.4)
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
@@ -372,30 +419,25 @@ DEPENDENCIES
   chartkick
   codeclimate-test-reporter
   coffee-rails (~> 4.0.0)
-  compass-rails
+  colorize
   dateslices
-  deep_merge
   devise
   dogapi
+  faker
   fastimage
   figaro
-  font-awesome-sass
+  friendly_id
   geoip
   geokit-rails
-  haml (= 4.0.5)
+  haml (~> 4.0.5)
   hanna-nouveau
   haversine
-  htmlentities
+  i18n-js (>= 3.0.0.rc11)
   jbuilder (~> 2.0)
-  jquery-rails
-  jquery-ui-rails
-  juggernaut
   kaminari
-  mediacloth
   meta_request
   mocha
   mysql2
-  numbers_and_words
   oauth-plugin
   omniauth
   omniauth-facebook
@@ -412,21 +454,42 @@ DEPENDENCIES
   omniauth-yahoo
   omniauth-yandex
   omniauth-youtube
+  progress_bar
+  public_activity
   rails (~> 4.2.0)
-  rails-gallery
+  rails-assets-angular!
+  rails-assets-angular-mocks!
+  rails-assets-angular-ui!
+  rails-assets-angular-ui-sortable!
+  rails-assets-angulartics-google-analytics!
+  rails-assets-bootstrap-growl!
+  rails-assets-bootstrap-sass!
+  rails-assets-cryptojslib!
+  rails-assets-fontawesome!
+  rails-assets-fuelux!
+  rails-assets-image-picker!
+  rails-assets-jquery!
+  rails-assets-jquery-ui!
+  rails-assets-jquery-ujs!
+  rails-assets-ngmap!
+  rails-assets-qtip2!
   rails-perftest
   recaptcha
   ruby-duration
   ruby-prof
-  sass (= 3.2.19)
+  sass (~> 3.2.19)
   sass-rails (~> 4.0.3)
-  sdoc (~> 0.4.0)
+  sdoc
+  split
   spring
   sqlite3
   sunspot_rails
   sunspot_solr
+  teaspoon-mocha
   turbolinks
   uglifier (>= 1.3.0)
   webmock
-  wikicloth
-  wikipedia-client
+  yard
+
+BUNDLED WITH
+   1.10.6

@@ -1,0 +1,24 @@
+sv:
+  search:
+    placeholder:
+      all: "Sök efter musik"
+      artists: 'Sök efter artister'
+      albums: 'Sök efter album'
+      songs: 'Sök efter låtar'
+      playlists: 'Sök efter spellistor'
+      genres: 'Sök efter genrer'
+      events: 'Sök efter evenemang'
+    empty: "Miss! Prova att söka på något annat."
+    error: "Hoppsan! Det blev knas med din sökning."
+    spinner:
+      db: "Söker..."
+      internet: "Inget i databasen, söker på Internet.\n\nDetta kommer att ta ett tag..."
+    category:
+      all: "Allting"
+      artists: 'Artister'
+      albums: 'Album'
+      songs: 'Låtar'
+      playlists: 'Spellistor'
+      events: 'Evenemang'
+      genres: 'Genrar'
+      

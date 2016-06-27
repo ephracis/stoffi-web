@@ -1,0 +1,32 @@
+sv:
+  media:
+    events:
+      badge: 'evenemang'
+      artists: 'Artister'
+
+      map: 'Karta'
+      similar: 'Liknande'
+      
+      info:
+        heading: 'Information'
+        country: 'Land'
+        city: 'Stad'
+        address: 'Adress'
+        date: 'Datum'
+        time: 'Tid'
+        start: 'Börjar'
+        end: 'Slutar'
+        
+      manage:
+        heading: 'Administration'
+        edit: 'Redigera'
+        remove: 'Ta bort'
+        confirm: 'Är du säker på att du vill ta bort evenemanget?'
+        sources:
+          heading: 'Källor'
+          new: 'Ny'
+          confirm: 'Är du säker på att du vill ta bort källan?'
+        
+      edit:
+        title: "Redigera '%{event}'"
+        heading: "Redigerar evenemanget: <strong>%{event}</strong>"

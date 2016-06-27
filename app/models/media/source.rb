@@ -42,7 +42,7 @@ module Media
     def path
       case name
       when 'url' then foreign_url
-      else "stoffi:#{resource_type.demodulize.underscore}:#{name}:#{foreign_id}"
+      else "stoffi:#{resource_type.demodulize.parameterize}:#{name}:#{foreign_id}"
       end
     end
   
@@ -71,6 +71,11 @@ module Media
   
     # A string representing the source, understandable by a human reader.
     def to_s
+      Source.human_name(name)
+    end
+    
+    # Prettify the name so it can be understood by a human mind.
+    def self.human_name(name)
       case name.downcase
       when 'url' then 'URL'
       when 'lastfm' then 'Last.fm'

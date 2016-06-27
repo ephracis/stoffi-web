@@ -13,52 +13,27 @@ module Media
     before_action :set_resource, only: [:show, :edit, :update, :destroy, :follow]
     before_action :ensure_owner_or_admin, only: [ :edit, :update, :destroy ]
     before_action :ensure_visible, only: [ :show, :follow ]
+    before_action :set_breadcrumb, only: [ :show, :edit ]
   
     # GET /playlists
     def index
-      @recent = Playlist.order(created_at: :desc).limit(limit).offset(offset)
-      @weekly = Playlist.top from: 7.days.ago, limit: limit, offset: offset
-      @all_time = Playlist.top limit: limit, offset: offset
-    
-      if user_signed_in?
-        @user_follows = current_user.following(Playlist)
-        @user_owns = current_user.playlists.limit(limit).offset(offset)
-      end
-    
-      respond_with(@all_time)
-    end
-  
-    # GET /playlists/mine.json
-    def mine
-      @playlists = current_user.playlists.limit(limit).offset(offset)
-      respond_to do |format|
-        format.json { render json: @playlists }
-      end
-    end
-    
-    # GET /playlists/following.json
-    def following
-      @playlists = current_user.following(Playlist)
-      respond_to do |format|
-        format.json { render json: @playlists }
-      end
     end
 
     # GET /playlists/1
     def show
-      @channels = ["user_#{@playlist.user.id}"]
-      respond_with(@playlist, include: [ :songs ])
     end
 
     # GET /playlists/new
     def new
       @playlist = current_user.playlists.new
-      render layout: false
+      breadcrumbs.clear()
+      add_breadcrumb I18n.t('breadcrumbs.home'), '/'
+      add_breadcrumb I18n.t('breadcrumbs.playlists'), playlists_path
+      add_breadcrumb I18n.t('breadcrumbs.new'), new_playlist_path(current_user)
     end
 
     # GET /playlists/1/edit
     def edit
-      render layout: false
     end
 
     # POST /playlists
@@ -67,14 +42,51 @@ module Media
     def create
       @playlist = current_user.playlists.find_or_initialize_by name:
         params[:playlist][:name]
-      @playlist.new_record? ? create_playlist : update_playlist
-      respond_with @playlist
+        
+      if @playlist.new_record?
+        success = create_playlist
+        
+      else
+        # merge songs if updating existing
+        params[:songs] = { added: params[:songs] } if params[:songs].is_a? Array
+        success = update_playlist
+      end
+      
+      respond_to do |format|
+        if success
+          format.html { redirect_to @playlist }
+          format.json { render :show, status: :created, location: @playlist }
+        else
+          format.html { render :new }
+          format.json { render json: @playlist.errors,
+            status: :unprocessable_entity }
+        end
+      end
     end
 
     # PATCH /playlists/1
     def update
-      update_playlist
-      respond_with @playlist
+      success = update_playlist
+      
+      if params[:songs].present? and params[:songs][:added].present?
+        @playlist.add_songs_activity current_user,
+               params[:songs][:added]
+      end
+      if params[:songs].present? and params[:songs][:removed].present?
+        @playlist.remove_songs_activity current_user,
+               params[:songs][:removed]
+      end
+      
+      respond_to do |format|
+        if success
+          format.html { redirect_to playlist_url(@playlist) }
+          format.json { render :show, status: :ok, location: @playlist }
+        else
+          format.html { render :edit }
+          format.json { render json: @playlist.errors,
+            status: :unprocessable_entity }
+        end
+      end
     end
 
     # DELETE /playlists/1
@@ -85,26 +97,31 @@ module Media
     
       # destroy playlist
       if current_user.owns? @playlist
-        # TODO: send to connected devicesylist, request)
         current_user.links.each { |link| link.delete_playlist(@playlist) }
         @playlist.destroy
+        return_to = playlists_url
       
       # unfollow playlist
       else
-        # TODO: send to connected devices
         current_user.unfollow @playlist
+        return_to = playlist_url @playlist
       end
       
-      respond_with(@playlist)
+      respond_to do |format|
+        format.html { redirect_to return_to }
+        format.json { head :no_content }
+      end
     end
   
     # PUT /playlists/1/follow
     def follow
       unless current_user.follows? @playlist
         current_user.follow @playlist
-        # TODO: send to connected devices
       end
-      respond_with(@playlist)
+      respond_to do |format|
+        format.html { redirect_to @playlist }
+        format.json { render :show, status: :ok, location: @playlist }
+      end
     end
   
     private
@@ -112,7 +129,8 @@ module Media
     # Never trust parameters from the scary internet, only allow the white list
     # through.
     def playlist_params
-      params.require(:playlist).permit(:name, :user, :is_public)
+      params.require(:playlist).permit(:name, :user, :is_public, :slug, :songs,
+        :filter)
     end
     
     # Ensure that the current user is either the owner of `@playlist` or admin.
@@ -132,12 +150,10 @@ module Media
     # Save `@playlist` as a new playlist.
     def create_playlist
       @playlist.assign_attributes(playlist_params)
-      return unless @playlist.save
+      return false unless @playlist.save
         
       # add songs to playlist
       associate_resources(:songs)
-      
-      # TODO: send to connected devices
       
       # send to connected links
       if @playlist.is_public and @playlist.songs.count > 0
@@ -149,16 +165,21 @@ module Media
     
     # Update `@playlist`.
     def update_playlist
+
+      
+      if params[:songs].is_a? Array
+        ids = params[:songs].map(&:to_i) rescue nil
+      end
       
       # add/remove songs to/from playlist
-      associate_resources(:songs)
+      associate_resources :songs
+
+      @playlist.sort :songs, ids if ids.present?
       
       # update attributes
       if params[:playlist].present?
-        return unless @playlist.update_attributes(playlist_params)
+        return false unless @playlist.update(playlist_params)
       end
-      
-      # TODO: send to connected devices
       
       # send to connected links (empty playlists are deleted)
       if @playlist.is_public and @playlist.songs.count == 0
@@ -170,5 +191,38 @@ module Media
       return true
     end
     
+    # Attempt to create an instance of the playlist given the parameters.
+    def set_resource
+      
+      # find user
+      if User.friendly.exists? params[:user_slug]
+        user = User.friendly.find params[:user_slug]
+      else
+        not_found('user') and return
+      end
+      
+      # find playlist
+      if user.playlists.friendly.exists? params[:playlist_slug]
+        @resource = user.playlists.friendly.find params[:playlist_slug]
+      else
+        not_found('playlist') and return
+      end
+      
+      @playlist = @resource
+      
+    end
+    
+    def set_breadcrumb
+      breadcrumbs.clear()
+      add_breadcrumb I18n.t('breadcrumbs.home'), '/'
+      add_breadcrumb @playlist.user, user_path(@playlist.user)
+      add_breadcrumb @playlist, playlist_path(@playlist)
+      if action_name.to_sym == :edit
+        add_breadcrumb I18n.t('breadcrumbs.edit'),
+          edit_playlist_path(@playlist)
+      end
+    end
+    
   end # class
+  
 end # module

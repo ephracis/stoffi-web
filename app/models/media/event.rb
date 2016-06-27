@@ -11,6 +11,7 @@ module Media
     include Imageable
     include Rankable
     include Duplicatable
+    include FriendlyId
   
     # associations
     has_and_belongs_to_many :artists, join_table: :performances
@@ -22,17 +23,6 @@ module Media
     validates :name, uniqueness: { scope: [ :start, :venue ] }
   
     acts_as_mappable lat_column_name: :latitude, lng_column_name: :longitude
-  
-    self.default_image = "gfx/icons/256/event.png"
-  
-    searchable do
-      text :name, boost: 5
-      text :content, :category
-      string :locations, multiple: true do
-        sources.map(&:name)
-      end
-      integer :archetype_id
-    end
   
     # Find event by a hash specifying its attributes.
     #
@@ -56,5 +46,36 @@ module Media
     def self.upcoming
       where(['start > ?', Time.now])
     end
+    
+    # Get an array of similar events.
+    def similar(count = 5)
+      r = []
+      artists.each do |x|
+        r.concat x.events.where.not(id: id).offset(rand(x.events.count-5)).limit(count).to_a
+      end
+      r.shuffle[0..count-1]
+    end
+
+    private
+    
+    # Configure all concerns and extensions.
+    def self.configure_concerns
+  
+      # Searchable
+      searchable do
+        text :name, boost: 5
+        text :content, :category
+        string :locations, multiple: true do
+          sources.map(&:name)
+        end
+        integer :archetype_id
+      end
+    
+      # Enable URLs like `/events/:name`.
+      friendly_id :name, use: :slugged
+      
+    end
+    configure_concerns
+    
   end
 end

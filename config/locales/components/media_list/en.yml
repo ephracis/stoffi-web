@@ -1,0 +1,4 @@
+en:
+  components:
+    media_list:
+      empty: 'Nothing found.'

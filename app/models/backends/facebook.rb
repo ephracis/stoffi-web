@@ -11,18 +11,19 @@ module Backends
   class Facebook < Backends::Base
     
     include Rails.application.routes.url_helpers
+    include PlaylistHelperController
     
     # Whether or not the backend supports showing a "Like" button.
-    def can_show_button?; true; end
+    def button?; true; end
     
     # Whether or not playlists can be submitted to and retrieved from Facebook.
-    def can_send_playlists?; true; end
+    def playlists?; true; end
     
     # Whether or not listens can be submitted to Facebook.
-    def can_send_listens?; true; end
+    def listens?; true; end
     
     # Whether or not shares can be submitted to Facebook.
-    def can_send_shares?; true; end
+    def shares?; true; end
     
     # The authenticated user's profile pictures.
     #
@@ -32,14 +33,12 @@ module Backends
       return response['data']['url']
     end
     
-    # The authenticated user's fullname and username.
+    # The authenticated user's fullname.
     #
     # Requires that `access_token` and `access_token_secret` is set.
-    def names
-      response = get("/me?fields=name,username")
-      r = { fullname: response['name'] }
-      r[:username] = response['username'] if response['username'] != nil
-      return r
+    def name
+      response = get("/me?fields=name")
+      response['name']
     end
     
     # An array of the authenticated user's friends.
@@ -111,7 +110,7 @@ module Backends
     # Requires that `access_token` and `access_token_secret` is set.
     def create_playlist(playlist)
       post '/me/music.playlists', params: {
-        playlist: playlist_url(playlist.id, l: nil)
+        playlist: playlist_url(playlist.user, playlist)
       }
     end
     
@@ -119,7 +118,7 @@ module Backends
     #
     # Requires that `access_token` and `access_token_secret` is set.
     def update_playlist(playlist)
-      id = find_playlist_by_url playlist_url(playlist.id, l: nil)
+      id = find_playlist_by_url playlist_url(playlist.user, playlist)
       id.blank? ? create_playlist(playlist) : get("/?id=#{id}&scrape=true")
     end
     
@@ -127,7 +126,7 @@ module Backends
     #
     # Requires that `access_token` and `access_token_secret` is set.
     def delete_playlist(playlist)
-      id = find_playlist_by_url playlist_url(playlist.id, l: nil)
+      id = find_playlist_by_url playlist_url(playlist)
       delete("/#{id}") if id.present?
     end
     
@@ -152,7 +151,7 @@ module Backends
     # Allows us to link web pages or other resources to users at the backend
     # without exposing their ID to visitors.
     def encrypted_uid
-      get("/dmp?fields=third_party_id")['third_party_id']
+      get("/me?fields=third_party_id")['third_party_id']
     end
     
     # The display name of the backend.

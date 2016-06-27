@@ -1,0 +1,32 @@
+sv:
+  media:
+    songs:
+      badge: 'låt'
+      
+      similar: 'Liknande låtar'
+      duplicates: 'Dubbletter'
+      duplicate_candidates: 'Dubbletter?'
+      toggle_duplicate: 'Dubblett'
+      albums: 'Finns i följande album'
+      genres: 'Genrar: '
+      play: 'Spela'
+      
+      stats:
+        heading: 'Statistik'
+        listens: 'Spelningar'
+        playlists: 'Spellistor'
+        albums: 'Album'
+        
+      manage:
+        heading: 'Administration'
+        edit: 'Redigera'
+        remove: 'Ta bort'
+        confirm: 'Är du säker på att du vill ta bort låten?'
+        sources:
+          heading: 'Källor'
+          new: 'Ny'
+          confirm: 'Är du säker på att du vill ta bort källan?'
+        
+      edit:
+        title: "Redigera '%{song}'"
+        heading: "Redigerar låten: <strong>%{song}</strong>"

@@ -1,0 +1,45 @@
+- klass = @source.resource.class.name.demodulize.parameterize
+- if @source.new_record?
+  - heading = t 'media.sources.new.heading', resource: @source.resource
+  - form_url = send("#{klass}_sources_path", @source.resource)
+- else
+  - heading = t 'media.sources.edit.heading', source: @source,
+      resource: @source.resource
+  - form_url = send("#{klass}_source_path", @source.resource, @source)
+
+- content_for :toolbar do
+
+  .navbar-left
+    = simple_format heading, wrapper_tag: :h3, class: 'toolbar-title'
+  
+  .navbar-right
+    %button.btn.btn-primary{ data: { 'toolbar-submit' => '' }}
+      %span.fa.fa-check
+      = t 'save'
+    = link_to url_for(@source.resource), target: '_self',
+        class: 'btn btn-secondary' do
+      %span.fa.fa-remove
+      = t 'cancel'
+
+= form_for @source, url: form_url do |f|
+
+  = f.hidden_field :resource_id
+  = f.hidden_field :resource_type
+
+  = render partial: 'shared/messages', locals: { resource: @source }
+
+  .form-group
+    = f.label :name
+    = f.select :name, source_types_for_select(@source.name), {}, { class: 'form-control' }
+
+  .form-group
+    = f.label :foreign_id
+    = f.text_field :foreign_id, class: 'form-control'
+
+  .form-group
+    = f.label :foreign_url
+    = f.text_field :foreign_url, class: 'form-control'
+
+  .form-group
+    = f.label :length
+    = f.text_field :length, class: 'form-control'

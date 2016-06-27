@@ -1,0 +1,6 @@
+en:
+  old:
+    title: "You are in danger!"
+    subtitle: "You are using an old browser to surf the Internet. This increases the risk of having credentials stolen and your computer infected. It also means that this website may not look good or even work properly."
+    call: "Please upgrade to a modern browser. Here's what's popular with the kids today:"
+    link: "I cannot upgrade."

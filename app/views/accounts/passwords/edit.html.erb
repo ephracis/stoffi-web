@@ -1,3 +1,54 @@
+<div class="panel panel-default panel-small center-block" id='password'>
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t 'accounts.password.reset.title' %></h3>
+  </div>
+  <div class="panel-body">
+    
+		<%= form_for resource, as: resource_name, html: { method: :put },
+		  url: edit_password_path(resource_name) do |f| %>
+	
+			<%= render 'shared/messages' %>
+			
+			<%= f.hidden_field :reset_password_token %>
+			<%= f.hidden_field :email, value: @email %>
+			
+		  <div class="input-group">
+        <span class="input-group-addon" id="reset-password">
+          <span class='fa fa-key'></span>
+        </span>
+        <%= f.password_field :plain, class: 'form-control',
+          placeholder: t("accounts.login.password"),
+          aria_describedby: :login_password,
+          data: { submit_on_enter: true } %>
+				<%= f.hidden_field :password %>
+      </div>
+      
+		  <div class="input-group">
+        <span class="input-group-addon" id="reset-password-confirm">
+          <span class='fa fa-key'></span>
+        </span>
+        <%= f.password_field :plain_confirmation, class: 'form-control',
+          placeholder: t("accounts.login.confirm_password"),
+          aria_describedby: :login_password_confirm,
+          data: { submit_on_enter: true } %>
+				<%= f.hidden_field :password_confirmation %>
+      </div>
+      
+      <div class='text-right'>
+  		  <%= f.button class: 'btn btn-primary' do %>
+  				<span class='fa fa-key'></span>
+  				<%=t 'accounts.password.button' %>
+  			<% end %>
+  		</div>
+			
+		<% end %>
+			
+		<%= render 'shared/login/links' %>
+		
+	</div>
+</div>
+
+<% if false %>
 <article class='small'>
 	<section>
 		<h1><%= t "pages.users.passwords.edit.title" %></h1>
@@ -37,3 +88,4 @@
 		
 	</section>
 </article>
+<% end %>

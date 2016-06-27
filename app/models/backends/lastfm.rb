@@ -23,16 +23,16 @@ module Backends
     end
     
     # Whether or not the backend supports showing a "Like" button.
-    def can_show_button?; true; end
+    def button?; false; end
     
     # Whether or not playlists can be submitted to and retrieved from Facebook.
-    def can_send_playlists?; true; end
+    def playlists?; false; end
     
     # Whether or not listens can be submitted to Facebook.
-    def can_send_listens?; true; end
+    def listens?; false; end
     
     # Whether or not shares can be submitted to Facebook.
-    def can_send_shares?; true; end
+    def shares?; true; end
     
     # The authenticated user's profile pictures.
     #
@@ -40,10 +40,10 @@ module Backends
     def picture
     end
     
-    # The authenticated user's fullname and username.
+    # The authenticated user's name.
     #
     # Requires that `access_token` and `access_token_secret` is set.
-    def names
+    def name
     end
     
     # An array of the authenticated user's friends.

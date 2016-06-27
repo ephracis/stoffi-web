@@ -12,16 +12,14 @@ class Media::ArtistsControllerTest < ActionController::TestCase
   test "should get index when logged out" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:all_time)
-    assert_nil assigns(:user_all_time)
+    assert_not_nil assigns(:artists)
   end
 
   test "should get index when logged in" do
     sign_in @user
     get :index
     assert_response :success
-    assert_not_nil assigns(:all_time)
-    assert_not_nil assigns(:user_all_time)
+    assert_not_nil assigns(:artists)
   end
 
   test "should not get new" do
@@ -43,10 +41,21 @@ class Media::ArtistsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not get edit" do
-    assert_raises AbstractController::ActionNotFound do
-      get :edit, id: @artist.to_param
-    end
+  test "should not get edit logged out" do
+    get :edit, id: @artist.to_param
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should not get edit as user" do
+    sign_in @user
+    get :edit, id: @artist.to_param
+    assert_redirected_to dashboard_path
+  end
+
+  test "should get edit as admin" do
+    sign_in @admin
+    get :edit, id: @artist.to_param
+    assert_response :success
   end
 
   test "should redirect for update artist when logged out" do

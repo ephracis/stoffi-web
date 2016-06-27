@@ -1,0 +1,24 @@
+en:
+  media:
+    sources:
+      
+      index:
+        heading: 'Other places'
+        
+      delete:
+        confirm: 'Sure you want to delete the source?'
+        success: 'Source was deleted'
+        
+      new:
+        title: 'Add source to %{resource}'
+        heading: 'Adding source to <strong>%{resource}</strong>'
+        
+      create:
+        success: 'Source was created'
+        
+      update:
+        success: 'Source was updated'
+        
+      edit:
+        title: "Edit '%{source}' for '%{resource}'"
+        heading: "Editing <strong>%{source}</strong> source for <strong>%{resource}</strong>"

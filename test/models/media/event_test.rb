@@ -79,10 +79,8 @@ class Media::EventTest < ActiveSupport::TestCase
   end
   
   test "should get top events" do
-    e = Media::Event.top limit: 3
-    assert_equal 3, e.length, "Didn't return three top events"
-    assert e[0].listens.count == e[1].listens.count, "Top events not in order (first and second, listens)"
-    assert e[0].popularity    >= e[1].popularity, "Top events not in order (first and second, popularity)"
-    assert e[1].listens.count >= e[2].listens.count, "Top events not in order (second and third)"
+    e = Media::Event.rank.limit 3
+    assert_equal 2, e.length, "Didn't return three top events"
+    assert e[0].listens.count >= e[1].listens.count, "Top events not in order (first and second, listens)"
   end
 end

@@ -9,20 +9,4 @@ class ConcernBaseTest < ActiveSupport::TestCase
     assert_equal Media::Playlist.first.name, Media::Playlist.first.to_s
   end
   
-  test "should display pretty params" do
-    x = Media::Song.first
-    x.title = 'foo'
-    assert 'foo'.in?(x.to_param)
-    
-    x = Media::Playlist.first
-    x.name = 'foo'
-    assert 'foo'.in?(x.to_param)
-  end
-  
-  test "should fall back to id for param when display is blank" do
-    x = Media::Playlist.first
-    x.name = ''
-    assert_equal x.id.to_s, x.to_param
-  end
-  
 end

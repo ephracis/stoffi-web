@@ -1,0 +1,24 @@
+- tabs = { activity: { icon: 'fa-bolt' },
+           stats: { icon: 'fa-bar-chart-o' },
+           rank: { icon: 'fa-trophy' },
+  devices: { icon: 'fa-laptop' } }
+.row#dashboard{ data: { ng: { controller: 'DashboardController' } } }
+  .col-sm-3.col-md-2
+    %ul.nav.nav-pills.nav-stacked.hidden-xs
+      - tabs.each do |t,v|
+        %li{ class: "{{tab == '#{t}' ? 'active' : ''}}" }
+          %a{ data: { ng: { click: "setTab('#{t}')" } } }
+            %span.fa.fa-fw{ class: v[:icon] }
+            = t "accounts.dashboard.#{t}.title"
+
+
+    %ul.nav.nav-tabs.visible-xs
+      - tabs.each do |t,v|
+        %li{ class: "{{tab == '#{t}' ? 'active' : ''}}" }
+          %a{ data: { ng: { click: "setTab('#{t}')" } } }
+            %span.fa.fa-fw{ class: v[:icon] }
+            
+            
+  - tabs.each do |t,v|
+    .col-sm-9.col-md-10{ data: { ng: { show: "tab == '#{t}'" } } }
+      = render "accounts/accounts/dashboard/#{t}"

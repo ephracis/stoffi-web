@@ -1,0 +1,14 @@
+= media_list_item album do |m|
+
+  - m.title album, badge: local_assigns[:badge].present?
+  
+  - m.buttons do
+          
+    = render partial: 'media/playlists/menu', locals: { songs: album.songs.map(&:id) }
+      
+    = link_to '#', class: 'btn btn-xs btn-link' do
+      %span.fa.fa-fw.fa-play
+      = t 'media.albums.play'
+  
+  / content
+  TODO

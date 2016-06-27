@@ -1,1 +1,1 @@
-json.extract! @device, :id, :name
+json.extract! @device, :id, :name, :display

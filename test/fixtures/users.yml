@@ -1,5 +1,6 @@
 alice:
   email: alice@example.com
+  slug: alice
   has_password: 0
   unique_token: DrMfD8UvEqFBcDWbcnW4
   admin: true
@@ -7,11 +8,14 @@ alice:
 
 bob:
   email: bob@mail.net
+  slug: bob
   has_password: 0
   has_password: false
   last_sign_in_at: <%= 10.minutes.ago %>
   
 charlie:
   email: charlie@goodson.me
+  slug: charlie
+  name: Charlie Goodson
   has_password: false
   last_sign_in_at: <%= 1.month.ago %>

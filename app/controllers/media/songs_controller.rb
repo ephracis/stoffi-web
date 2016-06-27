@@ -3,39 +3,18 @@
 module Media
   
   # The business logic for songs.
-  class SongsController < ApplicationController
+  class SongsController < MediaController
     include DuplicatableController
     include ImageableController
   
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
     before_filter :ensure_admin, except: [ :index, :show, :create, :destroy ]
 
     can_duplicate Media::Song
     oauthenticate interactive: true, except: [ :index, :show ]
-    respond_to :html, :xml, :json
-  
-    # GET /songs
-    def index
-      @max_items = 12
-    
-      @recent = Listen.order(created_at: :desc).limit(@max_items).map(&:song)
-      @weekly = Song.top(from: 7.days.ago, lmit: @max_items)
-      @alltime = Song.top(limit: @max_items)
-    
-      if user_signed_in?
-        @user_recent = current_user.listens.order(created_at: :desc).
-          limit(@max_items).map(&:song)
-        @user_weekly = Song.top for: current_user, from: 7.days.ago,
-        limit: @max_items
-        @user_alltime = Song.top for: current_user, limit: @max_items
-      end
-
-      respond_with(@weekly)
-    end
 
     # GET /songs/1
     def show
-      respond_with(@song, include: :artists)
+      @resource = @song = @song.dedup if params[:dedup].present?
     end
 
     # GET /songs/new
@@ -45,7 +24,6 @@ module Media
 
     # GET /songs/1/edit
     def edit
-      redirect_to song_path(@song)
     end
 
     # POST /songs
@@ -63,6 +41,8 @@ module Media
 
     # PUT /songs/1
     def update
+      associate_resources :artists, params: true
+      
       respond_to do |format|
         if @song.update_attributes(song_params)
           format.html { redirect_to @song }
@@ -85,8 +65,8 @@ module Media
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
-      not_found('song') and return unless Song.unscoped.exists? params[:id]
-      @song = Song.unscoped.find(params[:id])
+      not_found('song') and return unless Song.unscoped.friendly.exists? params[:id]
+      @resource = @song = Song.unscoped.friendly.find params[:id]
     end
   
     # Access the resource for this controller.
@@ -94,10 +74,11 @@ module Media
       @song
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, only allow the white list
+    # through.
     def song_params
-      params.require(:song).permit(:title, :genres, :artists, :archetype_id,
-        :archetype_type)
+      params.require(:song).permit(:title, :genres, :genre, :artists, :slug,
+        :archetype_id, :archetype_type)
     end
   end
 end

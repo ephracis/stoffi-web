@@ -13,12 +13,14 @@ alice_not_afraid:
 alice_not_afraid2:
   user: alice
   song: not_afraid
+  album: relapse
   created_at: <%= 2.minutes.ago %>
   ended_at: <%= 1.minute.ago %>
 
 bob_not_afraid:
   user: bob
   song: not_afraid
+  album: recovery
   created_at: <%= 4.minutes.ago %>
   ended_at: <%= 3.minutes.ago %>
 
@@ -31,6 +33,7 @@ bob_no_woman_no_cry:
 charlie_jamming:
   user: charlie
   song: jamming
+  album: best_of_bob_marley
   created_at: <%= 6.minutes.ago %>
   ended_at: <%= 5.minutes.ago %>
   
@@ -55,6 +58,7 @@ charlie_one_love:
 charlie_no_woman_no_cry:
   user: charlie
   song: no_woman_no_cry
+  album: best_of_bob_marley
   created_at: <%= 10.minutes.ago %>
   ended_at: <%= 9.minutes.ago %>
   

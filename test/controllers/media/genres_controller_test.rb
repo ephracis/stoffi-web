@@ -14,15 +14,13 @@ class Media::GenresControllerTest < ActionController::TestCase
     sign_in @user
     get :index
     assert_response :success
-    assert_not_nil assigns(:user_all_time)
-    assert_not_nil assigns(:all_time)
+    assert_not_nil assigns(:genres)
   end
 
   test "should get index logged out" do
     get :index
     assert_response :success
-    assert_nil assigns(:user_all_time)
-    assert_not_nil assigns(:all_time)
+    assert_not_nil assigns(:genres)
   end
   
   test "should get show logged in" do
@@ -70,10 +68,21 @@ class Media::GenresControllerTest < ActionController::TestCase
     assert_redirected_to genre_path(assigns(:genre))
   end
 
-  test "should not get edit" do
-    assert_raises AbstractController::ActionNotFound do
-      get :edit, id: @genre.to_param
-    end
+  test "should not get edit logged out" do
+    get :edit, id: @genre.to_param
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should not get edit as user" do
+    sign_in @user
+    get :edit, id: @genre.to_param
+    assert_redirected_to dashboard_path
+  end
+
+  test "should get edit as admin" do
+    sign_in @admin
+    get :edit, id: @genre.to_param
+    assert_response :success
   end
 
   test "should not update genre logged out" do

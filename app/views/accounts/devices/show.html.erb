@@ -6,6 +6,7 @@
 	<%=t 'pages.devices.show.description', device: @device, app: @device.app %>
 <% end %>
 
+<% if false %>
 <article class='tabbed' data-resource-type='device' data-resource-id='<%= @device.id %>' data-resource-url='<%= url_for @device %>'>
 	<section class='head'>
 		<div class='left'>
@@ -44,3 +45,4 @@
 	<%= render 'accounts/devices/sections/map' %>
 	
 </article>
+<% end %>

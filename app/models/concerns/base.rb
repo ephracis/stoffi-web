@@ -12,9 +12,11 @@ module Base
   end
   alias_method :display, :to_s
   
+  # Use pretty URLs like `/artists/:name` or `/:username/:playlist`.
+  
   # The path to use when creating links using `url_for` to the resource.
-  def to_param
-    display.blank? ? id.to_s : "#{id}-#{to_s.parameterize}"
-  end
+  #def to_param
+  #  display.blank? ? id.to_s : "#{id}-#{to_s.parameterize}"
+  #end
   
 end

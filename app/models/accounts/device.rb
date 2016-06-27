@@ -28,22 +28,12 @@ module Accounts
       self.status = :online
       self.save
     end
-  
-    # The image representing the device.
-    def image(size = :huge)
-      sizes = {
-        tiny: 16,
-        small: 32,
-        medium: 64,
-        large: 128,
-        huge: 512
-      }
-      base = 'gfx/icons'
-      size_folder = sizes[size]
-      fname = 'device'
-      fname += "_#{type.downcase}" if false
-    
-      "#{base}/#{size_folder}/#{fname}.png"
+
+    # The class of device.
+    # Either: :laptop, :phone, :desktop or :tablet
+    def type
+      :laptop
     end
+    
   end
 end

@@ -3,32 +3,11 @@
 module Media
   
   # The business logic for events.
-  class EventsController < ApplicationController
+  class EventsController < MediaController
     include ImageableController
   
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
-    before_action :ensure_admin, only: [ :update, :destroy ]
+    before_action :ensure_admin, except: [ :index, :show, :create ]
     oauthenticate interactive: true, except: [ :index, :show ]
-
-    # GET /events
-    def index
-      l, o = pagination_params
-      pos = origin_position(request.remote_ip)
-      pos = [pos[:longitude], pos[:latitude]]
-      @popular = Event.upcoming.order(:start).limit(l).offset(o)
-      @close = Event.upcoming.by_distance(origin: pos).limit(l).offset(o).
-        order(:start)
-    
-      if user_signed_in?
-        artist_ids = []
-        artists = Artist.top(for: current_user, from: 7.days.ago, limit: l)
-        artists.each { |a| artist_ids << a.id }
-        where_clause = artist_ids.map { |id| "performances.artist_id = #{id}" }.
-          join(' OR ')
-        @user_popular = Event.upcoming.joins(:artists).where(where_clause).uniq.
-          limit(l).offset(o)
-      end
-    end
 
     # GET /events/1
     def show
@@ -50,7 +29,7 @@ module Media
       end
     end
 
-    # PATCH/PUT /events/1
+    # PATCH /events/1
     def update
       respond_to do |format|
         if @event.update(event_params)
@@ -77,13 +56,9 @@ module Media
   
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
-      not_found('event') and return unless Event.exists? params[:id]
-      @event = Event.find(params[:id])
-    end
-  
-    # Access the resource for this controller.
-    def resource
-      @event
+      @resource = @event = Media::Event.friendly.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      not_found :event
     end
 
     # Never trust parameters from the scary internet, only allow the white list

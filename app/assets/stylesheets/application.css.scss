@@ -1,13 +1,15 @@
-@import "compass";
-@import "compass/reset";
 
-@import "font-awesome-sprockets";
-@import "font-awesome";
+// custom theme
+@import "theme/colors";
+@import "theme/bootstrap-override";
 
-@import 'base/breakpoints';
+// components
+@import "bootstrap-sass";
+@import "fontawesome";
+@import "jquery-ui";
+@import "qtip2/jquery.qtip";
+@import "image-picker";
+@import "fuelux";
 
-@import 'mixins/**/*';
-@import 'base/**/*';
-@import 'modules/**/*';
-@import 'pages/**/*';
-@import 'vendor/**/*';
+// custom stylesheets
+@import "app/**/*";

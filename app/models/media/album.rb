@@ -3,6 +3,7 @@
 module Media
   
   # Describes an album, created by one or more artists, containing songs.
+  # FIXME: rename `#title` to `#name`.
   class Album < ActiveRecord::Base
     
     # concerns
@@ -12,31 +13,18 @@ module Media
     include Rankable
     include Duplicatable
     include Sortable
+    include FriendlyId
   
     # associations
-    has_and_belongs_to_many :artists, uniq: true
     has_many :album_tracks
     has_many :songs, through: :album_tracks
     has_many :genres, through: :songs
-    has_many :listens, through: :songs
+    has_many :listens
+    has_many :artists, -> { uniq }, through: :songs
+    has_many :playlists, -> { uniq }, through: :songs
     
     # validations
     validates :title, presence: true
-  
-    searchable do
-      text :title, boost: 5
-      text :artists do
-        artists.map(&:name)
-      end
-      string :locations, multiple: true do
-        sources.map(&:name)
-      end
-      integer :archetype_id
-    end
-  
-    can_sort :songs
-  
-    self.default_image = "gfx/icons/256/missing.png"
   
     # The sum of the normalised popularity of the album itself, and the normalised popularity
     # of all its songs.
@@ -59,6 +47,11 @@ module Media
         return album if join_artists(album.artists) == artist_txt
       end
       return nil
+    end
+    
+    def self.create_by_hash(hash)
+      hash.delete :artists
+      super hash
     end
   
     # Paginates the songs of the album. Should be called before <tt>paginated_songs</tt> is called.
@@ -92,6 +85,30 @@ module Media
         name.downcase.strip.gsub("\t", '')
       end.sort.join("\t")
     end
+    
+    # Configure all concerns and extensions.
+    def self.configure_concerns
+  
+      # Searchable
+      searchable do
+        text :title, boost: 5
+        text :artists do
+          artists.map(&:name)
+        end
+        string :locations, multiple: true do
+          sources.map(&:name)
+        end
+        integer :archetype_id
+      end
+  
+      # Sortable
+      can_sort :songs
+      
+      # Enable URLs like `/albums/:name`.
+      friendly_id :title, use: :slugged
+      
+    end
+    configure_concerns
   
   end
 end

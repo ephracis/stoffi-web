@@ -1,0 +1,17 @@
+- if current_user.admin?
+  .panel.panel-default
+    .panel-heading
+      %span.fa.fa-fw.fa-shield
+      = t 'media.albums.manage.heading'
+    .panel-body
+  
+      = link_to edit_album_path(@album),
+          class: 'btn btn-default', target: '_self' do
+        %span.fa.fa-fw.fa-edit
+        = t 'media.albums.manage.edit'
+      
+      = link_to album_path(@album),
+          class: 'btn btn-danger', method: :delete, target: '_self',
+          data: { confirm: t('media.albums.manage.confirm') } do
+        %span.fa.fa-fw.fa-remove
+        = t 'media.albums.manage.remove'

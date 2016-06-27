@@ -1,0 +1,38 @@
+- content_for :title do 
+  = @event.name 
+
+- content_for :description do 
+  = t 'pages.events.show.description', event: @event 
+
+- content_for :header do
+  %meta{ property: "og:title", content: @event.name }
+  %meta{ property: "og:type", content: "music.album" }
+  %meta{ property: "og:image", content: @event.image }
+  %meta{ property: "og:url", content: event_url(@event) }
+  %meta{ property: "og:description", content: t('pages.events.show.description',
+    event: @event) }
+
+%div{ data: { 'ng-controller' => 'EventController',
+  'ng-init' => "fetch('#{event_url(@event, format: :json)}')" }}
+  
+  = cover_for @event do |m|
+  
+    - m.subheading = @event.venue
+  
+    .cover-meta
+      %span.fa.fa-fw.fa-calendar
+      = l @event.start.to_date
+      %span.fa.fa-fw.fa-clock-o
+      = l @event.start, format: :short
+
+  .row
+    .col-md-8
+      = media_list @event.artists.rank, t('media.events.artists')
+      = render '/media/events/show/map'
+      = media_list @event.similar, t('media.events.similar')
+    
+    .col-md-4
+      - if current_user.admin? or @event.sources.any?
+        = render partial: '/media/sources/index', locals: { resource: @event }
+      - %w(info artists manage).each do |panel|
+        = render "/media/events/show/#{panel}"

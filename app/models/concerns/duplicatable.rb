@@ -115,6 +115,19 @@ module Duplicatable
     search.results.reject { |x| x.id == self.id }
   end
   
+  # Turn on deduplication mode which disables the combination of associations,
+  # as configured by `include_associations_of_dups`.
+  #
+  # Example:
+  #
+  #     @song.genres # include genres for all duplicates of @song
+  #     @song.dedup.genres # only genres directly associated with @song
+  #
+  def dedup
+    @dedup = true
+    self
+  end
+  
   module ClassMethods
     
     # Filter out duplicates by default
@@ -151,7 +164,7 @@ module Duplicatable
       associations.each do |name|
         next unless valid_association_for_combining?(name)
         define_method name do |*arguments|
-          return super(arguments) if duplicates.empty?
+          return super(arguments) if duplicates.empty? or @dedup
     
           w = [] # where clause
           type, key, tbl = self.get_sql_names_for_combining name
