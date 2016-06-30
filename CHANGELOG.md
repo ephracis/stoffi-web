@@ -10,15 +10,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Ability for admins to edit images of songs, artists, etc.
 - Continuous integration
 - Continuous deployment
-- Dark theme
 - More extensive tests, ensuring higher stability
+- Enforced coding style and convention
 
 ### Changed
-- Tabs on profile, dashboard and settings pages
-- Completely redesigned search page
-- Language is changed at footer instead of header
+- New design based on Bootstrap
 - About page is now merged into front page
-- Error pages are now prettier
+- HAML instead of ERB for frontend
+- All Javascript is converted to CoffeeScript
+- AngularJS for frontend logic and interactivity
 
 ### Removed
 - Donation service

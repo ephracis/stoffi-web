@@ -1,16 +1,16 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 module Media
-  
   # The business logic for songs.
   class SongsController < MediaController
     include DuplicatableController
     include ImageableController
-  
-    before_filter :ensure_admin, except: [ :index, :show, :create, :destroy ]
+
+    before_action :ensure_admin, except: [:index, :show, :create, :destroy]
 
     can_duplicate Media::Song
-    oauthenticate interactive: true, except: [ :index, :show ]
+    oauthenticate interactive: true, except: [:index, :show]
 
     # GET /songs/1
     def show
@@ -30,11 +30,11 @@ module Media
     def create
       @song = Song.get_by_path(params[:song][:path])
       @song = current_user.songs.new(params[:song]) unless @song
-    
+
       if current_user.songs.find_all_by_id(@song.id).count == 0
         current_user.songs << @song
       end
-    
+
       @song.save
       respond_with(@song)
     end
@@ -42,16 +42,21 @@ module Media
     # PUT /songs/1
     def update
       associate_resources :artists, params: true
-      
+
       respond_to do |format|
         if @song.update_attributes(song_params)
           format.html { redirect_to @song }
-          format.js { }
+          format.js {}
           format.json { render json: @song, location: @song }
         else
           format.html { render action: 'edit' }
-          format.js { render partial: 'shared/dialog/errors', locals: { resource: @song, action: :update } }
-          format.json { render json: @song.errors, status: :unprocessable_entity }
+          format.js do
+            render partial: 'shared/dialog/errors', locals:
+              { resource: @song, action: :update }
+          end
+          format.json do
+            render json: @song.errors, status: :unprocessable_entity
+          end
         end
       end
     end
@@ -60,15 +65,17 @@ module Media
     def destroy
       respond_with(@song)
     end
-  
+
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
-      not_found('song') and return unless Song.unscoped.friendly.exists? params[:id]
+      unless Song.unscoped.friendly.exists? params[:id]
+        not_found('song') && return
+      end
       @resource = @song = Song.unscoped.friendly.find params[:id]
     end
-  
+
     # Access the resource for this controller.
     def resource
       @song
@@ -78,7 +85,7 @@ module Media
     # through.
     def song_params
       params.require(:song).permit(:title, :genres, :genre, :artists, :slug,
-        :archetype_id, :archetype_type)
+                                   :archetype_id, :archetype_type)
     end
   end
 end

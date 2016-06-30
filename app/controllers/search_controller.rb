@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 # Handle requests for searching.
@@ -14,7 +15,6 @@
 # For API calls the index() method will directly fetch results
 # and return them.
 class SearchController < ApplicationController
-
   def suggestions
     @query = query_param
     @suggestions = []
@@ -30,7 +30,7 @@ class SearchController < ApplicationController
       @suggestions = Search.suggest(@query, page, long, lat, loc, cat, user)
     end
   end
-  
+
   def index
     @search = new_search
     backends = params[:backends].present?
@@ -40,34 +40,34 @@ class SearchController < ApplicationController
       format.json { @results = @search.do(page_param, limit_param, backends) }
     end
   end
-  
+
   private
-  
+
   def query_param
-    q = params[:q] || params[:query] || params[:term] || ""
-    CGI::escapeHTML(q)
+    q = params[:q] || params[:query] || params[:term] || ''
+    CGI.escapeHTML(q)
   end
-  
+
   def category_param
     x = params[:c] || params[:cat] || params[:categories] || params[:category]
     x = Search.categories if x.to_s == 'all'
     x ? x.split(/[\|,]/) : Search.categories
   end
-  
+
   def source_param
     x = params[:s] || params[:src] || params[:sources] || params[:source]
     x = Search.sources if x.to_s == 'all'
     x ? x.split(/[\|,]/) : Search.sources
   end
-  
+
   def limit_param
-    [50, (params[:limit] || "20").to_i].min
+    [50, (params[:limit] || '20').to_i].min
   end
-  
+
   def page_param
-    (params[:p] || params[:page] || "1").to_i
+    (params[:p] || params[:page] || '1').to_i
   end
-  
+
   # create a search object
   def new_search
     pos = origin_position(request.remote_ip)
@@ -78,7 +78,7 @@ class SearchController < ApplicationController
     s.locale = I18n.locale.to_s
     s.categories = category_param.sort.join('|')
     s.sources = source_param.sort.join('|')
-    s.page = request.referer || ""
+    s.page = request.referer || ''
     s.user = current_user if user_signed_in?
     s.save if s.query.present?
     s

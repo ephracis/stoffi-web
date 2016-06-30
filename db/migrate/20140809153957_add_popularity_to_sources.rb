@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddPopularityToSources < ActiveRecord::Migration
   def change
     add_column :sources, :popularity, :integer, default: 0

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 json.connected do
   json.array!(current_user.links) do |link|
-    json.(link, :id, :provider, :display, :uid, :picture, :name)
+    json.call(link, :id, :provider, :display, :uid, :picture, :name)
     [:listens, :shares, :playlists, :button].each do |setting|
-      json.(link, "enable_#{setting}") if link.respond_to? "#{setting}?"
+      json.call(link, "enable_#{setting}") if link.respond_to? "#{setting}?"
     end
     json.url link_url(link, format: :json)
   end

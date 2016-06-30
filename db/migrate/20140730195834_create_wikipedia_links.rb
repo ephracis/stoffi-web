@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateWikipediaLinks < ActiveRecord::Migration
   def change
     create_table :wikipedia_links do |t|

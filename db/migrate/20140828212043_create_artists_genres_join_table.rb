@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateArtistsGenresJoinTable < ActiveRecord::Migration
   def change
     create_join_table :artists, :genres do |t|

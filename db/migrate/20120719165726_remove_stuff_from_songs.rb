@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class RemoveStuffFromSongs < ActiveRecord::Migration
   def up
     remove_column :songs, :play_count

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateSources < ActiveRecord::Migration
   def change
     drop_table :sources if ActiveRecord::Base.connection.table_exists? :sources

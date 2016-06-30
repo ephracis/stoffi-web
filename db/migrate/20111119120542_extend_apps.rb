@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class ExtendApps < ActiveRecord::Migration
   def up
     change_table :client_applications do |t|

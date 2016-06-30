@@ -1,17 +1,16 @@
+# frozen_string_literal: true
 require 'colorize'
 
 namespace :faker do
   namespace :generate do
-  
-	  desc "Generate fake songs"
+    desc 'Generate fake songs'
     task songs: :environment do
-      
-      puts ""
-      puts "=== GENERATING FAKE SONGS ==="
-      
-      puts "Deleting all current songs"
+      puts ''
+      puts '=== GENERATING FAKE SONGS ==='
+
+      puts 'Deleting all current songs'
       Media::Song.delete_all
-      
+
       filename = 'songs.txt'
       (0..rand(1000..5000)).each do
         path = "#{Rails.root}/lib/assets/fakes/#{filename}"
@@ -20,15 +19,12 @@ namespace :faker do
         Media::Song.create title: name
       end
     end
-    
+
     namespace :associations do
-      
-      desc "Create random associations on songs"
+      desc 'Create random associations on songs'
       task songs: :environment do
-      
-        puts "Adding genres to songs"
+        puts 'Adding genres to songs'
         Media::Song.all.each do |song|
-        
           song.genres.clear
           (0..rand(5)).each do
             genre = Media::Genre.all.sample
@@ -39,8 +35,6 @@ namespace :faker do
           end
         end
       end
-      
     end
-    
   end
 end

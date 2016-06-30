@@ -1,12 +1,11 @@
+# frozen_string_literal: true
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server 'beta.stoffiplayer.com', user: fetch(:user), roles: %w{app db web}
+server 'beta.stoffiplayer.com', user: fetch(:user), roles: %w(app db web)
 # server 'db.beta.stoffiplayer.com', user: fetch(:user), roles: %w{db}
-
-
 
 # role-based syntax
 # ==================
@@ -16,11 +15,9 @@ server 'beta.stoffiplayer.com', user: fetch(:user), roles: %w{app db web}
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-#role :app, %w{fetch(:user)@beta.stoffiplayer.com}
-#role :web, %w{fetch(:user)@beta.stoffiplayer.com}
-#role :db,  %w{fetch(:user)@beta.stoffiplayer.com}
-
-
+# role :app, %w{fetch(:user)@beta.stoffiplayer.com}
+# role :web, %w{fetch(:user)@beta.stoffiplayer.com}
+# role :db,  %w{fetch(:user)@beta.stoffiplayer.com}
 
 # Configuration
 # =============
@@ -33,7 +30,6 @@ server 'beta.stoffiplayer.com', user: fetch(:user), roles: %w{app db web}
 set :branch, 'finish-capistrano'
 set :domains, 'beta.stoffiplayer.com'
 set :passenger_port, 4000
-
 
 # Custom SSH Options
 # ==================

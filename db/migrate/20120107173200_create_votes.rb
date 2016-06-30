@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateVotes < ActiveRecord::Migration
   def change
     create_table :votes do |t|

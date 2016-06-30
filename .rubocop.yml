@@ -1,0 +1,50 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'tmp/**/*'
+    - 'test/fixtures/**/*'
+    - 'lib/capistrano/**/*'
+    - 'app/helpers/editable_helper.rb'
+    - 'app/helpers/widgets_helper.rb'
+    - 'spec/teaspoon_env.rb'
+    - 'lib/crawler/crawler.rb'
+    - 'db/**/*'
+    - 'config/**/*'
+  TargetRubyVersion: 2.3
+
+Metrics/MethodLength:
+  # TODO: Enable max method length and clean up code
+  Enabled: false
+  Max: 30
+  Exclude:
+    - 'test/**/*'
+
+Metrics/ClassLength:
+  # TODO: Enable max class length and clean up code
+  Enabled: false
+  Max: 300
+  Exclude:
+    - 'test/**/*'
+
+Rails:
+  Enabled: true
+
+# TODO: Enable these and clean up code
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Lint/Eval:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false

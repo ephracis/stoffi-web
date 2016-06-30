@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 json.array! @albums do |album|
   json.array! [
     album.title,

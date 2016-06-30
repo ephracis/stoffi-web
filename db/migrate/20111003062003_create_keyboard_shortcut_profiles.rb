@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateKeyboardShortcutProfiles < ActiveRecord::Migration
   def self.up
     create_table :keyboard_shortcut_profiles do |t|

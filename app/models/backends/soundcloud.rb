@@ -1,21 +1,21 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 module Backends
-  
-  # The SoundCloud backend which allows for searching for and streaming of songs.
+  # The SoundCloud backend which allows for searching for and streaming of
+  # songs.
   class Soundcloud < Backends::Base
-    
     # Display name for the backend.
     def self.to_s
-      "SoundCloud"
+      'SoundCloud'
     end
-  
+
     # Search SoundCloud for resources.
     #
-    # - `query`   
+    # - `query`
     #   The query to match resources on.
     #
-    # - `categories`   
+    # - `categories`
     #   The type of resources to search for.
     def self.search(query, categories)
       songs = []
@@ -35,19 +35,20 @@ module Backends
         Rails.logger.error "error searching soundcloud: #{e.message}"
         raise e
       end
-      return songs
+      songs
     end
-    
+
     # Generate a resource from the backend.
     def generate_resource
       case resource_type
       when 'Media::Song' then
         self.class.get_songs([resource_id])[0]
       else
-        raise "The #{self} backend does not support resources of type #{resource_type}"
+        raise "The #{self} backend does not support resources of "\
+              "type #{resource_type}"
       end
     end
-  
+
     # Get an array of songs with IDs `ids`.
     def self.get_songs(ids)
       songs = []
@@ -59,11 +60,11 @@ module Backends
           Rails.logger.error "error parsing soundcloud json track: #{e.message}"
         end
       end
-      return songs
+      songs
     end
-  
-    private
-  
+
+    private_class_method
+
     def self.parse_track(track)
       artists, title = Media::Song.parse_title(track['title'])
       artists = [track['user']['username']] if artists.blank?
@@ -73,7 +74,7 @@ module Backends
         images: [],
         genre: track['genre'],
         artists: artists.map { |n| { name: n } },
-        #stream: track['stream_url'],
+        # stream: track['stream_url'],
         source: {
           foreign_url: track['permalink_url'],
           foreign_id: track['id'],
@@ -81,12 +82,10 @@ module Backends
           length: track['duration'].to_f / 1000.0
         }
       }
-      if track['artwork_url']
-        song[:images] << { url: track['artwork_url'] }
-      end
-      return song
+      song[:images] << { url: track['artwork_url'] } if track['artwork_url']
+      song
     end
-  
+
     def self.req(query)
       begin
         query = URI.escape(query)
@@ -100,21 +99,21 @@ module Backends
         feed = JSON.parse(data.body)
         return feed
       rescue StandardError => e
-        raise e
         Rails.logger.error "error making request: #{e.message}"
       end
-      
-      http = Net::HTTP.new("api.soundcloud.com", 443)
+
+      http = Net::HTTP.new('api.soundcloud.com', 443)
       http.use_ssl = true
-      data = http.get("/tracks/#{song.soundcloud_id}.json?client_id=#{client_id}", {})
-      track = JSON.parse(data.body)
+      data = http.get(
+        "/tracks/#{song.soundcloud_id}.json?client_id=#{client_id}",
+        {}
+      )
+      JSON.parse(data.body)
     end
-  
+
     # The API credentials
     def self.creds
       Rails.application.secrets.oa_cred['soundcloud']
     end
-    
   end # class
-  
 end # module

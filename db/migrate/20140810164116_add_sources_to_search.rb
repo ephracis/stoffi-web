@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddSourcesToSearch < ActiveRecord::Migration
   def change
     add_column :searches, :sources, :string

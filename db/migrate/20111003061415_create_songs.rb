@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateSongs < ActiveRecord::Migration
   def self.up
     create_table :songs do |t|
@@ -17,7 +18,7 @@ class CreateSongs < ActiveRecord::Migration
       t.integer :sample_rate
       t.string :codecs
       t.string :source
-    t.string :description
+      t.string :description
 
       t.timestamps
     end

@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 module DeviceHelperController
   extend ActiveSupport::Concern
-  
-  included do
 
+  included do
     # Override the `device_path` and allow the user to be inferred from
     # the device.
     #
@@ -25,12 +25,10 @@ module DeviceHelperController
     #     device_url @device # now works
     #     device_url @device.user, @device # still works
     #
-    def device_url(user, device = nil, options = {})
+    def device_url(user, _device = nil, options = {})
       playlist = user if playlist.blank?
       super(playlist.user, playlist, options)
     end
     helper_method :device_url if respond_to? 'helper_method'
-  
   end
-  
 end

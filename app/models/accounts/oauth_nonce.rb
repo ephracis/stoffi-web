@@ -1,10 +1,9 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 module Accounts
-  
   # A nonce for use with OAuth requests.
   class OauthNonce < ActiveRecord::Base
-    
     validates :nonce, :timestamp, presence: true
     validates :nonce, uniqueness: { scope: :timestamp }
 
@@ -16,5 +15,4 @@ module Accounts
       oauth_nonce
     end
   end
-  
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RenameClientApplicationsToApps < ActiveRecord::Migration
   def change
     rename_table :client_applications, :apps

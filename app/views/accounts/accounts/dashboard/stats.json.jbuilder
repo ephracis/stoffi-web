@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 json.listens charts_listens_for_user_url(format: :json)
 json.songs charts_songs_for_user_url(format: :json)
 json.playlists charts_playlists_for_user_url(format: :json)

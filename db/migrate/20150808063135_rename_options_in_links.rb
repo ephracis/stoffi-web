@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RenameOptionsInLinks < ActiveRecord::Migration
   def change
     rename_column :links, :do_share, :send_shares

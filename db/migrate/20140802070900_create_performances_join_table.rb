@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreatePerformancesJoinTable < ActiveRecord::Migration
   def change
     create_join_table :artists, :events, table_name: :performances do |t|

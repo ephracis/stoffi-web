@@ -1,20 +1,15 @@
-# -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 module SongsHelper
   def pretty_link(song)
-    if song.artist
-      return t "media.song.link_html",
-        :title => link_to(song.title, song),
-        :artist => link_to(song.artist.name, song.artist)
-    else
-      return link_to(song.title, song)
-    end
+    return link_to(song.title, song) unless song.artist
+    t 'media.song.link_html',
+      title: link_to(song.title, song),
+      artist: link_to(song.artist.name, song.artist)
   end
-  
+
   def short_link(song)
     l = link_to(song.title, song)
-    if song.artist
-      l = link_to(song.artist.name, song.artist) + " - " + l
-    end
-    return l
+    l = link_to(song.artist.name, song.artist) + ' - ' + l if song.artist
+    l
   end
 end

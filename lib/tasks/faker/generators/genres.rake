@@ -1,17 +1,16 @@
+# frozen_string_literal: true
 require 'colorize'
 
 namespace :faker do
   namespace :generate do
-  
-	  desc "Generate genres"
+    desc 'Generate genres'
     task genres: :environment do
-      
-      puts ""
-      puts "=== GENERATING GENRES ==="
-      
-      puts "Deleting all current genres"
+      puts ''
+      puts '=== GENERATING GENRES ==='
+
+      puts 'Deleting all current genres'
       Media::Genre.delete_all
-      
+
       filename = 'genres.txt'
       (0..rand(50..200)).each do
         path = "#{Rails.root}/lib/assets/fakes/#{filename}"
@@ -20,6 +19,5 @@ namespace :faker do
         Media::Genre.create name: name
       end
     end
-    
   end
 end

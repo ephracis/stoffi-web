@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -32,9 +33,8 @@ module Stoffi
     config.autoload_paths += %W(#{config.root}/app/controllers/backend/**/*.rb)
 
     # Use custom exception handler
-    config.exceptions_app = self.routes
-    
+    config.exceptions_app = routes
+
     config.action_view.prefix_partial_path_with_controller_namespace = false
-    
   end
 end

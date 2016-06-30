@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateDonations < ActiveRecord::Migration
   def change
     create_table :donations do |t|

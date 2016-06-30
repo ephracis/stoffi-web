@@ -1,64 +1,65 @@
+# frozen_string_literal: true
 require 'test_helper'
 
 class SearchControllerTest < ActionController::TestCase
   def setup
-    @artists = 
-    {
-      'results' =>
+    @artists =
       {
-        'opensearch:totalResults' => 3,
-        'artistmatches' => { 'artist' =>
-          [
-            {
-              'name' => 'Bob Marley',
-              'listeners' => '123',
-              'url' => 'http://foo.com/artist/bob_marley',
-              'image' => [
-                { '#text' => 'http://img.com/b_s.jpg', 'size' => 'small' },
-                { '#text' => 'http://img.com/b_m.jpg', 'size' => 'medium' },
-                { '#text' => 'http://img.com/b_l.jpg', 'size' => 'large' },
-              ]
-            },
-            {
-              'name' => 'Damian Marley',
-              'listeners' => '12',
-              'url' => 'http://foo.com/artist/damian_marley',
-              'image' => [
-                { '#text' => 'http://img.com/d_s.jpg', 'size' => 'small' },
-                { '#text' => 'http://img.com/d_m.jpg', 'size' => 'medium' },
-                { '#text' => 'http://img.com/d_l.jpg', 'size' => 'large' },
-              ]
-            },
-            {
-              'name' => 'Stephen Marley',
-              'listeners' => '23',
-              'url' => 'http://foo.com/artist/stephen_marley',
-              'image' => [
-                { '#text' => 'http://img.com/s_s.jpg', 'size' => 'small' },
-                { '#text' => 'http://img.com/s_m.jpg', 'size' => 'medium' },
-                { '#text' => 'http://img.com/s_l.jpg', 'size' => 'large' },
-              ]
-            }
-          ]
+        'results' =>
+        {
+          'opensearch:totalResults' => 3,
+          'artistmatches' => { 'artist' =>
+            [
+              {
+                'name' => 'Bob Marley',
+                'listeners' => '123',
+                'url' => 'http://foo.com/artist/bob_marley',
+                'image' => [
+                  { '#text' => 'http://img.com/b_s.jpg', 'size' => 'small' },
+                  { '#text' => 'http://img.com/b_m.jpg', 'size' => 'medium' },
+                  { '#text' => 'http://img.com/b_l.jpg', 'size' => 'large' }
+                ]
+              },
+              {
+                'name' => 'Damian Marley',
+                'listeners' => '12',
+                'url' => 'http://foo.com/artist/damian_marley',
+                'image' => [
+                  { '#text' => 'http://img.com/d_s.jpg', 'size' => 'small' },
+                  { '#text' => 'http://img.com/d_m.jpg', 'size' => 'medium' },
+                  { '#text' => 'http://img.com/d_l.jpg', 'size' => 'large' }
+                ]
+              },
+              {
+                'name' => 'Stephen Marley',
+                'listeners' => '23',
+                'url' => 'http://foo.com/artist/stephen_marley',
+                'image' => [
+                  { '#text' => 'http://img.com/s_s.jpg', 'size' => 'small' },
+                  { '#text' => 'http://img.com/s_m.jpg', 'size' => 'medium' },
+                  { '#text' => 'http://img.com/s_l.jpg', 'size' => 'large' }
+                ]
+              }
+            ] }
         }
       }
-    }
     super
-  end 
+  end
 
-  test "should get index" do
-    SearchController.any_instance.expects(:origin_position).returns({ longitude: 123, latitude: 123 })
+  test 'should get index' do
+    SearchController.any_instance.expects(:origin_position)
+                    .returns(longitude: 123, latitude: 123)
     get :index
     assert_response :success
   end
 
-  test "should get suggest" do
+  test 'should get suggest' do
     get :suggestions, format: :json
     assert_response :success
   end
-  
-  test "should get javascript" do
-    #remove_request_stub @sunspot_stub rescue nil
+
+  test 'should get javascript' do
+    # remove_request_stub @sunspot_stub rescue nil
     stub_request(:post, %r{http://localhost:8981/solr/test/.*})
       .with(body: /.*/, headers: { 'Content-Type' => /.*/ })
       .to_return(
@@ -88,10 +89,12 @@ class SearchControllerTest < ActionController::TestCase
     xhr :get, :index, format: :js
     assert_response :success
   end
-  
+
   # test "should get from backends" do
-  #   backend_stub = stub_request(:any, /.*ws.audioscrobbler.com.*method=artist\.search.*/).
-  #     to_return(:body => @artists.to_json, :status => 200).times(1)
+  #   backend_stub = stub_request(
+  #     :any,
+  #     /.*ws.audioscrobbler.com.*method=artist\.search.*/
+  #   ).to_return(:body => @artists.to_json, :status => 200).times(1)
   #   s = searches(:bob_marley)
   #   searches(:Bob_Marley).update_attribute(:updated_at, 2.years.ago)
   #   get :fetch, { format: :html, id: s.id }
@@ -99,5 +102,4 @@ class SearchControllerTest < ActionController::TestCase
   #   assert_not_nil assigns(:results)
   #   remove_request_stub(backend_stub)
   # end
-
 end

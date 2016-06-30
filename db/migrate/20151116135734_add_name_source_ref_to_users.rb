@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddNameSourceRefToUsers < ActiveRecord::Migration
   def change
     add_reference :users, :name_source, index: true, foreign_key: true

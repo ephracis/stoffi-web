@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 source 'http://rubygems.org'
 ruby '2.3.0'
 
 gem 'bundler', '>= 1.8.4'
 
 gem 'rails', '~> 4.2.0'
-#gem 'rails', github: 'rails/rails'
+# gem 'rails', github: 'rails/rails'
 
 # Use SCSS for stylesheets
 gem 'sass', '~> 3.2.19'
@@ -31,21 +32,21 @@ gem 'devise'
 
 # Use OmniAuth for authentication with other services
 # (I don't use Devise's built-in since it didn't work when I last tried)
-gem "omniauth-facebook"
-gem "omniauth-google-oauth2"
-gem "omniauth-lastfm"
-gem "omniauth-linkedin"
-gem "omniauth-myspace"
-gem "omniauth-soundcloud"
-gem "omniauth-twitter"
-gem "omniauth-vimeo"
-gem "omniauth-vkontakte"
-gem "omniauth-weibo-oauth2"
-gem "omniauth-windowslive"
-gem "omniauth-yahoo"
-gem "omniauth-yandex"
-gem "omniauth-youtube"
-gem "omniauth"
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-lastfm'
+gem 'omniauth-linkedin'
+gem 'omniauth-myspace'
+gem 'omniauth-soundcloud'
+gem 'omniauth-twitter'
+gem 'omniauth-vimeo'
+gem 'omniauth-vkontakte'
+gem 'omniauth-weibo-oauth2'
+gem 'omniauth-windowslive'
+gem 'omniauth-yahoo'
+gem 'omniauth-yandex'
+gem 'omniauth-youtube'
+gem 'omniauth'
 
 # Use GeoIP so to adjust locale depending on origin
 gem 'geoip'
@@ -54,7 +55,7 @@ gem 'geoip'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # Let third parties access our services via OAuth
-gem "oauth-plugin"
+gem 'oauth-plugin'
 
 # Paginate
 gem 'kaminari'
@@ -73,7 +74,7 @@ gem 'figaro'
 gem 'ruby-duration'
 
 # I18n support in javacsript
-gem "i18n-js", ">= 3.0.0.rc11"
+gem 'i18n-js', '>= 3.0.0.rc11'
 
 # Draw pretty charts
 gem 'chartkick'
@@ -101,7 +102,7 @@ gem 'breadcrumbs_on_rails'
 
 group :development, :test do
   gem 'sqlite3'
-	gem 'teaspoon-mocha'
+  gem 'teaspoon-mocha'
 end
 
 group :doc do
@@ -115,26 +116,27 @@ group :production do
 end
 
 group :test do
-	gem 'webmock'
-	gem 'mocha'
-	gem 'capybara'
-	gem 'rails-perftest'
-	gem 'ruby-prof'
-	gem "codeclimate-test-reporter", require: nil
+  gem 'webmock'
+  gem 'mocha'
+  gem 'capybara'
+  gem 'rails-perftest'
+  gem 'ruby-prof'
+  gem 'codeclimate-test-reporter', require: nil
 end
+gem 'rubocop' # TODO: put this in the :test group
 
 group :development do
-	gem 'better_errors'
-	gem 'binding_of_caller'
-	gem 'meta_request'
-	gem 'capistrano-rails'
-	gem 'capistrano-rvm'
-	gem 'capistrano-passenger'
-	gem 'spring'
-	gem 'dogapi'
-	gem 'faker'
-	gem 'progress_bar'
-	gem 'colorize'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
+  gem 'spring'
+  gem 'dogapi'
+  gem 'faker'
+  gem 'progress_bar'
+  gem 'colorize'
 end
 
 # bower packages via rails-assets

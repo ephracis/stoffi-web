@@ -1,12 +1,13 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class AlbumsArtists < ActiveRecord::Migration
   def up
-    create_table :albums_artists, :id => false do |t|
+    create_table :albums_artists, id: false do |t|
       t.references :album, :artist
     end
   end
 
   def down
-  drop_table :albums_artists
+    drop_table :albums_artists
   end
 end

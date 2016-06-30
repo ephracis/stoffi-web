@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 module PlaylistHelperController
   extend ActiveSupport::Concern
-  
-  included do
 
+  included do
     # Override the `playlist_path` and allow the user to be inferred from
     # the playlist.
     #
@@ -38,11 +38,7 @@ module PlaylistHelperController
       super(playlist.user, playlist, options)
     end
     helper_method :playlist_url if respond_to? 'helper_method'
-    
-    
-    
-    
-    
+
     def edit_playlist_path(user, playlist = nil, options = {})
       if playlist.is_a? Hash
         options = playlist
@@ -52,7 +48,5 @@ module PlaylistHelperController
       super(playlist.user, playlist, options)
     end
     helper_method :edit_playlist_path if respond_to? 'helper_method'
-  
   end
-  
 end

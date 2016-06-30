@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RemoveSubscriptions < ActiveRecord::Migration
   def up
     Media::Playlist.all.each do |playlist|

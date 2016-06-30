@@ -1,17 +1,16 @@
+# frozen_string_literal: true
 require 'colorize'
 
 namespace :faker do
   namespace :generate do
-    
-    desc "Generate apps"
+    desc 'Generate apps'
     task apps: :environment do
-      
-      puts ""
-      puts "=== GENERATING FAKE APPS ==="
-      
-      puts "Deleting all current apps"
+      puts ''
+      puts '=== GENERATING FAKE APPS ==='
+
+      puts 'Deleting all current apps'
       App.delete_all
-      
+
       (0..rand(5..30)).each do
         name = Faker::App.name
         author = Faker::App.author
@@ -21,10 +20,9 @@ namespace :faker do
           user: User.all.sample,
           website: Faker::Internet.url,
           author: author,
-          author_url: Faker::Internet.url,
+          author_url: Faker::Internet.url
         )
       end
     end
-    
   end
 end

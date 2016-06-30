@@ -1,4 +1,7 @@
+# frozen_string_literal: true
 require 'test_helper'
 
-class Media::ImagesControllerTest < ActionController::TestCase
+module Media
+  class ImagesControllerTest < ActionController::TestCase
+  end
 end

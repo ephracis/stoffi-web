@@ -1,22 +1,17 @@
+# frozen_string_literal: true
 module TimeHelper
-  
   def seconds_to_duration(seconds)
     return '00:00' unless seconds
-    
+
     t = Time.at(seconds).utc
     str = t.strftime('%M:%S')
-    
+
     # hours
-    if seconds >= 3600
-      str = "#{t.strftime('%H')}:#{str}"
-    end
-    
+    str = "#{t.strftime('%H')}:#{str}" if seconds >= 3600
+
     # days
-    if seconds >= 3600*24
-      str = "#{seconds / 3600*24}:#{str}"
-    end
-    
+    str = "#{seconds / 3600 * 24}:#{str}" if seconds >= 3600 * 24
+
     str
   end
-  
 end

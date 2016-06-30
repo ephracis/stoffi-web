@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateParamsTranslatees < ActiveRecord::Migration
   def up
-    create_table :admin_translatees_admin_translatee_params, :id => false do |t|
+    create_table :admin_translatees_admin_translatee_params, id: false do |t|
       t.references :admin_translatee, :admin_translatee_param
     end
   end

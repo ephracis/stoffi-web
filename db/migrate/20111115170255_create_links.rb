@@ -1,12 +1,13 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateLinks < ActiveRecord::Migration
   def self.up
     create_table :links do |t|
       t.integer :user_id
       t.string  :provider
       t.string  :uid
-    t.boolean :do_share, :default => true
-    t.boolean :do_listen, :default => true
+      t.boolean :do_share, default: true
+      t.boolean :do_listen, default: true
 
       t.timestamps
     end

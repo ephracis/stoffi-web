@@ -1,16 +1,16 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 module Media
-  
   # The business logic for song albums.
   class AlbumsController < MediaController
     include ImageableController
     include SortableController
-  
+
     can_sort :songs
-  
-    oauthenticate interactive: true, except: [ :index, :show ]
-    before_action :ensure_admin, only: [ :edit, :update, :destroy ]
+
+    oauthenticate interactive: true, except: [:index, :show]
+    before_action :ensure_admin, only: [:edit, :update, :destroy]
 
     # GET /albums/1
     def show
@@ -22,15 +22,15 @@ module Media
 
     # PATCH /albums/1
     def update
-      if params[:songs].is_a? Array
-        ids = params[:songs].map(&:to_i) rescue nil
-      end
+      ids = begin
+              params[:songs].map(&:to_i)
+            rescue
+              nil
+            end if params[:songs].is_a? Array
       associate_resources(:songs)
-      success = @album.sort(:songs, ids) if ids.present?
-      if params[:album].present?
-        success = @album.update_attributes(album_params) 
-      end
-      
+      @album.sort(:songs, ids) if ids.present?
+      @album.update_attributes(album_params) if params[:album].present?
+
       respond_with @album
     end
 
@@ -39,9 +39,9 @@ module Media
       @album.destroy
       respond_with @album
     end
-  
+
     private
-    
+
     # Create an instance of the resource given the parameters.
     def set_resource
       @resource = @album = Media::Album.friendly.find params[:id]

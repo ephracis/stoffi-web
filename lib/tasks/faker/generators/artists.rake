@@ -1,17 +1,16 @@
+# frozen_string_literal: true
 require 'colorize'
 
 namespace :faker do
   namespace :generate do
-  
-	  desc "Generate fake artists"
+    desc 'Generate fake artists'
     task artists: :environment do
-      
-      puts ""
-      puts "=== GENERATING FAKE ARTISTS ==="
-      
-      puts "Deleting all current artists"
+      puts ''
+      puts '=== GENERATING FAKE ARTISTS ==='
+
+      puts 'Deleting all current artists'
       Media::Artist.delete_all
-      
+
       filename = 'artists.txt'
       (0..rand(100..300)).each do
         path = "#{Rails.root}/lib/assets/fakes/#{filename}"
@@ -20,6 +19,5 @@ namespace :faker do
         Media::Artist.create name: name
       end
     end
-    
   end
 end

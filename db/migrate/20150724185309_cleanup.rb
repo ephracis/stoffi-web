@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Cleanup < ActiveRecord::Migration
   def change
     remove_column :artists, :donatable_status
@@ -21,9 +22,9 @@ class Cleanup < ActiveRecord::Migration
     remove_column :songs, :art_url
     remove_column :songs, :analyzed_at
     remove_column :devices, :configuration_id
-    
+
     drop_table :column_sorts
-    #drop_table :columns
+    # drop_table :columns
     drop_table :configurations
     drop_table :columns
     drop_table :donations
@@ -39,6 +40,5 @@ class Cleanup < ActiveRecord::Migration
     drop_table :song_relations
     drop_table :songs_users
     drop_table :wikipedia_links
-    
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateAlbumTrack < ActiveRecord::Migration
   def change
     rename_table :albums_songs, :album_tracks

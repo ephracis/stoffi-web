@@ -1,13 +1,13 @@
+# frozen_string_literal: true
 # Copyright (c) 2015 Simplare
 
 module Media
-  
   # The business logic for events.
   class EventsController < MediaController
     include ImageableController
-  
-    before_action :ensure_admin, except: [ :index, :show, :create ]
-    oauthenticate interactive: true, except: [ :index, :show ]
+
+    before_action :ensure_admin, except: [:index, :show, :create]
+    oauthenticate interactive: true, except: [:index, :show]
 
     # GET /events/1
     def show
@@ -23,8 +23,10 @@ module Media
           format.json { render :show, status: :created, location: @event }
         else
           format.html { render :new }
-          format.json { render json: @event.errors,
-            status: :unprocessable_entity }
+          format.json do
+            render json: @event.errors,
+                   status: :unprocessable_entity
+          end
         end
       end
     end
@@ -37,8 +39,10 @@ module Media
           format.json { render :show, status: :ok, location: @event }
         else
           format.html { render :edit }
-          format.json { render json: @event.errors,
-            status: :unprocessable_entity }
+          format.json do
+            render json: @event.errors,
+                   status: :unprocessable_entity
+          end
         end
       end
     end
@@ -53,7 +57,7 @@ module Media
     end
 
     private
-  
+
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
       @resource = @event = Media::Event.friendly.find params[:id]
@@ -65,7 +69,7 @@ module Media
     # through.
     def event_params
       params.require(:event).permit(:name, :venue, :latitude, :longitude,
-        :start, :stop, :content, :category)
+                                    :start, :stop, :content, :category)
     end
   end
 end

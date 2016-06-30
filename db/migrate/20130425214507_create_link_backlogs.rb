@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 class CreateLinkBacklogs < ActiveRecord::Migration
   def change
     create_table :link_backlogs do |t|
