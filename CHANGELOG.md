@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - HAML instead of ERB for frontend
 - All Javascript is converted to CoffeeScript
 - AngularJS for frontend logic and interactivity
+- Use Puma instead of Phusion Passenger as app server
 
 ### Removed
 - Donation service

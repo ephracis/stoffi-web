@@ -67,6 +67,9 @@ gem 'sunspot_solr'
 # Used to serve search suggestions based on geographical location
 gem 'haversine'
 
+# Used to serve the app to nginx/apache
+gem 'puma'
+
 # manage environment variables on heroku
 gem 'figaro'
 
