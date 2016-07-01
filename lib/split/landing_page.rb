@@ -12,7 +12,7 @@ class ABTestLanding
       user: Split::Persistence::RedisAdapter.new(nil, request.remote_ip)
     )
     trial.choose!
-    raise trial.alternative.name.to_s
+    trial.alternative.name.to_s
   end
 end
 

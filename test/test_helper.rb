@@ -22,7 +22,10 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
     def setup
       Rails.cache.clear
-      WebMock.disable_net_connect!(allow_localhost: false)
+      WebMock.disable_net_connect!(
+        allow_localhost: false,
+        allow: 'https://codeclimate.com/test_reports'
+      )
       path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
       @image_stub = stub_request(:get,
                                  %r{https?://.*\.jpe?g})
@@ -38,8 +41,9 @@ module ActiveSupport
         nil
       end
       WebMock.allow_net_connect!
-      remove_request_stub @image_stub if @image_stub
-      remove_request_stub @sunspot_stub if @sunspot_stub
+      [@image_stub, @sunspot_stub].each do |stub|
+        remove_request_stub stub if stub
+      end
     end
 
     # Generate a random string.
