@@ -74,7 +74,10 @@ module ActionController
   class TestCase
     include PlaylistHelperController
     def setup
-      WebMock.disable_net_connect!(allow_localhost: false)
+      WebMock.disable_net_connect!(
+        allow_localhost: false,
+        allow: 'https://codeclimate.com/test_reports'
+      )
       path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
       @image_stub = stub_request(:get,
                                  %r{https?://.*\.jpe?g})
