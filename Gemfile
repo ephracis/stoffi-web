@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 source 'http://rubygems.org'
-ruby '2.3.0'
 
 gem 'bundler', '>= 1.8.4'
 
