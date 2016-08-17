@@ -33,6 +33,7 @@ config/application.yml
 
 public/assets
 solr/*
+!solr/solr.xml
 !solr/configsets
 
 # bower components should be installed from bower.json
