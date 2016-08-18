@@ -32,9 +32,8 @@ config/application.yml
 .powenv
 
 public/assets
-solr/*
-!solr/solr.xml
-!solr/configsets
+solr/**/data
+solr/pids
 
 # bower components should be installed from bower.json
 vendor/assets/components/
