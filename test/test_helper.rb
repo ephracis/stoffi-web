@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-ENV['RAILS_ENV'] = 'test'
 
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+if ENV['CODECLIMATE_REPO_TOKEN']
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -21,11 +22,7 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
     def setup
-      Rails.cache.clear
-      WebMock.disable_net_connect!(
-        allow_localhost: false,
-        allow: 'https://codeclimate.com/test_reports'
-      )
+      WebMock.disable_net_connect! allow_localhost: false
       path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
       @image_stub = stub_request(:get,
                                  %r{https?://.*\.jpe?g})
@@ -35,15 +32,9 @@ module ActiveSupport
     end
 
     def teardown
-      begin
-        Rails.cache.clear
-      rescue
-        nil
-      end
       WebMock.allow_net_connect!
-      [@image_stub, @sunspot_stub].each do |stub|
-        remove_request_stub stub if stub
-      end
+      remove_request_stub @image_stub if @image_stub
+      remove_request_stub @sunspot_stub if @sunspot_stub
     end
 
     # Generate a random string.
@@ -74,10 +65,7 @@ module ActionController
   class TestCase
     include PlaylistHelperController
     def setup
-      WebMock.disable_net_connect!(
-        allow_localhost: false,
-        allow: 'https://codeclimate.com/test_reports'
-      )
+      WebMock.disable_net_connect! allow_localhost: false
       path = File.join(Rails.root, 'test/fixtures/image_32x32.png')
       @image_stub = stub_request(:get,
                                  %r{https?://.*\.jpe?g})
@@ -87,6 +75,7 @@ module ActionController
     end
 
     def teardown
+      WebMock.allow_net_connect!
       remove_request_stub @image_stub if @image_stub
       remove_request_stub @sunspot_stub if @sunspot_stub
     end
