@@ -77,6 +77,12 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal 2, hits.length
   end
 
+  test 'should search backends for artists' do
+    stub_lastfm_search 'artist', 2
+    hits = Search.search_backends('test', 'artists', 'lastfm')
+    assert_equal 2, hits.length
+  end
+
   test 'should parse search results from backends' do
     stub_lastfm_search 'track', [
       { name: 'Test Lastfm Song', listeners: 123, artist: 'Test Artist',

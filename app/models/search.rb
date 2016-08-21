@@ -188,7 +188,7 @@ class Search < ActiveRecord::Base
           # some artists are named "Foo feat. Bar" so we split
           # the name and divide the popularity among them
           artists = Media::Artist.split_name(hit[:name])
-          popularity_pot = hit[:popularity] / artists.count.to_f
+          popularity_pot = hit[:source][:popularity] / artists.count.to_f
           artists.each do |name|
             h = hit.dup
             h[:popularity] = popularity_pot
